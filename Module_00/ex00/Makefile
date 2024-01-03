@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/03 13:41:10 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/03 16:51:14 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/03 17:16:20 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ TMP_DIR		:=	tmp
 SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
 OBJS		:=	$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 
-REMOVE		:= rm -rf
-OS			:= $(shell uname)
+REMOVE		:=	rm -rf
+OS			:=	$(shell uname)
 # **************************************************************************** #
 all: $(NAME)
 
@@ -66,33 +66,36 @@ re: fclean all
 # **************************************************************************** #
 # ---------------------------------- PDF ------------------------------------- #
 # **************************************************************************** #
-# PDF		:= cpp_00.pdf
-# GIT_URL	:= https://github.com/SaydRomey/42_ressources
-# PDF_URL	= $(GIT_URL)/blob/main/pdf/$(PDF)?raw=true
+PDF		:= cpp00_en.pdf
+GIT_URL	:= https://github.com/SaydRomey/42_ressources
+PDF_URL	= $(GIT_URL)/blob/main/pdf/$(PDF)?raw=true
 
-# pdf: | $(TMP_DIR)
-# 	@curl -# -L $(PDF_URL) -o $(TMP_DIR)/$(PDF)
-# ifeq ($(OS),Darwin)
-# 	@open $(TMP_DIR)/$(PDF)
-# else
-# 	@xdg-open $(TMP_DIR)/$(PDF) || echo "Please install a compatible PDF viewer"
-# endif
+pdf: | $(TMP_DIR)
+	@curl -# -L $(PDF_URL) -o $(TMP_DIR)/$(PDF)
+ifeq ($(OS),Darwin)
+	@open $(TMP_DIR)/$(PDF)
+else
+	@xdg-open $(TMP_DIR)/$(PDF) || echo "Please install a compatible PDF viewer"
+endif
 
-# .PHONY: pdf
+.PHONY: pdf
 # **************************************************************************** #
 # ---------------------------------- UTILS ----------------------------------- #
 # **************************************************************************** #
-run: all
-	./$(NAME)
+ARG1	:=	"shhhhh... I think the students are asleep..."
+ARG2	:=	Damnit " ! " "Sorry students, I thought this thing was off."
+ARG3	:=
 
-debug: C_FLAGS += -g
-debug: re
+run: all
+	./$(NAME) $(ARG1)
+	./$(NAME) $(ARG2)
+	./$(NAME)
 
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
 
 ffclean: fclean
-	@$(REMOVE) $(TMP_DIR) $(NAME).dSYM
+	@$(REMOVE) $(TMP_DIR)
 
 .PHONY: run debug ffclean
 # **************************************************************************** #
