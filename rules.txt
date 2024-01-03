@@ -1,0 +1,81 @@
+
+General Rules
+
+- Compiling
+	c++ -std=c++98 -Wall -Wextra -Werror
+
+- Formating and naming conventions
+
+Exercise directories will be named: ex00, ex01, ... , exn
+
+Write class names in UpperCamelCase format
+
+Files containing class code will always be named according to the class name:
+
+	ClassName.hpp/ClassName.h, ClassName.cpp, or ClassName.tpp
+
+then if we have a header file containing the definition of a class 'BrickWall'
+	standing for a brick wall, its name will be BrickWall.hpp
+
+Unless specified otherwise, every output message must be ended by
+	a new-line char and displayed to stdout
+
+- Norm
+
+No coding style is enforced in the C++ modules,
+ideally still make clean and readable code
+
+- Allowed/Forbidden
+
+Allowed to:
+
+Use almost everything from the standard library.
+
+Use as much as possible the C++ versions of the C functions we are used to...
+
+However, we can't use any other external library.
+meaning that C++11 (and derived forms) and Boost libraries are forbidden.
+
+The following functions are forbidden too:
+	   *printf(), *alloc() and free().
+
+Unless explicitly stated otherwise the
+	   using namespace <ns_name> and friend keywords are forbidden.
+
+We are allowed to use the STL in the module 08 and 09 only.
+that means: no Containers (vector/list/map/and so forth)
+and no Algorithms (anything that requires to include the
+	   <algorithm> header) until then
+
+- A few design requirements
+
+when allocating memory (by using the 'new' keyword) must avoid memory leaks
+
+From Module 02 to Module 09, classes must be designed in the
+Orthodox Canonical Form, except when explicitely stated otherwise
+
+Any functon implementation put in a header file (except for function templates)
+	means 0 to the exercise
+
+Headers should be usable independently from others
+	thus, they must include all the dependencies they need.
+
+* must avoid the problem of double inclusion by adding the include guards *
+
+- Read me
+
+We can add additional files if we need to (i.e., to split the code)
+
+these assignments are not verified by a program, hence we are free to do so,
+	as long as we turn in mandatory files
+
+sometimes, the guidelines of an exercise look short,
+	but the examples can show requirements
+	that are not explicitly written in the instructions
+
+Read each module completely before starting!
+
+** we will have to implement a lot of classes. this can seem tedious, 
+	unless we are able to script our favorite text editor **
+
+We should not hesitate to read about theoritical concepts
