@@ -5,10 +5,13 @@
 #                                                     +:+ +:+         +:+      #
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/04 10:22:29 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/04 12:19:11 by cdumais          ###   ########.fr        #
+#    Created: 2024/01/04 18:04:16 by cdumais           #+#    #+#              #
+#    Updated: 2024/01/04 18:25:46 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# TODO:	add 'make man' that places cpp pdf in tmp/ ?
+#		'make module' in the CPP/ or Info/ 's makefile would give a choice of module (or placeholder), then cd in it..
 
 NAME		:=	placeholder
 
@@ -16,25 +19,30 @@ COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
 STANDARD	:=	-std=c++98
 
-SRC_DIR		:=	.
-OBJ_DIR		:=	obj
-TMP_DIR		:=	tmp
+INC_DIR		:=	inc
+INCS		:=	$(wildcard $(INC_DIR)/*.hpp)
+HEADERS		:=	-I$(INC_DIR)
 
+SRC_DIR		:=	src
 SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
+
+OBJ_DIR		:=	obj
 OBJS		:=	$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+
+TMP_DIR		:=	tmp
 
 REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
 # **************************************************************************** #
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(INCS)
 	@echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)]\\t$(GREEN)ready$(RESET)"
-	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(OBJS) -o $@
+	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(OBJS) $(HEADERS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	@echo "$(CYAN)Compiling...$(ORANGE)\t$(notdir $<)$(RESET)"
-	@$(COMPILE) $(C_FLAGS) $(STANDARD) -c $< -o $@
+	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(HEADERS) -c $< -o $@
 	@printf "$(UP)$(ERASE_LINE)"
 
 $(OBJ_DIR):
@@ -82,7 +90,6 @@ endif
 # **************************************************************************** #
 # ---------------------------------- UTILS ----------------------------------- #
 # **************************************************************************** #
-
 run: all
 	./$(NAME)
 

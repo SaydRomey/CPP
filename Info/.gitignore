@@ -1,0 +1,13 @@
+
+placeholder
+
+obj
+tmp
+
+*.dSYM
+.DS_Store
+.vscode
+
+*.o
+*.a
+*.pdf
