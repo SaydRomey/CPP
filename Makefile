@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/05 21:09:20 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/05 22:26:06 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME		:=	CPP
 TMP_DIR		:=	tmp
 REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
+NPD			:=	--no-print-directory
 
 # Default target
 all:
@@ -27,7 +28,7 @@ clean:
 	@if [ -n "$(wildcard $(TMP_DIR))" ]; then \
 		$(REMOVE) $(TMP_DIR); \
 		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
-		$(GREEN)$(TMP_DIR) removed$(RESET)"; \
+		$(CYAN)$(TMP_DIR)$(RESET)$(GREEN) removed$(RESET)"; \
 	else \
 		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
 		$(YELLOW)Nothing to remove$(RESET)"; \
@@ -69,7 +70,7 @@ pdf:
 		4) MODULE=cpp04;; \
 		*) echo "Invalid choice. Exiting." ; exit 1;; \
 	esac; \
-	$(MAKE) get_pdf MODULE=$$MODULE
+	$(MAKE) get_pdf MODULE=$$MODULE $(NPD)
 
 get_pdf: | $(TMP_DIR)
 	@PDF=$(MODULE)_en.pdf; \
@@ -88,6 +89,8 @@ ESC			:= \033
 # Text
 RESET		:= $(ESC)[0m
 BOLD		:= $(ESC)[1m
+ITALIC		:= $(ESC)[3m
+UNDERLINE	:= $(ESC)[4m
 
 BLACK		:= $(ESC)[30m
 RED			:= $(ESC)[91m

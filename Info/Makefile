@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 18:04:16 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/05 17:54:33 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/05 22:29:49 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ TMP_DIR		:=	tmp
 
 REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
+NPD			:=	--no-print-directory
 # **************************************************************************** #
 all: $(NAME)
 
@@ -71,19 +72,37 @@ re: fclean all
 # **************************************************************************** #
 # ---------------------------------- PDF ------------------------------------- #
 # **************************************************************************** #
-PDF		:= cpp00_en.pdf
-GIT_URL	:= https://github.com/SaydRomey/42_ressources
-PDF_URL	= $(GIT_URL)/blob/main/pdf/$(PDF)?raw=true
+GIT_URL		:= https://github.com/SaydRomey/42_ressources
 
-pdf: | $(TMP_DIR)
-	@curl -# -L $(PDF_URL) -o $(TMP_DIR)/$(PDF)
-ifeq ($(OS),Darwin)
-	@open $(TMP_DIR)/$(PDF)
-else
-	@xdg-open $(TMP_DIR)/$(PDF) || echo "Please install a compatible PDF viewer"
-endif
+pdf:
+	@echo "Select pdf"
+	@echo "0. Module 00"
+	@echo "1. Module 01"
+	@echo "2. Module 02"
+	@echo "3. Module 03"
+	@echo "4. Module 04"
+	@read pdf_choice; \
+	case $$pdf_choice in \
+		0) MODULE=cpp00;; \
+		1) MODULE=cpp01;; \
+		2) MODULE=cpp02;; \
+		3) MODULE=cpp03;; \
+		4) MODULE=cpp04;; \
+		*) echo "Invalid choice. Exiting." ; exit 1;; \
+	esac; \
+	$(MAKE) get_pdf MODULE=$$MODULE $(NPD)
 
-.PHONY: pdf
+get_pdf: | $(TMP_DIR)
+	@PDF=$(MODULE)_en.pdf; \
+	PDF_URL=$(GIT_URL)/blob/main/pdf/CPP/$$PDF?raw=true; \
+	curl -# -L $$PDF_URL -o $(TMP_DIR)/$$PDF; \
+	if [ "$(OS)" = "Darwin" ]; then \
+		open $(TMP_DIR)/$$PDF; \
+	else \
+		xdg-open $(TMP_DIR)/$$PDF || echo "Please install a compatible PDF viewer"; \
+	fi
+
+.PHONY: pdf get_pdf
 # **************************************************************************** #
 # ---------------------------------- UTILS ----------------------------------- #
 # **************************************************************************** #
@@ -96,7 +115,7 @@ $(TMP_DIR):
 ffclean: fclean
 	@$(REMOVE) $(TMP_DIR)
 
-.PHONY: run debug ffclean
+.PHONY: run ffclean
 # **************************************************************************** #
 ESC			:= \033
 
