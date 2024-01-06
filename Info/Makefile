@@ -6,12 +6,9 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 18:04:16 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/04 18:25:46 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/05 17:54:33 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-# TODO:	add 'make man' that places cpp pdf in tmp/ ?
-#		'make module' in the CPP/ or Info/ 's makefile would give a choice of module (or placeholder), then cd in it..
 
 NAME		:=	placeholder
 
