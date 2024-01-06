@@ -6,14 +6,14 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 18:04:16 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/05 22:29:49 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/06 18:10:51 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	placeholder
 
 COMPILE		:=	c++
-C_FLAGS		:=	-Wall -Wextra -Werror
+C_FLAGS		:=	-Wall -Wextra -Werror #-Wno_used ?
 STANDARD	:=	-std=c++98
 
 INC_DIR		:=	inc
@@ -108,6 +108,9 @@ get_pdf: | $(TMP_DIR)
 # **************************************************************************** #
 run: all
 	./$(NAME)
+
+nowarning:	C_FLAGS	=
+nowarning:	re
 
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)

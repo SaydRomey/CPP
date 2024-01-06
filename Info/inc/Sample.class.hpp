@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 13:17:10 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/04 14:28:10 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/06 15:01:27 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ class	Sample
 {
 	public:
 
-		Sample(void);
+		Sample(int v);
 		~Sample(void);
 
 		int		getValue(void) const;
-		void	setValue(int v);
+		int		compare(Sample *other) const;
 	
 	private:
 
