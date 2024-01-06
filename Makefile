@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/05 20:58:07 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/05 21:09:20 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,37 @@ OS			:=	$(shell uname)
 
 # Default target
 all:
-	@echo "Type 'make pdf' to get a CPP instruction pdf"
+	@echo "'make pdf' \t-> get a CPP instruction pdf in './$(TMP_DIR)/'"
+	@echo "'make update' \t-> pull the github version"
 
-.PHONY: all
+$(TMP_DIR):
+	@mkdir -p $(TMP_DIR)
+
+clean:
+	@if [ -n "$(wildcard $(TMP_DIR))" ]; then \
+		$(REMOVE) $(TMP_DIR); \
+		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
+		$(GREEN)$(TMP_DIR) removed$(RESET)"; \
+	else \
+		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
+		$(YELLOW)Nothing to remove$(RESET)"; \
+	fi
+
+.PHONY: all clean
+# **************************************************************************** #
+# ----------------------------------- GIT ------------------------------------ #
+# **************************************************************************** #
+update:
+	@echo "Are you sure you want to update the repo? [y/N] " \
+	&& read ANSWER; \
+	if [ "$$ANSWER" = "y" ] || [ "$$ANSWER" = "Y" ]; then \
+		git pull origin main; \
+		echo "Repository updated."; \
+	else \
+		echo "canceling update..."; \
+	fi
+
+.PHONY: update
 # **************************************************************************** #
 # ---------------------------------- PDF ------------------------------------- #
 # **************************************************************************** #
@@ -53,20 +81,7 @@ get_pdf: | $(TMP_DIR)
 		xdg-open $(TMP_DIR)/$$PDF || echo "Please install a compatible PDF viewer"; \
 	fi
 
-$(TMP_DIR):
-	@mkdir -p $(TMP_DIR)
-
-clean:
-	@if [ -n "$(wildcard $(TMP_DIR))" ]; then \
-		$(REMOVE) $(TMP_DIR); \
-		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
-		$(GREEN)$(TMP_DIR) removed$(RESET)"; \
-	else \
-		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
-		$(YELLOW)Nothing to remove$(RESET)"; \
-	fi
-
-.PHONY: clean pdf get_pdf
+.PHONY: pdf get_pdf
 # **************************************************************************** #
 ESC			:= \033
 
