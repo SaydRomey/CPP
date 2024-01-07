@@ -6,14 +6,14 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 18:04:16 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/06 18:10:51 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/07 16:30:42 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	placeholder
 
 COMPILE		:=	c++
-C_FLAGS		:=	-Wall -Wextra -Werror #-Wno_used ?
+C_FLAGS		:=	-Wall -Wextra -Werror #-Wno_unused ?
 STANDARD	:=	-std=c++98
 
 INC_DIR		:=	inc

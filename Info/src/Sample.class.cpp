@@ -6,36 +6,32 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 13:24:32 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/06 18:14:09 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/07 16:18:58 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "Sample.class.hpp"
 
-Sample::Sample(int v) : _privateValue(v)
+Sample::Sample(void)
 {
 	std::cout << "Constructor called" << std::endl;
+	Sample::_nbInst += 1;
+
 	return;
 }
 
 Sample::~Sample(void)
 {
 	std::cout << "Destructor called" << std::endl;
+	Sample::_nbInst -= 1;
+
 	return;
 }
 
-int		Sample::getValue(void) const
+int	Sample::getNbInst(void)
 {
-	return (this->_privateValue);
+	return (Sample::_nbInst);
 }
 
-int	Sample::compare(Sample *other) const
-{
-	if (this->_privateValue < other->getValue())
-		return (-1);
-	else if (this->_privateValue > other->getValue())
-		return (1);
-	
-	return (0);
-}
+int	Sample::_nbInst = 0;
