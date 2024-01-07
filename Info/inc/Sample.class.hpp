@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 13:17:10 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/07 16:15:45 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/07 16:45:48 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,13 @@
 class	Sample
 {
 	public:
+	
+		int		value;
 
 		Sample(void);
 		~Sample(void);
 		
-		static int	getNbInst(void);		
-	
-	private:
-
-		static int		_nbInst;
+		void	func(void) const;
 
 };
 
