@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 18:04:16 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/07 16:30:42 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/07 17:22:54 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,13 +112,28 @@ run: all
 nowarning:	C_FLAGS	=
 nowarning:	re
 
+# https://elearning.intra.42.fr/tags/38/notions
+# https://elearning.intra.42.fr/notions/piscine-c-d00-c-basics/subnotions
+
+ELEARNING_URL	:=	https://elearning.intra.42.fr
+CPP_TUTO		:=	/tags/38/notions
+CPP00_TUTO		:=	/notions/piscine-c-d00-c-basics/subnotions
+TUTO			=	$(ELEARNING_URL)$(CPP_TUTO)
+
+tuto:
+ifeq ($(OS),Darwin)
+	@open $(TUTO)
+else
+	@xdg-open $(TUTO) || echo "Please install a compatible PDF viewer"
+endif
+
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
 
 ffclean: fclean
 	@$(REMOVE) $(TMP_DIR)
 
-.PHONY: run ffclean
+.PHONY: run nowarning tuto ffclean
 # **************************************************************************** #
 ESC			:= \033
 

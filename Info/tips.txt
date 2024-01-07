@@ -1,0 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    tips.txt                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/01/07 17:12:24 by cdumais           #+#    #+#              #
+#    Updated: 2024/01/07 17:14:33 by cdumais          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+do not forget the ';' at the end of a class in the headers..
+
+get confortable with the initialization list
+
+each member function of one a class that does not modify the current instance
+	should be declared or defined 'const'
+
+
