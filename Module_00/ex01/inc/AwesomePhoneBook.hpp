@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Sample.class.hpp                                   :+:      :+:    :+:   */
+/*   AwesomePhoneBook.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/04 13:17:10 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/04 14:28:10 by cdumais          ###   ########.fr       */
+/*   Created: 2024/01/08 10:38:58 by cdumais           #+#    #+#             */
+/*   Updated: 2024/01/08 18:24:18 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SAMPLE_CLASS_H
-# define SAMPLE_CLASS_H
+#ifndef AWESOMEPHONEBOOK_HPP
+# define AWESOME_PHONEBOOK_HPP
 
-
-class	Sample
-{
-	public:
-
-		Sample(void);
-		~Sample(void);
-
-		int		getValue(void) const;
-		void	setValue(int v);
-	
-	private:
-
-		int		_privateValue;
-
-};
-
+#include "PhoneBook.class.hpp"
+#include "Contact.class.hpp"
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <cstdlib> //for system() //is it allowed ?
 
 #endif

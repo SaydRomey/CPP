@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 10:22:29 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/05 17:54:00 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/08 10:10:20 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,25 +16,31 @@ COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
 STANDARD	:=	-std=c++98
 
-SRC_DIR		:=	.
-OBJ_DIR		:=	obj
-TMP_DIR		:=	tmp
+INC_DIR		:=	inc
+INCS		:=	$(wildcard $(INC_DIR)/*.hpp)
+HEADERS		:=	-I$(INC_DIR)
 
+SRC_DIR		:=	src
 SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
+
+OBJ_DIR		:=	obj
 OBJS		:=	$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+
+TMP_DIR		:=	tmp
 
 REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
+NPD			:=	--no-print-directory
 # **************************************************************************** #
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(INCS)
 	@echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)]\\t$(GREEN)ready$(RESET)"
-	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(OBJS) -o $@
+	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(OBJS) $(HEDERS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	@echo "$(CYAN)Compiling...$(ORANGE)\t$(notdir $<)$(RESET)"
-	@$(COMPILE) $(C_FLAGS) $(STANDARD) -c $< -o $@
+	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(HEADERS) -c $< -o $@
 	@printf "$(UP)$(ERASE_LINE)"
 
 $(OBJ_DIR):
@@ -66,23 +72,26 @@ re: fclean all
 # **************************************************************************** #
 # ---------------------------------- PDF ------------------------------------- #
 # **************************************************************************** #
-PDF		:= CPP/cpp00_en.pdf
-GIT_URL	:= https://github.com/SaydRomey/42_ressources
-PDF_URL	= $(GIT_URL)/blob/main/pdf/$(PDF)?raw=true
+GIT_URL		:= https://github.com/SaydRomey/42_ressources
 
-pdf: | $(TMP_DIR)
-	@curl -# -L $(PDF_URL) -o $(TMP_DIR)/$(PDF)
-ifeq ($(OS),Darwin)
-	@open $(TMP_DIR)/$(PDF)
-else
-	@xdg-open $(TMP_DIR)/$(PDF) || echo "Please install a compatible PDF viewer"
-endif
+pdf:
+	@echo "Obtaining pdf..."
+	@$(MAKE) get_pdf MODULE=cpp00 $(NPD)
 
-.PHONY: pdf
+get_pdf: | $(TMP_DIR)
+	@PDF=$(MODULE)_en.pdf; \
+	PDF_URL=$(GIT_URL)/blob/main/pdf/CPP/$$PDF?raw=true; \
+	curl -# -L $$PDF_URL -o $(TMP_DIR)/$$PDF; \
+	if [ "$(OS)" = "Darwin" ]; then \
+		open $(TMP_DIR)/$$PDF; \
+	else \
+		xdg-open $(TMP_DIR)/$$PDF || echo "Please install a compatible PDF viewer"; \
+	fi
+
+.PHONY: pdf get_pdf
 # **************************************************************************** #
 # ---------------------------------- UTILS ----------------------------------- #
 # **************************************************************************** #
-
 run: all
 	./$(NAME)
 
