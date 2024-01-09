@@ -6,13 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:34:00 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/08 18:46:03 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/08 21:03:17 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AwesomePhoneBook.hpp"
-
-// maybe use something else for input check, like command.compare("EXIT") ?
 
 void	handleAddCommand(PhoneBook &phoneBook);
 void	handleSearchCommand(PhoneBook &phoneBook);
@@ -23,7 +21,6 @@ int		main(void)
 	std::string	command;
 
 	system("clear"); //check to use this when choosing display details
-
 	while (1)
 	{
 		std::cout << "Enter command (ADD, SEARCH, EXIT): ";
@@ -47,35 +44,50 @@ int		main(void)
 	return (0);
 }
 
+bool	getInput(std::string &input, const std::string &fieldName)
+{
+	while (true)
+	{
+		std::cout << "Enter " << fieldName << ": ";
+		if (!std::getline(std::cin, input) || std::cin.eof())
+		{
+			std::cin.clear();
+			std::cout << "\nEOF detected. Exiting to main menu." << std::endl; //not on point, exits everything..
+			return (false);
+		}
+		if (!input.empty())
+		{
+			return (true);
+		}
+		std::cout << fieldName << " cannot be empty. Please enter again: ";
+	}
+}
+
 /*
-need to choose behaviour for empty fields
-
-
 */
 void	handleAddCommand(PhoneBook &phoneBook)
 {
 	Contact		newContact;
 	std::string	input;
 
-	std::cout << "Enter first name: ";
-	std::getline(std::cin, input);
-	if (input.empty())
-	{
-		std::cout << "Contact must have a name." << std::endl;
+	if (!getInput(input, "first name"))
 		return;
-	}
 	newContact.setFirstName(input);
-	// 
+
 	// std::cout << "Enter first name: ";
-	// while (std::getline(std::cin, input) && input.empty())
+	// std::getline(std::cin, input);
+	// if (input.empty())
 	// {
-	// 	std::cout << "First name cannot be empty. Please enter again: "; //stuck in here ?
+	// 	std::cout << "Contact must have a name." << std::endl;
+	// 	return;
 	// }
 	// newContact.setFirstName(input);
 	// 
 	// std::cout << "Enter first name: ";
-	// while (std::getline(std::cin, input) && input.empty()) {
-	// 	if (std::cin.eof()) {
+	// while (std::getline(std::cin, input) && input.empty())
+	// {
+	// 	if (std::cin.eof())
+	// 	{
 	// 		std::cin.clear();  // Clear EOF flag
 	// 		std::cout << "\nEOF detected. Exiting to main menu." << std::endl;
 	// 		return;  // Return to main menu
