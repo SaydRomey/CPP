@@ -6,14 +6,13 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:49:42 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/08 17:57:56 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/10 16:16:36 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.class.hpp"
 #include "Contact.class.hpp"
 #include <iostream>
-#include <iomanip> //for std::setw and std::right //?
 #include <string>
 #include <sstream>
 
@@ -44,14 +43,14 @@ void	PhoneBook::displayAllContacts(void) const
 	std::cout << center("Index") << "|";
 	std::cout << center("First name") << "|";
 	std::cout << center("Last name") << "|";
-	std::cout << center("Nickname") << "|" << std::endl; //do we want the last "|" ?
+	std::cout << center("Nickname") << "|" << std::endl;
 
 	int	i = 0;
 	while (i < MAX_CONTACT)
 	{
-		std::ostringstream	oss;
-		oss << i;
-		std::string	indexStr = oss.str();
+		std::ostringstream	indexOutput;
+		indexOutput << i;
+		std::string	indexStr = indexOutput.str();
 		
 		std::cout << rightAlign(indexStr) << "|";
 		std::cout << truncate(_contacts[i].getFirstName()) << "|";
@@ -65,7 +64,7 @@ void	PhoneBook::displayContact(int index) const
 {
 	if (index < 0 || index >= MAX_CONTACT)
 	{
-		std::cout << "Invalid index" << std::endl;
+		std::cout << "Invalid index" << std::endl; //already checked in main
 		return;
 	}
 	const Contact	&contact = _contacts[index];
@@ -76,9 +75,6 @@ void	PhoneBook::displayContact(int index) const
 	std::cout << "Darkest secret: " <<contact.getDarkestSecret() <<std::endl;
 }
 
-/*
-truncates 'str' to replace section exceding defined width with a dot
-*/
 std::string	PhoneBook::truncate(const std::string &str) const
 {
 	const size_t	maxLength = COLUMN_WIDTH;
@@ -88,19 +84,7 @@ std::string	PhoneBook::truncate(const std::string &str) const
 		truncatedStr = truncatedStr.substr(0, maxLength - 1) + ".";
 	return (rightAlign(truncatedStr));
 }
-// {
-// 	const size_t	maxLength = COLUMN_WIDTH;
 
-// 	if (str.length() > maxLength)
-// 		return (str.substr(0, maxLength - 1) + ".");
-// 	return (str + std::string(maxLength - str.length(), ' '));
-// }
-
-/*
-adds a string of ' ' before 'str' to right align 'str
-
-** need to check if using std::setw and std::right does the trick... *
-*/
 std::string	PhoneBook::rightAlign(const std::string &str) const
 {
 	const size_t	width = COLUMN_WIDTH;
@@ -114,9 +98,6 @@ std::string	PhoneBook::rightAlign(const std::string &str) const
 	return (paddingStr + str);
 }
 
-/*
-centers 'str' within a specified 'width' (could be param, but is now a variable instead)
-*/
 std::string PhoneBook::center(const std::string &str) const
 {
 	const int	width = COLUMN_WIDTH;
@@ -134,7 +115,6 @@ std::string PhoneBook::center(const std::string &str) const
 
 	return (paddingStr + str + paddingExtraStr);
 }
-
 
 //
 

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 10:34:00 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/09 14:58:13 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/10 16:17:23 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ int		main(void)
 			handleSearchCommand(phoneBook);
 		}
 		else
-		{
 			clearAndStr("MY AWESOME PHONEBOOK\n");
-		}
 	}
+	clearAndStr("Exiting");
 	return (0);
 }
 
@@ -115,7 +114,7 @@ void	handleSearchCommand(PhoneBook &phoneBook)
 			clearAndStr("MY AWESOME PHONEBOOK");
 			std::cout << ORANGE << "Invalid index. ";
 			std::cout << "Please enter a number between ";
-			std::cout << "0 and " << MAX_CONTACT - 1 << ".\033[0m" << std::endl;
+			std::cout << "0 and " << MAX_CONTACT - 1 << RESET << std::endl;
 		}
 	}
 	else
