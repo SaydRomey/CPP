@@ -6,14 +6,14 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 18:04:16 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/07 17:22:54 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/09 19:38:30 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	placeholder
 
 COMPILE		:=	c++
-C_FLAGS		:=	-Wall -Wextra -Werror #-Wno_unused ?
+C_FLAGS		:=	-Wall -Wextra -Werror
 STANDARD	:=	-std=c++98
 
 INC_DIR		:=	inc
@@ -141,7 +141,6 @@ ESC			:= \033
 RESET		:= $(ESC)[0m
 BOLD		:= $(ESC)[1m
 
-BLACK		:= $(ESC)[30m
 RED			:= $(ESC)[91m
 GREEN		:= $(ESC)[32m
 YELLOW		:= $(ESC)[93m

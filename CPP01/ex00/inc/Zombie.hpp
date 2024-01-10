@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AwesomePhoneBook.hpp                               :+:      :+:    :+:   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 10:38:58 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/09 17:45:54 by cdumais          ###   ########.fr       */
+/*   Created: 2024/01/09 17:37:01 by cdumais           #+#    #+#             */
+/*   Updated: 2024/01/09 20:41:10 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AWESOMEPHONEBOOK_HPP
-# define AWESOMEPHONEBOOK_HPP
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
 
-# include "PhoneBook.class.hpp"
-# include "Contact.class.hpp"
-# include <iostream>
 # include <string>
-# include <sstream>
-# include <cstdlib>
 
-# ifndef MAX_CONTACT
-#  define MAX_CONTACT	8
+# ifndef Z_MSG
+#  define Z_MSG	": BraiiiiiiinnnzzzZ..."
 # endif
 
-# ifndef COLUMN_WIDTH
-#  define COLUMN_WIDTH	10
-# endif
+class	Zombie
+{
+	public:
 
-# define RESET	"\033[0m"
-# define GREEN	"\033[32m"
-# define ORANGE	"\033[38;5;208m"
+		Zombie(const std::string name);
+		~Zombie(void);
+
+		void	announce(void);
+
+	private:
+	
+		std::string	_name;
+		
+};
 
 #endif

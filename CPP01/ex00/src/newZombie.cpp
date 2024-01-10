@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AwesomePhoneBook.hpp                               :+:      :+:    :+:   */
+/*   newZombie.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 10:38:58 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/09 17:45:54 by cdumais          ###   ########.fr       */
+/*   Created: 2024/01/09 20:42:28 by cdumais           #+#    #+#             */
+/*   Updated: 2024/01/09 21:06:59 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AWESOMEPHONEBOOK_HPP
-# define AWESOMEPHONEBOOK_HPP
+#include 
 
-# include "PhoneBook.class.hpp"
-# include "Contact.class.hpp"
-# include <iostream>
-# include <string>
-# include <sstream>
-# include <cstdlib>
+/*
+It creates a zombie, name it, and return it so you can use it outside of the function scope.
+*/
+Zombie *newZombie( std::string name )
+{
+	Zombie	z;
 
-# ifndef MAX_CONTACT
-#  define MAX_CONTACT	8
-# endif
-
-# ifndef COLUMN_WIDTH
-#  define COLUMN_WIDTH	10
-# endif
-
-# define RESET	"\033[0m"
-# define GREEN	"\033[32m"
-# define ORANGE	"\033[38;5;208m"
-
-#endif
+	
+}

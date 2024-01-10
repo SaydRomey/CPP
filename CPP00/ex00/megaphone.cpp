@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:42:20 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/03 17:14:01 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/09 13:40:17 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	main(int argc, char **argv)
 		while (i < argc)
 		{
 			arg = argv[i];
-			if (arg.empty())
-				return (arg.clear(), 0);
+			// if (arg.empty())
+			// 	return (arg.clear(), 0);
 			capitalize(arg);
 			std::cout << arg;
-			arg.clear();
+			// arg.clear();
 			i++;
 		}
 		std::cout << std::endl;

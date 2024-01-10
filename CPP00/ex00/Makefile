@@ -5,42 +5,36 @@
 #                                                     +:+ +:+         +:+      #
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/04 10:22:29 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/08 20:38:16 by cdumais          ###   ########.fr        #
+#    Created: 2024/01/03 13:41:10 by cdumais           #+#    #+#              #
+#    Updated: 2024/01/09 12:15:11 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:=	placeholder
+NAME		:=	megaphone
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
 STANDARD	:=	-std=c++98
 
-INC_DIR		:=	inc
-INCS		:=	$(wildcard $(INC_DIR)/*.hpp)
-HEADERS		:=	-I$(INC_DIR)
-
-SRC_DIR		:=	src
-SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
-
+SRC_DIR		:=	.
 OBJ_DIR		:=	obj
-OBJS		:=	$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
-
 TMP_DIR		:=	tmp
+
+SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
+OBJS		:=	$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 
 REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
-NPD			:=	--no-print-directory
 # **************************************************************************** #
 all: $(NAME)
 
-$(NAME): $(OBJS) $(INCS)
+$(NAME): $(OBJS)
 	@echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)]\\t$(GREEN)ready$(RESET)"
-	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(OBJS) $(HEDERS) -o $@
+	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(OBJS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	@echo "$(CYAN)Compiling...$(ORANGE)\t$(notdir $<)$(RESET)"
-	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(HEADERS) -c $< -o $@
+	@$(COMPILE) $(C_FLAGS) $(STANDARD) -c $< -o $@
 	@printf "$(UP)$(ERASE_LINE)"
 
 $(OBJ_DIR):
@@ -72,27 +66,29 @@ re: fclean all
 # **************************************************************************** #
 # ---------------------------------- PDF ------------------------------------- #
 # **************************************************************************** #
-GIT_URL		:= https://github.com/SaydRomey/42_ressources
+PDF		:= CPP/cpp00_en.pdf
+GIT_URL	:= https://github.com/SaydRomey/42_ressources
+PDF_URL	= $(GIT_URL)/blob/main/pdf/$(PDF)?raw=true
 
-pdf:
-	@echo "Obtaining pdf..."
-	@$(MAKE) get_pdf MODULE=cpp00 $(NPD)
+pdf: | $(TMP_DIR)
+	@curl -# -L $(PDF_URL) -o $(TMP_DIR)/$(PDF)
+ifeq ($(OS),Darwin)
+	@open $(TMP_DIR)/$(PDF)
+else
+	@xdg-open $(TMP_DIR)/$(PDF) || echo "Please install a compatible PDF viewer"
+endif
 
-get_pdf: | $(TMP_DIR)
-	@PDF=$(MODULE)_en.pdf; \
-	PDF_URL=$(GIT_URL)/blob/main/pdf/CPP/$$PDF?raw=true; \
-	curl -# -L $$PDF_URL -o $(TMP_DIR)/$$PDF; \
-	if [ "$(OS)" = "Darwin" ]; then \
-		open $(TMP_DIR)/$$PDF; \
-	else \
-		xdg-open $(TMP_DIR)/$$PDF || echo "Please install a compatible PDF viewer"; \
-	fi
-
-.PHONY: pdf get_pdf
+.PHONY: pdf
 # **************************************************************************** #
 # ---------------------------------- UTILS ----------------------------------- #
 # **************************************************************************** #
+ARG1	:=	"shhhhh... I think the students are asleep..."
+ARG2	:=	Damnit " ! " "Sorry students, I thought this thing was off."
+ARG3	:=
+
 run: all
+	./$(NAME) $(ARG1)
+	./$(NAME) $(ARG2)
 	./$(NAME)
 
 $(TMP_DIR):

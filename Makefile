@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/05 22:26:06 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/09 17:57:43 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ all:
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
 
-clean:
+clean fclean ffclean:
 	@if [ -n "$(wildcard $(TMP_DIR))" ]; then \
 		$(REMOVE) $(TMP_DIR); \
 		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
@@ -34,7 +34,7 @@ clean:
 		$(YELLOW)Nothing to remove$(RESET)"; \
 	fi
 
-.PHONY: all clean
+.PHONY: all clean fclean ffclean
 # **************************************************************************** #
 # ----------------------------------- GIT ------------------------------------ #
 # **************************************************************************** #
@@ -70,7 +70,7 @@ pdf:
 		4) MODULE=cpp04;; \
 		*) echo "Invalid choice. Exiting." ; exit 1;; \
 	esac; \
-	$(MAKE) get_pdf MODULE=$$MODULE $(NPD)
+	$(MAKE) get_pdf MODULE=$$MODULE $(NPD) $$NPD
 
 get_pdf: | $(TMP_DIR)
 	@PDF=$(MODULE)_en.pdf; \
