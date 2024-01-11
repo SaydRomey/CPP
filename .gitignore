@@ -1,4 +1,35 @@
 
-tmp
+# Ignore object files and archives in all directories
+*.o
+*.a
 
+# PDFs
+*.pdf
+
+# MacOS specific files
+*.dSYM
+.DS_Store
+
+# Visual Studio Code settings
 .vscode
+
+# tmp, and obj directories in all directories
+**/tmp/
+**/obj/
+
+# # Executables
+
+# Info (for testing and tutorials)
+placeholder
+
+# CPP00
+megaphone
+MyAwesomePhoneBook
+
+# CPP01
+BraiiiiiiinnnzzzZ
+MoarBrainz
+
+# ...
+
+
