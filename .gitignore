@@ -1,5 +1,5 @@
 
-# Ignore object files and archives in all directories
+# object files and archives in all directories
 *.o
 *.a
 
@@ -29,6 +29,8 @@ MyAwesomePhoneBook
 # CPP01
 BraiiiiiiinnnzzzZ
 MoarBrainz
+HiThisIsBrain
+UnnecessaryViolence
 
 # ...
 
