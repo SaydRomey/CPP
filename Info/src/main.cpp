@@ -6,33 +6,39 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:52:46 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/07 17:05:02 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/11 11:04:56 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "Sample.class.hpp"
+
+class	Student
+{
+	private:
+		std::string	_login;
+	
+	public:
+		Student(std::string login) : _login(login)
+		{
+			std::cout << "Student " << this->_login << " is born" << std::endl;
+		}
+		
+		~Student(void)
+		{
+			std::cout << "Student " << this->_login << " died" << std::endl;
+		}
+		
+};
 
 int	main(void)
 {
-	Sample		instance;
-	Sample *	instanceptr = &instance;
+	Student	bob = Student("bubbles");
+	Student	*jim = new Student("jimbles");
 
-	int			Sample::*p = NULL; //pointer on an int, which is a member of the class 'Sample'
-	void		(Sample::*f)(void) const;
+	// Do some stuff here
+
+	delete jim; //jim is destroyed
 	
-	p = &Sample::value;
-
-	std::cout << "Value of member 'value': " << instance.value << std::endl;
-	instance.*p = 21;
-	std::cout << "Value of member 'value': " << instance.value << std::endl;
-	instanceptr->*p = 42;
-	std::cout << "Value of member 'value': " << instance.value << std::endl;
-
-	f = &Sample::func;
-
-	(instance.*f)();
-	(instanceptr->*f)();
 	
-	return (0);
+	return (0); //bob is destroyed
 }
