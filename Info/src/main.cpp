@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:52:46 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/11 11:04:56 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/11 11:11:00 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ class	Student
 		std::string	_login;
 	
 	public:
-		Student(std::string login) : _login(login)
+		Student(void) : _login("ldefault")
 		{
 			std::cout << "Student " << this->_login << " is born" << std::endl;
 		}
@@ -32,12 +32,11 @@ class	Student
 
 int	main(void)
 {
-	Student	bob = Student("bubbles");
-	Student	*jim = new Student("jimbles");
+	Student	*students = new Student[42];
 
 	// Do some stuff here
 
-	delete jim; //jim is destroyed
+	delete [] students;
 	
 	
 	return (0); //bob is destroyed
