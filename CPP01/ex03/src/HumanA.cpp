@@ -6,16 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:04:03 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/11 13:25:50 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/11 17:33:29 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HumanA.hpp"
-
-// HumanA::HumanA(void)
-// {
-// 	// 
-// }
 
 HumanA::HumanA(const std::string name, Weapon& weapon) : _name(name), _weapon(weapon)
 {

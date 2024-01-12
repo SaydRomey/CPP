@@ -6,16 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:06:07 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/11 13:31:36 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/11 20:09:04 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HumanB.hpp"
-
-HumanB::HumanB(void)
-{
-	// 
-}
 
 HumanB::HumanB(const std::string name) : _name(name), _weapon(NULL)
 {
@@ -39,8 +34,8 @@ void	HumanB::attack(void) const
 
 void	HumanB::setWeapon(Weapon& weapon)
 {
-	// if/else for messages?
-	// delete _weapon // ?
+	if (_weapon)
+		std::cout << _name << " dropped " << _weapon->getType() << std::endl;
 	_weapon = &weapon;
 	std::cout << _name << " equipped " << _weapon->getType() << std::endl;
 }

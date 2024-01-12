@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:49:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/11 13:34:46 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/11 20:19:17 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,24 @@
 
 int	main(void)
 {
+	std::cout << std::endl;
 	{
-		Weapon	club = Weapon("crude spiked club");
-		HumanA	bob("\033[35mBob\033[0m", club);
+		Weapon	club = Weapon(WEAPON_A);
+		HumanA	bob(NAME_A, club);
 		bob.attack();
-		club.setType("some other type of club");
+		club.setType(WEAPON_B);
 		bob.attack();
 	}
+	std::cout << std::endl;
 	{
-		Weapon	club = Weapon("crude spiked club");
-		HumanB	jim("\033[33mJim\033[0m");
+		Weapon	club = Weapon(WEAPON_A);
+		HumanB	jim(NAME_B);
 		jim.attack();
 		jim.setWeapon(club);
 		jim.attack();
-		club.setType("some other type of club");
+		club.setType(WEAPON_B);
+		jim.attack();
+		jim.setWeapon(club);
 		jim.attack();
 	}
 	return (0);

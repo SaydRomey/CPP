@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:24:37 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/11 12:37:08 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/11 20:29:59 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,22 @@
 # include <iostream>
 # include <string>
 
+# define RESET	"\033[0m"
+# define ORANGE	"\033[38;5;208m"
+# define CYAN	"\033[96m"
+
+# ifndef WEAPON_A
+#  define WEAPON_A	ORANGE "crude spiked club" RESET
+# endif
+
+# ifndef WEAPON_B
+#  define WEAPON_B	CYAN "some other type of club" RESET
+# endif
+
 class	Weapon
 {
 	public:
-		Weapon(void);
+
 		Weapon(const std::string type);
 		~Weapon(void);
 		
@@ -27,6 +39,7 @@ class	Weapon
 		void				setType(std::string newType);
 
 	private:
+
 		std::string	_type;
 };
 
