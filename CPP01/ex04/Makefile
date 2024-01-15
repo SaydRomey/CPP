@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 20:36:13 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/15 11:20:15 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/15 15:27:51 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,15 +96,17 @@ TEST_FILE		:=	$(TMP_DIR)/testfile.txt
 TO_REPLACE		:=	42
 REPLACEMENT		:=	fortytwo
 
-run: all $(TMP_DIR)
-	@echo "Creating test file $(CYAN)$(TEST_FILE)$(RESET) with content...$(RESET)\n"
-	@echo "This is a test file containing the number 42 multiple times." > $(TEST_FILE)
-	@echo "The number 42 should be replaced with fortytwo." >> $(TEST_FILE)
-	@echo "42... 42, 42, 42? 42." >> $(TEST_FILE)
+run: all | $(TEST_FILE)
 	@echo "Running the program to replace $(ORANGE)$(TO_REPLACE)$(RESET) \
 	with $(ORANGE)$(REPLACEMENT)$(RESET)...\n"
 	@./$(NAME) $(TEST_FILE) $(TO_REPLACE) $(REPLACEMENT)
 	@echo "Test completed. Check $(CYAN)$(TEST_FILE).replace$(RESET) for results."
+
+$(TEST_FILE): | $(TMP_DIR)
+	@echo "Creating test file $(CYAN)$(TEST_FILE)$(RESET) with content...$(RESET)\n"
+	@echo "This is a test file containing the number 42 multiple times." > $(TEST_FILE)
+	@echo "The number 42 should be replaced with fortytwo." >> $(TEST_FILE)
+	@echo "42... 42, 42, 42? 42." >> $(TEST_FILE)
 
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
