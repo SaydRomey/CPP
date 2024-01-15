@@ -6,9 +6,12 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/09 17:57:43 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/15 15:43:48 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# TODO: git updates has problems when last push was other (laptop/school Mac)
+# TODO: specify with '-a' the opening of an url (like in make ref) ((or change default on laptop))
 
 NAME		:=	CPP
 TMP_DIR		:=	tmp
@@ -16,10 +19,10 @@ REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
 NPD			:=	--no-print-directory
 
-# Default target
 all:
 	@echo "'make pdf' \t-> get a CPP instruction pdf in './$(TMP_DIR)/'"
 	@echo "'make update' \t-> pull the github version"
+	@echo "'make ref' \t-> open the c++ reference url"
 
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
@@ -35,6 +38,18 @@ clean fclean ffclean:
 	fi
 
 .PHONY: all clean fclean ffclean
+# **************************************************************************** #
+CPP_REF_URL		:=	https://cplusplus.com/reference/
+
+ref:
+	@if [ "$(OS)" = "Darwin" ]; then \
+		open $(CPP_REF_URL); \
+	else \
+		xdg-open $(CPP_REF_URL) || echo "Please install a compatible PDF viewer"; \
+	fi
+
+.PHONY: ref
+# **************************************************************************** #
 # **************************************************************************** #
 # ----------------------------------- GIT ------------------------------------ #
 # **************************************************************************** #
