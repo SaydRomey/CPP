@@ -6,11 +6,11 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/15 15:43:48 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/15 15:45:20 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# TODO: git updates has problems when last push was other (laptop/school Mac)
+# TODO: 'update' target has problems when last push was other (laptop/school Mac)
 # TODO: specify with '-a' the opening of an url (like in make ref) ((or change default on laptop))
 
 NAME		:=	CPP
