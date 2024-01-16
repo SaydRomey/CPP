@@ -6,9 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 21:59:38 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/15 15:09:08 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/16 14:20:06 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// TODO: handle empty string as 's1' argument
 
 #include "SedIsForLosers.hpp"
 
@@ -37,6 +39,12 @@ int main(int argc, char *argv[])
 	std::string	filename = argv[1];
 	std::string	s1 = argv[2];
 	std::string	s2 = argv[3];
+
+	if (s1.empty())
+	{
+		std::cerr << "Invalid argument : " << argv[2] << std::endl;
+		return (1);
+	}
 
 	std::ifstream	inFile;
 	openInputFile(inFile, filename);
