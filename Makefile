@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/15 15:45:20 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/15 21:49:14 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ update:
 	@echo "Are you sure you want to update the repo? [y/N] " \
 	&& read ANSWER; \
 	if [ "$$ANSWER" = "y" ] || [ "$$ANSWER" = "Y" ]; then \
-		git pull origin main; \
+		git pull origin master; \
 		echo "Repository updated."; \
 	else \
 		echo "canceling update..."; \
