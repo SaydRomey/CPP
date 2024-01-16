@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:34 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/15 17:42:36 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/15 22:50:23 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ Harl::~Harl(void)
 
 void	Harl::complain(std::string level)
 {
-	// typedef void	(Harl::*HarlFuncPtr)();
-
 	HarlFuncPtr	functions[] = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
 	std::string	levels[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 	
