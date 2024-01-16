@@ -6,24 +6,37 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 12:33:32 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/16 12:35:53 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/16 16:05:35 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SAMPLE_CLASS_HPP
 # define SAMPLE_CLASS_HPP
 
+// toadd: fonction membre permettant d'avoir une version sous forme de string
+// (serializer une classe vers une string)
+
+#include <iostream>
+
 class	Sample
 {
 	public:
 		Sample(void);
+		Sample(int const n);
+		Sample(Sample const & src);
 		~Sample(void);
 
-		void	func(char const c) const;
-		void	func(int const n) const;
-		void	func(float const z) const;
-		void	func(Sample const &i) const;
+		Sample &	operator=(Sample const & rhs);
+
+		int	getValue(void) const;
+	
+	private:
+
+		int	_value;
 
 };
+
+std::ostream &	operator<<(std::ostream & o, Sample const & i);
+
 
 #endif

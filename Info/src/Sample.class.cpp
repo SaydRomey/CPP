@@ -6,16 +6,29 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 12:37:39 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/16 12:45:08 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/16 16:06:56 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Sample.class.hpp"
 #include <iostream>
 
-Sample::Sample(void)
+Sample::Sample(void) : _value(0)
 {
-	std::cout << "Sample constructor" << std::endl;
+	std::cout << "Default constructor" << std::endl;
+	return;
+}
+
+Sample::Sample(int const n) : _value(n)
+{
+	std::cout << "Parametric constructor" << std::endl;
+	return;
+}
+
+Sample::Sample(Sample const & src)
+{
+	std::cout << "Copy constructor" << std::endl;
+	*this = src;
 	return;
 }
 
@@ -25,27 +38,23 @@ Sample::~Sample(void)
 	return;
 }
 
-void	Sample::func(char const c) const
+int	Sample::getValue(void) const
 {
-	std::cout << "Member function 'func' called with char overload : " << c << std::endl;
-	return;
+	return (this->_value);
 }
 
-void	Sample::func(int const n) const
+Sample &	Sample::operator=(Sample const & rhs)
 {
-	std::cout << "Member function 'func' called with int overload : " << n << std::endl;
-	return;
+	std::cout << "Assignation operator called with " << this->_value;
+	std::cout << " to " << rhs.getValue() << std::endl;
+
+	this->_value = rhs.getValue();
+
+	return (*this);
 }
 
-void	Sample::func(float const z) const
+std::ostream & operator<<(std::ostream & o, Sample const & i)
 {
-	std::cout << "Member function 'func' called with float overload : " << z << std::endl;
-	return;
-}
-
-void	Sample::func(Sample const &i) const
-{
-	(void) i;
-	std::cout << "Member function 'func' called with Sample class overload" << std::endl;
-	return;
+	o << i.getValue();
+	return (o);
 }
