@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:40:48 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/10 18:22:05 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/16 11:27:30 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
 # include <iostream>
 
 # ifndef Z_MSG
-#  define Z_MSG	": BraiiiiiiinnnzzzZ..."
+#  define Z_MSG ": BraiiiiiiinnnzzzZ..."
 # endif
 
 # ifndef HORDE_SIZE
-#  define HORDE_SIZE	10
+#  define HORDE_SIZE 10
 # endif
 
 # ifndef HORDE_NAME
-#  define HORDE_NAME	"Walkers"
+#  define HORDE_NAME "Walkers"
 # endif
 
 # define RESET	"\033[0m"

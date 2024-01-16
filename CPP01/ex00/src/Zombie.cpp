@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 20:33:25 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/10 17:34:42 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/16 11:15:16 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ Zombie::~Zombie(void)
 void	Zombie::announce(void)
 {
 	std::cout << _name << GREEN << Z_MSG << RESET << std::endl;
+	return;
 }

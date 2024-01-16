@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 23:00:41 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/15 23:29:56 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/16 11:55:59 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define CYAN	"\033[96m"
 
 # define DEBUG_MSG "\
-I love having extra bacon for my \
+I love having extra bacon for my\n\
 7XL-double-cheese-triple-pickle-special-ketchup burger.\n\
 I really do!\n"
 
