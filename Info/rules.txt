@@ -51,9 +51,6 @@ and no Algorithms (anything that requires to include the
 
 when allocating memory (by using the 'new' keyword) must avoid memory leaks
 
-From Module 02 to Module 09, classes must be designed in the
-Orthodox Canonical Form, except when explicitely stated otherwise
-
 Any functon implementation put in a header file (except for function templates)
 	means 0 to the exercise
 
@@ -61,6 +58,19 @@ Headers should be usable independently from others
 	thus, they must include all the dependencies they need.
 
 * must avoid the problem of double inclusion by adding the include guards *
+
+all classes must be designed in the Orthodox Canonical Form,
+unless explicitely stated otherwise.
+
+Then, they will implement the four required member functions below:
+• Default constructor
+• Copy constructor
+• Copy assignment operator
+• Destructor
+
+Split your class code into two files.
+The header file (.hpp/.h) contains the class definition
+whereas the source file (.cpp) contains the implementation.
 
 - Read me
 
