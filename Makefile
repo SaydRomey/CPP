@@ -6,11 +6,10 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/15 21:49:14 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/15 22:18:29 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# TODO: 'update' target has problems when last push was other (laptop/school Mac)
 # TODO: specify with '-a' the opening of an url (like in make ref) ((or change default on laptop))
 
 NAME		:=	CPP
@@ -50,14 +49,17 @@ ref:
 
 .PHONY: ref
 # **************************************************************************** #
-# **************************************************************************** #
 # ----------------------------------- GIT ------------------------------------ #
 # **************************************************************************** #
+MAIN_BRANCH	:= $(shell git branch -r | grep -E 'origin/(main|master)' \
+					| grep -v 'HEAD' | head -n 1 | sed 's@^.*origin/@@')
+
 update:
+	@echo "Updating repository from branch $(CYAN)$(MAIN_BRANCH)$(RESET)..."
 	@echo "Are you sure you want to update the repo? [y/N] " \
 	&& read ANSWER; \
 	if [ "$$ANSWER" = "y" ] || [ "$$ANSWER" = "Y" ]; then \
-		git pull origin master; \
+		git pull origin $(MAIN_BRANCH); \
 		echo "Repository updated."; \
 	else \
 		echo "canceling update..."; \
