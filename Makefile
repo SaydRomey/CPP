@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/17 13:37:10 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/17 14:39:50 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,7 +111,7 @@ class:
 	classname_upper=`echo $$classname | tr a-z A-Z`; \
 	if [ -f inc/$$classname.hpp ] || [ -f src/$$classname.cpp ]; then \
 		read -p "Files exist. Overwrite? [y/N]: " confirm; \
-		if [ "$$confirm" != "y" ]; then \
+		if [ "$$confirm" != "y" ] || [ "$$confirm" != "Y" ]; then \
 			echo "Canceling class creation"; \
 			exit 1; \
 		fi; \
@@ -161,7 +161,7 @@ new:
 				exit 1; \
 			fi; \
 		else \
-			echo "Aborted."; \
+			echo "Keeping $$exdir as it was..."; \
 			exit 1; \
 		fi; \
 	fi; \
