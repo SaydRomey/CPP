@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 19:04:26 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/16 19:04:52 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/17 14:56:23 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,7 @@ GIT_URL		:= https://github.com/SaydRomey/42_ressources
 
 pdf:
 	@echo "Obtaining pdf..."
-	@$(MAKE) get_pdf MODULE=cpp01 $(NPD)
+	@$(MAKE) get_pdf MODULE=cpp02 $(NPD)
 
 get_pdf: | $(TMP_DIR)
 	@PDF=$(MODULE)_en.pdf; \
