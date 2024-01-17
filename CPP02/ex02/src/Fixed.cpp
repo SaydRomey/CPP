@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 16:58:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/16 19:19:16 by cdumais          ###   ########.fr       */
+/*   Created: 2024/01/16 19:05:26 by cdumais           #+#    #+#             */
+/*   Updated: 2024/01/16 19:06:16 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,28 +132,3 @@ std::ostream & operator<<(std::ostream &o, Fixed const & rhs)
 	o << rhs.toFloat();
 	return (o);
 }
-
-/* ************************************************************************** */
-
-// // Int constructor (using member initializer list)
-// Fixed::Fixed(int const i) : _fixedPointValue(i << _fractionalBits)
-// {
-// 	std::cout << "Int constructor called" << std::endl;
-// 	return;
-// }
-
-// // Int constructor (using member function)
-// Fixed::Fixed(int const i)
-// {
-// 	std::cout << "Int constructor called" << std::endl;
-// 	this->setRawBits(i << this->_fractionalBits);
-// 	return;
-// }
-
-// // Int constructor (direct assignment in constructor body)
-// Fixed::Fixed(int const i)
-// {
-// 	std::cout << "Int constructor called" << std::endl;
-// 	this->_fixedPointValue = i * (1 << _fractionalBits);
-// 	return;
-// }
