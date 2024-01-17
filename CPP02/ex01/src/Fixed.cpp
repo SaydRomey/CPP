@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:58:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/16 19:19:16 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/17 12:36:55 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ Fixed::Fixed(Fixed const & src)
 	return;
 }
 
-// Default constructor
+// Default destructor
 Fixed::~Fixed(void)
 {
 	std::cout << "Destructor called" << std::endl;

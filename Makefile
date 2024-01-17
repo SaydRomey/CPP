@@ -6,11 +6,13 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/16 11:04:49 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/17 13:37:10 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	CPP
+INC_DIR		:=	inc
+SRC_DIR		:=	src
 TMP_DIR		:=	tmp
 REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
@@ -20,6 +22,8 @@ all:
 	@echo "'make pdf' \t-> get a CPP instruction pdf in './$(TMP_DIR)/'"
 	@echo "'make update' \t-> pull the github version"
 	@echo "'make ref' \t-> open the c++ reference url"
+	@echo "'make class \t-> create a class template in hpp file and cpp file"
+	@echo "'make new' \t-> create an new exercise basic template"
 
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
@@ -98,6 +102,141 @@ get_pdf: | $(TMP_DIR)
 	fi
 
 .PHONY: pdf get_pdf
+# **************************************************************************** #
+# --------------------------------- CLASS ------------------------------------ #
+# **************************************************************************** #
+class:
+	@echo "Enter the class name: "; \
+	read classname; \
+	classname_upper=`echo $$classname | tr a-z A-Z`; \
+	if [ -f inc/$$classname.hpp ] || [ -f src/$$classname.cpp ]; then \
+		read -p "Files exist. Overwrite? [y/N]: " confirm; \
+		if [ "$$confirm" != "y" ]; then \
+			echo "Canceling class creation"; \
+			exit 1; \
+		fi; \
+	fi; \
+	mkdir -p $(INC_DIR) $(SRC_DIR); \
+	echo "$$CLASS_HEADER" \
+	| sed "s/CLASSNAME_UPPER/$$classname_upper/g" \
+	| sed "s/CLASSNAME/$$classname/g" > inc/$$classname.hpp; \
+	echo "$$CLASS_CPP" \
+	| sed "s/CLASSNAME/$$classname/g" > src/$$classname.cpp; \
+	echo "$$classname created"
+
+.PHONY: class
+# **************************************************************************** #
+# ---------------------------------- NEW ------------------------------------- #
+# **************************************************************************** #
+PASSWORD			:=	sudo
+MAKEFILE_TEMPLATE	:=	Misc/Makefile.template
+
+new:
+	@echo "Select the CPP module:"
+	@echo "0. Module 00"
+	@echo "1. Module 01"
+	@echo "2. Module 02"
+	@echo "3. Module 03"
+	@echo "4. Module 04"
+	@read module_choice; \
+	case $$module_choice in \
+		0) MODULE=CPP00;; \
+		1) MODULE=CPP01;; \
+		2) MODULE=CPP02;; \
+		3) MODULE=CPP03;; \
+		4) MODULE=CPP04;; \
+		*) echo "Invalid choice. Exiting." ; exit 1;; \
+	esac; \
+	echo "Enter exercise number (e.g., 00, 01): "; \
+	read exnum; \
+	exdir="$$MODULE/ex$$exnum"; \
+	if [ -d "$$exdir" ]; then \
+		echo "$$exdir already exists. Overwrite? [y/N]: "; \
+		read overwrite_choice; \
+		if [ "$$overwrite_choice" = "y" ] || [ "$$overwrite_choice" = "Y" ]; then \
+			echo "Enter password: "; \
+			read user_password; \
+			if [ "$$user_password" != "$(PASSWORD)" ]; then \
+				echo "Incorrect password. Exiting."; \
+				exit 1; \
+			fi; \
+		else \
+			echo "Aborted."; \
+			exit 1; \
+		fi; \
+	fi; \
+	mkdir -p $$exdir/$(SRC_DIR) $$exdir/$(INC_DIR); \
+	echo "$$MAIN_CPP" > $$exdir/$(SRC_DIR)/main.cpp; \
+	cp $(MAKEFILE_TEMPLATE) $$exdir/Makefile; \
+	echo "Should we create a new class? [y/N]: "; \
+	read create_class; \
+	if [ "$$create_class" = "y" ] || [ "$$create_class" = "Y" ]; then \
+		(cd $$exdir; $(MAKE) class $(NPD)); \
+	fi; \
+	echo "Created exercise environment in $$exdir"
+
+.PHONY: new
+# $(MAKE) -C $$exdir class #(insted of cd $$exdir...)?
+# **************************************************************************** #
+# ------------------------------- TEMPLATES ---------------------------------- #
+# **************************************************************************** #
+define MAIN_CPP
+
+#include <iostream>
+
+int	main(void)
+{
+	std::cout << "Don't panic !" << std::endl;
+	return (0);
+}
+endef
+
+export MAIN_CPP
+# **************************************************************************** #
+define CLASS_HEADER
+
+#ifndef CLASSNAME_UPPER_HPP
+# define CLASSNAME_UPPER_HPP
+
+class CLASSNAME
+{
+	public:
+		CLASSNAME(void);
+		CLASSNAME(CLASSNAME const & src);
+		~CLASSNAME(void);
+
+		CLASSNAME & operator=(CLASSNAME const & rhs);
+
+	private:
+};
+
+#endif // CLASSNAME_UPPER_HPP
+endef
+
+export CLASS_HEADER
+# **************************************************************************** #
+define CLASS_CPP
+
+#include "CLASSNAME.hpp"
+
+CLASSNAME::CLASSNAME(void)
+{
+	// Constructor
+}
+
+CLASSNAME::CLASSNAME(CLASSNAME const & src)
+{
+	// Copy constructor
+	*this = src;
+}
+
+CLASSNAME::~CLASSNAME(void)
+{
+	// Destructor
+}
+endef
+
+export CLASS_CPP
 # **************************************************************************** #
 ESC			:= \033
 
