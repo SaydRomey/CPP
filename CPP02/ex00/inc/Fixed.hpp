@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 12:27:23 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/16 16:51:31 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/18 12:57:48 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ class	Fixed
 		public:
 		
 			Fixed(void);
-			Fixed(Fixed const & src);
+			Fixed(const Fixed &src);
 			~Fixed(void);
 
 			int		getRawBits(void) const;
-			void	setRawBits(int const raw);
+			void	setRawBits(const int raw);
 
-			Fixed &	operator=(Fixed const & rhs);
+			Fixed&	operator=(const Fixed &rhs);
 		
 		private:
 		

@@ -93,10 +93,10 @@ class CLASSNAME
 {
 	public:
 		CLASSNAME(void);
-		CLASSNAME(CLASSNAME const & src);
+		CLASSNAME(CLASSNAME const &src);
 		~CLASSNAME(void);
 
-		CLASSNAME & operator=(CLASSNAME const & rhs);
+		CLASSNAME& operator=(CLASSNAME const &rhs);
 
 	private:
 };
@@ -112,10 +112,10 @@ define CLASS_CPP
 
 CLASSNAME::CLASSNAME(void)
 {
-	// Constructor
+	// Default constructor
 }
 
-CLASSNAME::CLASSNAME(CLASSNAME const & src)
+CLASSNAME::CLASSNAME(CLASSNAME const &src)
 {
 	// Copy constructor
 	*this = src;
@@ -124,6 +124,12 @@ CLASSNAME::CLASSNAME(CLASSNAME const & src)
 CLASSNAME::~CLASSNAME(void)
 {
 	// Destructor
+}
+
+CLASSNAME&	CLASSNAME::operator=(CLASSNAME const &rhs)
+{
+	// Copy assignment overload
+	return (*this);
 }
 endef
 

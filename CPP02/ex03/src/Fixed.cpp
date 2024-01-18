@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:15:25 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/17 21:15:26 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/18 13:48:46 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ Fixed::Fixed(void) : _fixedPointValue(0)
 	// std::cout << "Default constructor called" << std::endl;
 }
 
-Fixed::Fixed(int const i)
+Fixed::Fixed(const int i)
 {
 	// std::cout << "Int constructor called" << std::endl;
 	this->_fixedPointValue = i * (1 << _fractionalBits);
 }
 
-Fixed::Fixed(float const f)
+Fixed::Fixed(const float f)
 {
 	// std::cout << "Float constructor called" << std::endl;
 	this->_fixedPointValue = roundf(f * (1 << _fractionalBits));
 }
 
-Fixed::Fixed(Fixed const &src)
+Fixed::Fixed(const Fixed &src)
 {
 	// std::cout << "Copy constructor called" << std::endl;
 	*this = src;
@@ -52,7 +52,7 @@ int		Fixed::getRawBits(void) const
 	return (this->_fixedPointValue);
 }
 
-void	Fixed::setRawBits(int const raw)
+void	Fixed::setRawBits(const int raw)
 {
 	this->_fixedPointValue = raw;
 }
@@ -105,7 +105,7 @@ const Fixed&	Fixed::max(const Fixed &lhs, const Fixed &rhs)
 /* **************************************************************** Operators */
 
 // Copy assignment operator overload
-Fixed&	Fixed::operator=(Fixed const &rhs)
+Fixed&	Fixed::operator=(const Fixed &rhs)
 {
 	// std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &rhs)
@@ -114,7 +114,7 @@ Fixed&	Fixed::operator=(Fixed const &rhs)
 }
 
 // Insertion operator overload
-std::ostream & operator<<(std::ostream &out, Fixed const &rhs)
+std::ostream&	operator<<(std::ostream &out, const Fixed &rhs)
 {
 	out << rhs.toFloat();
 	return (out);
@@ -123,50 +123,32 @@ std::ostream & operator<<(std::ostream &out, Fixed const &rhs)
 
 bool	Fixed::operator>(const Fixed &rhs) const
 {
-	if (this->_fixedPointValue > rhs._fixedPointValue)
-		return (true);
-	else
-		return (false);
+	return (this->_fixedPointValue > rhs._fixedPointValue);
 }
 
 bool	Fixed::operator<(const Fixed &rhs) const
 {
-	if (this->_fixedPointValue < rhs._fixedPointValue)
-		return (true);
-	else
-		return (false);
+	return (this->_fixedPointValue < rhs._fixedPointValue);
 }
 
 bool	Fixed::operator>=(const Fixed &rhs) const
 {
-	if (this->_fixedPointValue >= rhs._fixedPointValue)
-		return (true);
-	else
-		return (false);
+	return (this->_fixedPointValue >= rhs._fixedPointValue);
 }
 
 bool	Fixed::operator<=(const Fixed &rhs) const
 {
-	if (this->_fixedPointValue <= rhs._fixedPointValue)
-		return (true);
-	else
-		return (false);
+	return (this->_fixedPointValue <= rhs._fixedPointValue);
 }
 
 bool	Fixed::operator==(const Fixed &rhs) const
 {
-	if (this->_fixedPointValue == rhs._fixedPointValue)
-		return (true);
-	else
-		return (false);
+	return (this->_fixedPointValue == rhs._fixedPointValue);
 }
 
 bool	Fixed::operator!=(const Fixed &rhs) const
 {
-	if (this->_fixedPointValue != rhs._fixedPointValue)
-		return (true);
-	else
-		return (false);
+	return (this->_fixedPointValue != rhs._fixedPointValue);
 }
 
 /* arithmetic */

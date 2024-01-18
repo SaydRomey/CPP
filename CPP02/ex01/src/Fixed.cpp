@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:58:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/17 12:36:55 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/18 13:20:12 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ This converts the integer into a fixed-point format
 where the fractional part is initially zero.
 */
 // Int constructor
-Fixed::Fixed(int const i)
+Fixed::Fixed(const int i)
 {
 	std::cout << "Int constructor called" << std::endl;
 
@@ -46,7 +46,7 @@ roundf() is used to round the result to the nearest integer,
 ensuring precision is maintained in the conversion process.
 */
 // Float constructor
-Fixed::Fixed(float const f)
+Fixed::Fixed(const float f)
 {
 	std::cout << "Float constructor called" << std::endl;
 
@@ -55,7 +55,7 @@ Fixed::Fixed(float const f)
 }
 
 // Copy constructor
-Fixed::Fixed(Fixed const & src)
+Fixed::Fixed(const Fixed &src)
 {
 	std::cout << "Copy constructor called" << std::endl;
 	*this = src;
@@ -74,12 +74,11 @@ Fixed::~Fixed(void)
 // Returns raw value of the fixed point value
 int		Fixed::getRawBits(void) const
 {
-	// std::cout << "getRawBits member function called" << std::endl;
 	return (this->_fixedPointValue);
 }
 
 // Sets the raw value of the fixed point number
-void	Fixed::setRawBits(int const raw)
+void	Fixed::setRawBits(const int raw)
 {
 	this->_fixedPointValue = raw;
 }
@@ -96,7 +95,7 @@ float	Fixed::toFloat(void) const
 	// Calculate scaling factor (2 raised to the power of _fractionalBits)
 	float	scalingFactor = (float)(1 << this->_fractionalBits);
 
-	// Divide fixed-point value by the scaling factor to get the float representation
+	// Divide fixed-point value by scaling factor to get float representation
 	float	result = floatValue / scalingFactor;
 
 	return (result);
@@ -109,7 +108,7 @@ return (this->_fixedPointValue >> this->_fractionalBits);
 int		Fixed::toInt(void) const
 {
 	// Right-shift the fixed point value by the number of fractional bits.
-	// This operation removes the fractional part, leaving only the integer part.
+	// This removes the fractional part, leaving only the integer part.
 	int	intValue = this->_fixedPointValue >> this->_fractionalBits;
 
 	return (intValue);
@@ -118,7 +117,7 @@ int		Fixed::toInt(void) const
 /* **************************************************************** Operators */
 
 // Copy assignment operator overload
-Fixed &	Fixed::operator=(Fixed const & rhs)
+Fixed&	Fixed::operator=(const Fixed &rhs)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &rhs)
@@ -127,33 +126,30 @@ Fixed &	Fixed::operator=(Fixed const & rhs)
 }
 
 // Insertion operator overload
-std::ostream & operator<<(std::ostream &o, Fixed const & rhs)
+std::ostream&	operator<<(std::ostream &out, const Fixed &rhs)
 {
-	o << rhs.toFloat();
-	return (o);
+	out << rhs.toFloat();
+	return (out);
 }
 
 /* ************************************************************************** */
 
 // // Int constructor (using member initializer list)
-// Fixed::Fixed(int const i) : _fixedPointValue(i << _fractionalBits)
+// Fixed::Fixed(const int i) : _fixedPointValue(i << _fractionalBits)
 // {
 // 	std::cout << "Int constructor called" << std::endl;
-// 	return;
 // }
 
 // // Int constructor (using member function)
-// Fixed::Fixed(int const i)
+// Fixed::Fixed(const int i)
 // {
 // 	std::cout << "Int constructor called" << std::endl;
 // 	this->setRawBits(i << this->_fractionalBits);
-// 	return;
 // }
 
 // // Int constructor (direct assignment in constructor body)
-// Fixed::Fixed(int const i)
+// Fixed::Fixed(const int i)
 // {
 // 	std::cout << "Int constructor called" << std::endl;
 // 	this->_fixedPointValue = i * (1 << _fractionalBits);
-// 	return;
 // }
