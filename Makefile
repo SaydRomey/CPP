@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/17 14:39:50 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/18 15:50:12 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ OS			:=	$(shell uname)
 NPD			:=	--no-print-directory
 
 all:
+
 	@echo "'make pdf' \t-> get a CPP instruction pdf in './$(TMP_DIR)/'"
 	@echo "'make update' \t-> pull the github version"
 	@echo "'make ref' \t-> open the c++ reference url"
@@ -202,10 +203,10 @@ class CLASSNAME
 {
 	public:
 		CLASSNAME(void);
-		CLASSNAME(CLASSNAME const & src);
+		CLASSNAME(const CLASSNAME &src);
 		~CLASSNAME(void);
 
-		CLASSNAME & operator=(CLASSNAME const & rhs);
+		CLASSNAME & operator=(const CLASSNAME &rhs);
 
 	private:
 };
@@ -224,7 +225,7 @@ CLASSNAME::CLASSNAME(void)
 	// Constructor
 }
 
-CLASSNAME::CLASSNAME(CLASSNAME const & src)
+CLASSNAME::CLASSNAME(const CLASSNAME &src)
 {
 	// Copy constructor
 	*this = src;
@@ -233,6 +234,12 @@ CLASSNAME::CLASSNAME(CLASSNAME const & src)
 CLASSNAME::~CLASSNAME(void)
 {
 	// Destructor
+}
+
+CLASSNAME&	CLASSNAME::operator=(const CLASSNAME &rhs)
+{
+	// Copy assignment overload
+	return (*this);
 }
 endef
 

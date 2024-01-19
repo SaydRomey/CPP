@@ -102,58 +102,15 @@ get_pdf: | $(TMP_DIR)
 
 .PHONY: pdf get_pdf
 # **************************************************************************** #
-define CLASS_HEADER
-
-#ifndef CLASSNAME_UPPER_HPP
-# define CLASSNAME_UPPER_HPP
-
-class CLASSNAME
-{
-	public:
-		CLASSNAME(void);
-		CLASSNAME(CLASSNAME const & src);
-		~CLASSNAME(void);
-
-		CLASSNAME & operator=(CLASSNAME const & rhs);
-
-	private:
-};
-
-#endif // CLASSNAME_UPPER_HPP
-endef
-
-export CLASS_HEADER
-
-define CLASS_CPP
-
-#include "CLASSNAME.hpp"
-
-CLASSNAME::CLASSNAME(void)
-{
-	// Constructor
-}
-
-CLASSNAME::CLASSNAME(CLASSNAME const & src)
-{
-	// Copy constructor
-	*this = src;
-}
-
-CLASSNAME::~CLASSNAME(void)
-{
-	// Destructor
-}
-endef
-
-export CLASS_CPP
-
+# --------------------------------- CLASS ------------------------------------ #
+# **************************************************************************** #
 class:
 	@echo "Enter the class name: "; \
 	read classname; \
 	classname_upper=`echo $$classname | tr a-z A-Z`; \
 	if [ -f inc/$$classname.hpp ] || [ -f src/$$classname.cpp ]; then \
 		read -p "Files exist. Overwrite? [y/N]: " confirm; \
-		if [ "$$confirm" != "y" ] || [ "$$confirm" != "Y" ]; then \
+		if [ "$$confirm" != "y" ] && [ "$$confirm" != "Y" ]; then \
 			echo "Canceling class creation"; \
 			exit 1; \
 		fi; \
@@ -180,6 +137,59 @@ ffclean: fclean
 	@$(REMOVE) $(TMP_DIR)
 
 .PHONY: run ffclean
+# **************************************************************************** #
+# ------------------------------- TEMPLATES ---------------------------------- #
+# **************************************************************************** #
+define CLASS_HEADER
+
+#ifndef CLASSNAME_UPPER_HPP
+# define CLASSNAME_UPPER_HPP
+
+class CLASSNAME
+{
+	public:
+		CLASSNAME(void);
+		CLASSNAME(const CLASSNAME &src);
+		~CLASSNAME(void);
+
+		CLASSNAME&	operator=(const CLASSNAME &rhs);
+
+	private:
+};
+
+#endif // CLASSNAME_UPPER_HPP
+endef
+
+export CLASS_HEADER
+# **************************************************************************** #
+define CLASS_CPP
+
+#include "CLASSNAME.hpp"
+
+CLASSNAME::CLASSNAME(void)
+{
+	// Constructor
+}
+
+CLASSNAME::CLASSNAME(const CLASSNAME &src)
+{
+	// Copy constructor
+	*this = src;
+}
+
+CLASSNAME::~CLASSNAME(void)
+{
+	// Destructor
+}
+
+CLASSNAME&	CLASSNAME::operator=(const CLASSNAME &rhs)
+{
+	// Copy assignment overload
+	return (*this);
+}
+endef
+
+export CLASS_CPP
 # **************************************************************************** #
 ESC			:= \033
 

@@ -34,10 +34,10 @@ Fixed	Point::getY(void) const
 
 Point&	Point::operator=(const Point &rhs)
 {
-    if (this != &rhs)
+	if (this != &rhs)
 	{
-        const_cast<Fixed&>(this->_x) = rhs._x;
-        const_cast<Fixed&>(this->_y) = rhs._y;
-    }
-    return (*this);
+		const_cast<Fixed&>(this->_x) = rhs._x;
+		const_cast<Fixed&>(this->_y) = rhs._y;
+	}
+	return (*this);
 }

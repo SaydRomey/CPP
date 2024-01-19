@@ -141,7 +141,7 @@ class:
 	classname_upper=`echo $$classname | tr a-z A-Z`; \
 	if [ -f inc/$$classname.hpp ] || [ -f src/$$classname.cpp ]; then \
 		read -p "Files exist. Overwrite? [y/N]: " confirm; \
-		if [ "$$confirm" != "y" ] || [ "$$confirm" != "Y" ]; then \
+		if [ "$$confirm" != "y" ] && [ "$$confirm" != "Y" ]; then \
 			echo "Canceling class creation"; \
 			exit 1; \
 		fi; \
