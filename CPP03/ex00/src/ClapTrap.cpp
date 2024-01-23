@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:51:14 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 20:05:00 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/22 20:18:43 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,16 +158,15 @@ void	ClapTrap::isNotAble(std::string str) const
 	if (str.empty())
 		str = "";
 	if (_hitPoints == 0)
-		std::cout << _name << " is out of commission..." << std::endl;
+		std::cout << *this << " is out of commission..." << std::endl;
 	else if (_energyPoints == 0)
-		std::cout << _name << " has no energy left" << str << std::endl;
+		std::cout << *this << " has no energy left" << str << std::endl;
 }
 
 /* ************************************************************************** */
 
 std::ostream&	operator<<(std::ostream &out, ClapTrap const &rhs)
 {
-	// rhs.printStats();
 	out << "ClapTrap " << rhs.getName();
 	return(out);
 }
