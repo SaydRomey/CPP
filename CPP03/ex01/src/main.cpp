@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 20:09:32 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 21:35:33 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/22 23:16:56 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	testSnapFight(std::string name, \
 	std::cout << "\n[ " << colorName << " VS " << enemy << " ]\n" << std::endl;
 
 	ScavTrap	snap(colorName);
-	trapStat(snap, (snap.getName() + " was constructed"));
+	trapStat(snap, ("Constructed " + snap.getName()));
 
 	snap.attack(enemy);
 	trapStat(snap, "Attacked an enemy");
@@ -85,9 +85,9 @@ void	testSnapFight(std::string name, \
 
 int	main(void)
 {
-	// testBasicConstructor();
-	// testCopyconstructor();
-	// testAssignationOperator();
+	testBasicConstructor();
+	testCopyconstructor();
+	testAssignationOperator();
 
 	testSnapFight("Snapp");
 

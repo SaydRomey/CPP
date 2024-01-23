@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 20:10:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 21:38:25 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/22 23:10:24 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ ScavTrap::ScavTrap(void) : ClapTrap()
 	this->_hitPoints = SCAV_HP;
 	this->_energyPoints = SCAV_EP;
 	this->_attackDamage = SCAV_AD;
-	std::cout << "Default " << *this << " constructed" << std::endl;
+	std::cout << "Default ScavTrap " << _name << " constructed" << std::endl;
 }
 
 ScavTrap::ScavTrap(const std::string name) : ClapTrap(name)
@@ -29,29 +29,29 @@ ScavTrap::ScavTrap(const std::string name) : ClapTrap(name)
 	this->_hitPoints = SCAV_HP;
 	this->_energyPoints = SCAV_EP;
 	this->_attackDamage = SCAV_AD;
-	std::cout << *this << " has been constructed" << std::endl;
+	std::cout << "ScavTrap " << _name << " has been constructed" << std::endl;
 }
 
 ScavTrap::ScavTrap(const ScavTrap &rhs) : ClapTrap()
 {
 	*this = rhs;
 	this->_name.append("'s clone");
-	std::cout << *this << " has been copy-constructed" << std::endl;
+	std::cout << "ScavTrap " << _name << " has been copy-constructed" << std::endl;
 }
 
 ScavTrap::~ScavTrap(void)
 {
-	std::cout << *this << " has returned to the void" << std::endl;
+	std::cout << "ScavTrap " << _name << " has returned to the void" << std::endl;
 }
 
 ScavTrap&	ScavTrap::operator=(const ScavTrap &rhs)
 {
 	if (_name.empty()) // when instance is copy constructed
-		std::cout << "Copying " << rhs \
+		std::cout << "Copying ScavTrap " << rhs._name \
 		<< "'s data in new shell" << std::endl;
 	else
-		std::cout << "Reformating " << *this \
-		<< " with " << rhs << "'s data" << std::endl;
+		std::cout << "Reformating ScavTrap " << _name \
+		<< " with ScavTrap " << rhs._name << "'s data" << std::endl;
 	if (this != &rhs)
 	{
 		this->_name = rhs._name;
@@ -67,30 +67,18 @@ ScavTrap&	ScavTrap::operator=(const ScavTrap &rhs)
 
 void	ScavTrap::attack(const std::string &target)
 {
-	if (isAble())
+	if (_energyPoints > 0 && _hitPoints > 0)
 	{
-		std::cout << *this << " attacks " << target << ", causing " \
+		std::cout << "ScavTrap " << _name << " attacks " << target << ", causing " \
 		<< CYAN << _attackDamage << RESET << " points of damage" << std::endl;
 		_energyPoints--;
-		// std::cout << *this << "'s energy total is now " << _energyPoints << std::endl;
 	}
 	else
-		isNotAble(" to attack");
+		std::cout << "ScavTrap " << _name << "can't attack" << std::endl;
 }
 
 void	ScavTrap::guardGate(void)
 {
-	std::cout << *this << " is now in Gate Keeper mode" << std::endl;
+	std::cout << "ScavTrap " << _name << " is now in Gate Keeper mode" << std::endl;
 	std::cout << ORANGE << SCAV_MSG << RESET << std::endl;
-}
-
-
-
-/* ************************************************************************** */
-
-std::ostream&	operator<<(std::ostream &out, ScavTrap const &rhs)
-{
-	out << rhs.getName();
-	// out << "ScavTrap " << rhs.getName();
-	return(out);
 }

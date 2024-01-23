@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 20:09:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 21:32:53 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/22 22:55:18 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,6 @@ class ScavTrap : public ClapTrap
 	
 		void	attack(const std::string &target);
 		void	guardGate(void);
-
-	protected:
-
-		std::string	_name;
-		int			_hitPoints;
-		int			_energyPoints;
-		int			_attackDamage;
-
 };
-
-std::ostream&	operator<<(std::ostream &out, ScavTrap const &rhs);
 
 #endif // SCAVTRAP_HPP
