@@ -69,26 +69,8 @@ re: fclean all
 GIT_URL		:= https://github.com/SaydRomey/42_ressources
 
 pdf:
-	@echo "Select pdf"
-	@echo "0. Module 00"
-	@echo "1. Module 01"
-	@echo "2. Module 02"
-	@echo "3. Module 03"
-	@echo "4. Module 04"
-	@read pdf_choice; \
-	case $$pdf_choice in \
-		0) MODULE=cpp00;; \
-		1) MODULE=cpp01;; \
-		2) MODULE=cpp02;; \
-		3) MODULE=cpp03;; \
-		4) MODULE=cpp04;; \
-		*) echo "Invalid choice. Exiting." ; exit 1;; \
-	esac; \
-	$(MAKE) get_pdf MODULE=$$MODULE $(NPD) $$NPD
-
-# pdf:
-# 	@echo "Obtaining pdf..."
-# 	@$(MAKE) get_pdf MODULE=cpp00 $(NPD)
+	@echo "Obtaining pdf..."
+	@$(MAKE) get_pdf MODULE=cpp00 $(NPD)
 
 get_pdf: | $(TMP_DIR)
 	@PDF=$(MODULE)_en.pdf; \
@@ -141,7 +123,6 @@ ffclean: fclean
 # ------------------------------- TEMPLATES ---------------------------------- #
 # **************************************************************************** #
 define CLASS_HEADER
-
 #ifndef CLASSNAME_UPPER_HPP
 # define CLASSNAME_UPPER_HPP
 
@@ -163,7 +144,6 @@ endef
 export CLASS_HEADER
 # **************************************************************************** #
 define CLASS_CPP
-
 #include "CLASSNAME.hpp"
 
 CLASSNAME::CLASSNAME(void)

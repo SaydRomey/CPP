@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:44:49 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 20:03:28 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/22 21:22:14 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void	testSnapFight(std::string name, \
 	std::string color=PURPLE, std::string enemyColor=BOLD)
 {
 	std::string	colorName(color + name + RESET);
-	std::string	enemy(enemyColor + name + RESET);
-	// std::string	enemy("\033[1mEnemy\033[0m");
+	std::string	enemy(enemyColor + "Enemy" + RESET);
 	std::cout << "\n[ " << colorName << " VS " << enemy << " ]\n" << std::endl;
 
 	ClapTrap	snap(colorName);
