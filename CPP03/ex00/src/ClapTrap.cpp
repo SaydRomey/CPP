@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:51:14 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 20:18:43 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:27:25 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ ClapTrap&	ClapTrap::operator=(const ClapTrap &rhs)
 		std::cout << "Copying " << rhs \
 		<< "'s data in new shell" << std::endl;
 	else
-		std::cout << "Reformating " << *this \
+		std::cout << "Reformatting " << *this \
 		<< " with " << rhs << "'s data" << std::endl;
 	if (this != &rhs)
 	{

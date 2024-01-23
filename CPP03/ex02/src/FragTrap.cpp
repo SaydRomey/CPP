@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:30:52 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 23:32:29 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:28:13 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ FragTrap&	FragTrap::operator=(const FragTrap &rhs)
 		std::cout << "Copying FragTrap " << rhs._name \
 		<< "'s data in new shell" << std::endl;
 	else
-		std::cout << "Reformating FragTrap " << _name \
+		std::cout << "Reformatting " << _name \
 		<< " with FragTrap " << rhs._name << "'s data" << std::endl;
 	if (this != &rhs)
 	{
@@ -79,6 +79,6 @@ void	FragTrap::attack(const std::string &target)
 
 void	FragTrap::highFivesGuys(void)
 {
-	std::cout << "FragTrap " << _name << " requests a positive high five!" << std::endl;
-	// std::cout << ORANGE << FRAG_MSG << RESET << std::endl;
+	std::cout << "FragTrap " << _name << " requests a positive high five" << std::endl;
+	std::cout << ORANGE << FRAG_MSG << RESET << std::endl;
 }

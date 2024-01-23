@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 11:33:08 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 11:53:49 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:13:32 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "FragTrap.hpp"
 # include "ScavTrap.hpp"
+
+# define DIAMNAME	"D14M0ND-TP"
+
 
 class DiamondTrap : public FragTrap, public ScavTrap
 {

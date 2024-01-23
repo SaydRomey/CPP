@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 20:09:32 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 23:16:56 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 14:46:39 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	testBasicConstructor(void)
 {
 	std::cout << ORANGE << "\n[Default and String]" << RESET << std::endl;
 
-	ScavTrap	nameless; // will be named CLP-T4P
+	ScavTrap	nameless; // will be named SC4V-TP
 	ScavTrap	clappy("Clappy");
 
 	std::cout << std::endl;
@@ -85,9 +85,9 @@ void	testSnapFight(std::string name, \
 
 int	main(void)
 {
-	testBasicConstructor();
-	testCopyconstructor();
-	testAssignationOperator();
+	// testBasicConstructor();
+	// testCopyconstructor();
+	// testAssignationOperator();
 
 	testSnapFight("Snapp");
 

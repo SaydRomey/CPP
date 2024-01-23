@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:51:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 22:50:55 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 14:06:20 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 # define BOLD		"\033[1m"
 # define ITALIC		"\033[3m"
 # define UNDERLINE	"\033[4m"
-# define RED		"\033[91m"
-# define GREEN		"\033[32m"
+# define RED		"\033[91m"	// takeDamage()
+# define GREEN		"\033[32m"	// beRepaired()
 # define YELLOW		"\033[93m"
 # define ORANGE		"\033[38;5;208m"
 # define BLUE		"\033[94m"
 # define PURPLE		"\033[95m"
-# define CYAN		"\033[96m"
-# define GRAY		"\033[90m"
+# define CYAN		"\033[96m"	// attack()
+# define GRAY		"\033[90m"	// 
 
 # define CLAPNAME	"CL4P-TP"	// Default Name
 # define CLAP_HP	10			// Hit Points

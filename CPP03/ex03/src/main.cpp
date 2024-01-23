@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:32:55 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 11:51:56 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:41:14 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,17 @@ void	testSnapFight(std::string name, \
 	snap.attack(enemy);
 	trapStat(snap, "Attacked an enemy");
 
-	snap.whoAmI();
-
 	snap.takeDamage(42);
+
+	snap.whoAmI();
+	std::cout << std::endl;
 }
 
 int	main(void)
 {
-	testBasicConstructor();
-	testCopyconstructor();
-	testAssignationOperator();
+	// testBasicConstructor();
+	// testCopyconstructor();
+	// testAssignationOperator();
 
 	testSnapFight("Snapp");
 

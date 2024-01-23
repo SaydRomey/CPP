@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 20:10:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 23:10:24 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:28:41 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ ScavTrap::~ScavTrap(void)
 ScavTrap&	ScavTrap::operator=(const ScavTrap &rhs)
 {
 	if (_name.empty()) // when instance is copy constructed
-		std::cout << "Copying ScavTrap " << rhs._name \
+		std::cout << "Copying " << rhs._name \
 		<< "'s data in new shell" << std::endl;
 	else
-		std::cout << "Reformating ScavTrap " << _name \
+		std::cout << "Reformatting ScavTrap " << _name \
 		<< " with ScavTrap " << rhs._name << "'s data" << std::endl;
 	if (this != &rhs)
 	{

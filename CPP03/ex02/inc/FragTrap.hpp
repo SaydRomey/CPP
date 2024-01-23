@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:22:32 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 23:38:55 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:10:08 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 # define FRAG_HP	100			// Hit Points
 # define FRAG_EP	100			// Energy Points
 # define FRAG_AD	30			// Attack Damage
-// # define FRAG_MSG
+# define FRAG_MSG	"High Five! Up Top!! \n\
+* recieves a high five *\n\
+WE'RE BEST FRIENDS !!!"
+
 
 class FragTrap : public ClapTrap
 {

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:44:49 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 21:22:14 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 14:46:14 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	trapStat(const ClapTrap &rhs, std::string details = "")
 
 void	testBasicConstructor(void)
 {
-	std::cout << ORANGE << "[Default and String]" << RESET << std::endl;
+	std::cout << ORANGE << "\n[Default and String]" << RESET << std::endl;
 
-	ClapTrap	nameless; // will be named CLP-T4P
+	ClapTrap	nameless; // will be named CL4P-TP
 	ClapTrap	clappy("Clappy");
 
 	std::cout << std::endl;
@@ -42,7 +42,7 @@ void	testBasicConstructor(void)
 
 void	testCopyconstructor(void)
 {
-	std::cout << ORANGE << "[Copy]" << RESET << std::endl;
+	std::cout << ORANGE << "\n[Copy]" << RESET << std::endl;
 
 	ClapTrap	sloan("Sloan");
 	ClapTrap	clone(sloan);
@@ -52,7 +52,7 @@ void	testCopyconstructor(void)
 
 void	testAssignationOperator(void)
 {
-	std::cout << ORANGE << "[Assignation]" << RESET << std::endl;
+	std::cout << ORANGE << "\n[Assignation]" << RESET << std::endl;
 
 	ClapTrap	nameless;
 	ClapTrap	clappy("Clappy");

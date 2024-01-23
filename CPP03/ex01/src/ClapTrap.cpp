@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:51:14 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 23:15:52 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:27:37 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ ClapTrap::~ClapTrap(void)
 
 ClapTrap&	ClapTrap::operator=(const ClapTrap &rhs)
 {
-	if (_name.empty()) // when instance is copy constructed
+	if (_name.empty())
 		std::cout << "Copying ClapTrap " << rhs._name \
 		<< "'s data in new shell" << std::endl;
 	else
-		std::cout << "Reformating " << "ClapTrap " << _name \
+		std::cout << "Reformatting " << "ClapTrap " << _name \
 		<< " with " << "ClapTrap " << rhs._name << "'s data" << std::endl;
 	if (this != &rhs)
 	{
@@ -71,8 +71,9 @@ void	ClapTrap::attack(const std::string &target)
 {
 	if (isAble())
 	{
-		std::cout << "ClapTrap " << _name << " attacks " << target << ", causing " \
-		<< CYAN << _attackDamage << RESET << " points of damage" << std::endl;
+		std::cout << "ClapTrap " << _name << " attacks " << target \
+		<< ", causing " << CYAN << _attackDamage << RESET \
+		<< " points of damage" << std::endl;
 		_energyPoints--;
 	}
 	else
@@ -101,10 +102,12 @@ void	ClapTrap::beRepaired(unsigned int amount)
 	if (isAble())
 	{
 		if (_hitPoints == CLAP_HP)
-			std::cout << "ClapTrap " << _name << " is at full health" << std::endl;
+			std::cout << "ClapTrap " << _name \
+			<< " is at full health" << std::endl;
 		else if ((_hitPoints + amount) >= CLAP_HP)
 		{
-			std::cout << "ClapTrap " << _name << " is back at full health" << std::endl;
+			std::cout << "ClapTrap " << _name \
+			<< " is back at full health" << std::endl;
 			_hitPoints = CLAP_HP;
 		}
 		else
@@ -112,10 +115,8 @@ void	ClapTrap::beRepaired(unsigned int amount)
 			_hitPoints += amount;
 			std::cout << "ClapTrap " << _name << " repairs " \
 			<< GREEN << amount << RESET << " damage" << std::endl;
-			// std::cout << _name << "'s life total is now " << _hitPoints << std::endl;
 		}
 		_energyPoints--;
-		// std::cout << _name << "'s energy total is now " << _energyPoints << std::endl;
 	}
 	else
 		isNotAble(" to repair itself");
