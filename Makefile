@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/18 15:50:12 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/22 17:23:29 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -182,7 +182,6 @@ new:
 # ------------------------------- TEMPLATES ---------------------------------- #
 # **************************************************************************** #
 define MAIN_CPP
-
 #include <iostream>
 
 int	main(void)
@@ -195,7 +194,6 @@ endef
 export MAIN_CPP
 # **************************************************************************** #
 define CLASS_HEADER
-
 #ifndef CLASSNAME_UPPER_HPP
 # define CLASSNAME_UPPER_HPP
 
@@ -217,7 +215,6 @@ endef
 export CLASS_HEADER
 # **************************************************************************** #
 define CLASS_CPP
-
 #include "CLASSNAME.hpp"
 
 CLASSNAME::CLASSNAME(void)

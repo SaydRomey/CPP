@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:15:40 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/18 14:18:01 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/22 17:35:16 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Point
 		Fixed	getY(void) const;
 
 		Point&	operator=(const Point &rhs); //should we put this in private for this class ?
+		// check idea of having two '=' overload for const and non const instead of const casting
 
 	private:
 	

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:39:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/17 21:40:39 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/22 17:38:10 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(void)
 	Point	vertexA(0, 0);
 	Point	vertexB(0, 3);
 	Point	vertexC(4, 0);
-
+	
 	// Create test points
 	Point	insidePoint(1, 1);   // Should be inside the triangle
 	Point	outsidePoint(5, 5);  // Should be outside the triangle
