@@ -1,8 +1,10 @@
 
-NAME		:=	NowItsWeird
+NAME		:=	RepetitiveWork
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
+# C_FLAGS		:=	$(C_FLAGS) -Wshadow
+# C_FLAGS		:=	$(C_FLAGS) -Wno-shadow
 STANDARD	:=	-std=c++98
 
 INC_DIR		:=	inc

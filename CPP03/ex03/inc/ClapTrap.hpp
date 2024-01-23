@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:51:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/22 22:50:55 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/22 22:52:45 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,20 @@ class ClapTrap
 		ClapTrap(void);
 		ClapTrap(const std::string name);
 		ClapTrap(const ClapTrap &src);
-		~ClapTrap(void);
+		virtual		~ClapTrap(void);
 
 		ClapTrap&	operator=(const ClapTrap &rhs);
 	
-		void	attack(const std::string &target);
-		void	takeDamage(unsigned int amount);
-		void	beRepaired(unsigned int amount);
+		virtual void	attack(const std::string &target);
+		void			takeDamage(unsigned int amount);
+		void			beRepaired(unsigned int amount);
 	
 		const std::string	&getName(void) const;
 		const int			&getHitPoints(void) const;
 		const int			&getEnergyPoints(void) const;
 		const int			&getAttackDamage(void) const;
 
-	private:
+	protected:
 
 		std::string	_name;
 		int			_hitPoints;
@@ -66,7 +66,5 @@ class ClapTrap
 		void		isNotAble(std::string str = " to continue") const;
 
 };
-
-std::ostream&	operator<<(std::ostream &out, ClapTrap const &rhs);
 
 #endif // CLAPTRAP_HPP
