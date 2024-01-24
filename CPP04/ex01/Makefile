@@ -5,12 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/24 13:03:05 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/24 13:03:08 by cdumais          ###   ########.fr        #
+#    Created: 2024/01/24 13:02:57 by cdumais           #+#    #+#              #
+#    Updated: 2024/01/24 13:03:00 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:=	Polymorphism
+NAME		:=	IDontWantToSetTheWorldOnFire
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror

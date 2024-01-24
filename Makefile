@@ -6,9 +6,11 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/22 17:23:29 by cdumais          ###   ########.fr        #
+#    Updated: 2024/01/24 16:04:00 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# TODO: adapt the pdf module to match the chosen module when 'make new' copies the Makefile.template
 
 NAME		:=	CPP
 INC_DIR		:=	inc

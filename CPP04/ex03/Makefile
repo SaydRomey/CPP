@@ -5,12 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/24 13:03:05 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/24 13:03:08 by cdumais          ###   ########.fr        #
+#    Created: 2024/01/24 15:01:56 by cdumais           #+#    #+#              #
+#    Updated: 2024/01/24 15:02:11 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:=	Polymorphism
+NAME		:=	InterfaceAndRecap
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
