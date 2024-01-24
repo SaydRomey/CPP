@@ -1,5 +1,5 @@
 
-NAME		:=	Placeholder
+NAME		:=	Polymorphism
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
@@ -70,7 +70,7 @@ GIT_URL		:= https://github.com/SaydRomey/42_ressources
 
 pdf:
 	@echo "Obtaining pdf..."
-	@$(MAKE) get_pdf MODULE=cpp00 $(NPD)
+	@$(MAKE) get_pdf MODULE=cpp04 $(NPD)
 
 get_pdf: | $(TMP_DIR)
 	@PDF=$(MODULE)_en.pdf; \
