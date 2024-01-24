@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:54:10 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 14:59:49 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 18:03:34 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	AanimalArrayTest(void)
 
 int	main(void)
 {
-	// AAnimal	animal; //attempt to instantiate AAnimal directly (should fail)
+	// AAnimal	animal; //uncomment to attempt to instantiate AAnimal directly (should fail)
 
 	AanimalArrayTest();
 
