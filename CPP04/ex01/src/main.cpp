@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:54:10 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 14:58:41 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 18:00:15 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,62 @@
 #include "Cat.hpp"
 #include <iostream>
 
+using std::string;
+using std::cout;
+using std::endl;
+
 #define RESET	"\033[0m"
 #define PURPLE	"\033[95m"
 #define ORANGE	"\033[38;5;208m"
 
 void	print(std::string str, std::string color = ORANGE)
 {
-	std::cout << color << "\n[ " << str << " ]" << RESET << std::endl;
+	cout << color << "\n[ " << str << " ]" << RESET << endl;
 }
 
 void	printIndex(int index, bool nl=false)
 {
-	std::cout << PURPLE << "[" << index << "] " << RESET << (nl? "\n" : " ");
+	cout << PURPLE << "[" << index << "] " << RESET << (nl? "\n" : " ");
+}
+
+void	printIndex(int index, string str, bool nl=false)
+{
+	cout << str << PURPLE << "[" << index << "] " << RESET << (nl? "\n" : " ");
 }
 
 /* ************************************************************************** */
 
 void	testFromPdf(void)
 {
+	print("*** PDF TEST ***", PURPLE);
+
 	print("Animal* puppy = new Dog()");
 	const Animal*	puppy = new Dog();
 	print("Animal* puppy = new Cat()");
 	const Animal*	kitten = new Cat();
 
+	print("puppy->getType() + puppy->makeSound()");
+	cout << puppy->getType() << ": ";
+	puppy->makeSound();
+
+	print("kitten->getType() + kitten->makeSound()");
+	cout << kitten->getType() << ": ";
+	kitten->makeSound();
+
 	print("delete puppy");
-	delete puppy; //should not create a leak
+	delete puppy;
 	print("delete kitten");
 	delete kitten;
-	// ...
 }
 
 void	animalArrayTest(void)
 {
+	print("*** ARRAY TEST ***", PURPLE);
+
 	Animal*	animals[10]; //array of 10 Animal pointers
 
 	int	i = 0;
-	print("loop to fill 'animal[10] array");
+	print("loop to fill 'animal[10] array with pointers to new objects");
 	while (i < 10)
 	{
 		if (i < 5)
@@ -65,14 +85,12 @@ void	animalArrayTest(void)
 		}
 		i++;
 	}
-	print("animal[10] now has 5 'Dog' objects and 5 'Cat' objects");
-
-	print("tests with this array... (implement getters and setters for ideas ? )");
+	print("call 'makeSound()' function on each object");
 	i = 0;
 	while (i < 10)
 	{
-		printIndex(i);
-		animals[i]->makeSound(); //tmp if we use ideas instead..
+		printIndex(i, string("animal"));
+		animals[i]->makeSound();
 		i++;
 	}
 
@@ -87,32 +105,38 @@ void	animalArrayTest(void)
 	
 }
 
+void	setAndGetIdeaTest(void)
+{
+	print("*** IDEA SET AND GET TEST ***\n(also copy constructor)", PURPLE);
+
+	print("Dog* puppy = new Dog()");
+	Dog*	puppy = new Dog();
+
+	print("setIdea(\"Random thought\", 42)");
+	puppy->setIdea("Random thought", 42);
+
+	print("puppy->getIdea(42)");
+	cout << puppy->getIdea(42) << endl;
+	print("puppy->getIdea(41) (empty idea)");
+	cout << puppy->getIdea(41) << endl;
+
+	print("Dog fluffyboy(*puppy)");
+	Dog	fluffyboy(*puppy);
+
+	print("delete puppy");
+	delete puppy;
+
+	print("fluffyboy.getIdea(42)");
+	cout << fluffyboy.getIdea(42) << endl << endl;
+}
+
 int	main(void)
 {
 	testFromPdf();
 
 	animalArrayTest();
 
+	setAndGetIdeaTest();
+
 	return (0);
 }
-
-/*
-
-Files to turn in : Files from previous exercise + *.cpp, *.{h, hpp}
-
-Constructors and destructors of each class must display specific messages.
-Implement a Brain class.
-It contains an array of 100 std::string called ideas.
-This way, Dog and Cat will have a private Brain* attribute.
-Upon construction, Dog and Cat will create their Brain using new Brain();
-Upon destruction, Dog and Cat will delete their Brain.
-In your main function, create and fill an array of Animal objects.
-Half of it will be Dog objects and the other half will be Cat objects.
-At the end of your program execution, loop over this array and delete every Animal.
-You must delete directly dogs and cats as Animals.
-The appropriate destructors must be called in the expected order.
-Don’t forget to check for memory leaks.
-A copy of a Dog or a Cat mustn’t be shallow.
-Thus, you have to test that your copies are deep copies!
-
-*/

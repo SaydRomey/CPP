@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:40:02 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 14:57:50 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 17:48:41 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ Brain&	Brain::operator=(const Brain &other)
 {
 	if (this != &other)
 	{
-		// std::memcpy(ideas, other.ideas, 100 * sizeof(std::string)); //?
 		int	i = 0;
 		while (i < MAX_IDEAS)
 		{
@@ -43,4 +42,18 @@ Brain&	Brain::operator=(const Brain &other)
 Brain::~Brain(void)
 {
 	std::cout << "Brain destructor" << std::endl;
+}
+
+/* ************************************************************************** */
+
+void	Brain::setIdea(std::string idea, int index)
+{
+	// check if already an idea?
+	this->ideas[index] = idea;
+	std::cout << "Idea number " << index << " set" << std::endl;
+}
+
+const std::string&	Brain::getIdea(int index) const
+{
+	return (this->ideas[index]);
 }

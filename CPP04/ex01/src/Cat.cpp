@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:10:28 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 12:44:59 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 17:32:45 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,15 @@ Cat::~Cat(void)
 void	Cat::makeSound(void) const
 {
 	std::cout << "Meow" << std::endl;
+}
+
+/* ************************************************************************** */
+
+void	Cat::setIdea(std::string idea, int index)
+{
+	this->_brain->setIdea(idea, index);
+}
+const std::string&	Cat::getIdea(int index) const
+{
+	return (this->_brain->getIdea(index));
 }

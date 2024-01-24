@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:09:47 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 12:46:07 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 17:31:57 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ class Cat : public Animal
 		Cat(const Cat &other);
 		Cat&	operator=(const Cat &other);
 		virtual ~Cat(void);
+
+		void				setIdea(std::string idea, int index);
+		const std::string&	getIdea(int index) const;
 
 		void	makeSound(void) const;
 

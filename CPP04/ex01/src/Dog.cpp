@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:10:08 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 12:47:21 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 17:42:50 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,15 @@ Dog::~Dog(void)
 void	Dog::makeSound(void) const
 {
 	std::cout << "Wouf Wouf" << std::endl;
+}
+
+/* ************************************************************************** */
+
+void	Dog::setIdea(std::string idea, int index)
+{
+	this->_brain->setIdea(idea, index);
+}
+const std::string&	Dog::getIdea(int index) const
+{
+	return (this->_brain->getIdea(index));
 }

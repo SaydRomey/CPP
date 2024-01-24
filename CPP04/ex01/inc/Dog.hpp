@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:09:20 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 12:46:16 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 17:33:10 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ class Dog : public Animal
 		Dog(const Dog &other);
 		Dog&	operator=(const Dog &other);
 		virtual ~Dog(void);
+
+		void				setIdea(std::string idea, int index);
+		const std::string&	getIdea(int index) const;
 
 		void	makeSound(void) const;
 
