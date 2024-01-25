@@ -6,46 +6,40 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:05:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 15:05:09 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 20:04:22 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AMATERIA_HPP
 # define AMATERIA_HPP
 
+# include "Character.hpp"
 # include <iostream>
 
+class ICharacter;
+class IMateriaSource;
+
+/*
+base class for different types of materias
+*/
 class AMateria
 {
 	public:
 
 		AMateria(void);
+		AMateria(const std::string &type);
 		AMateria(const AMateria &other);
 		AMateria&	operator=(const AMateria &other);
-		~AMateria(void);
+		virtual		~AMateria(void);
+
+		const std::string&	getType(void) const; // returns the materia type
+
+		virtual AMateria*	clone(void) const = 0; // pure virtual
+		virtual void		use(ICharacter &target);
+
+	protected:
+
+		std::string _type;
 };
 
 #endif // AMATERIA_HPP
-
-/*
-#ifndef AMATERIA_HPP
-#define AMATERIA_HPP
-
-#include <string>
-#include "ICharacter.hpp"
-
-class AMateria {
-protected:
-    std::string type;
-
-public:
-    AMateria(std::string const & type);
-    virtual ~AMateria();
-
-    std::string const & getType() const;
-    virtual AMateria* clone() const = 0;
-    virtual void use(ICharacter& target);
-};
-
-#endif
-*/

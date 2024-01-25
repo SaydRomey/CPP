@@ -6,80 +6,50 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:07:14 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 15:22:41 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/24 20:06:39 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATERIASOURCE_HPP
 # define MATERIASOURCE_HPP
 
+# include "AMateria.hpp"
 # include <iostream>
 
-class MateriaSource
+/*
+interface-like abstract class
+defines the interface for Materia sources
+only contains pure virtual functions
+*/
+class IMateriaSource
+{
+	public:
+
+		virtual	~IMateriaSource(void) {}
+		virtual void	learnMateria(AMateria*) = 0;
+		virtual AMateria*	createMateria(const std::string &type) = 0;
+};
+
+/*
+concrete class
+implements the IMateriaSource interface
+manages learning and creating Materias
+*/
+class MateriaSource : public IMateriaSource
 {
 	public:
 
 		MateriaSource(void);
 		MateriaSource(const MateriaSource &other);
 		MateriaSource&	operator=(const MateriaSource &other);
-		~MateriaSource(void);
+		virtual	~MateriaSource(void);
+
+		virtual void		learnMateria(AMateria*);
+		virtual AMateria*	createMateria(const std::string &type);
+	
+	private:
+
+		AMateria*	_learnedMaterias[4];
 };
 
 #endif // MATERIASOURCE_HPP
-
-/*
-#ifndef MATERIASOURCE_HPP
-#define MATERIASOURCE_HPP
-
-#include "IMateriaSource.hpp"
-
-class MateriaSource : public IMateriaSource {
-    // ... details ...
-};
-
-#endif
-*/
-/*
-#ifndef MATERIASOURCE_HPP
-#define MATERIASOURCE_HPP
-
-#include "IMateriaSource.hpp"
-
-class MateriaSource : public IMateriaSource {
-private:
-    AMateria* templates[4];
-
-public:
-    MateriaSource();
-    MateriaSource(const MateriaSource &src);
-    MateriaSource& operator=(const MateriaSource &rhs);
-    virtual ~MateriaSource();
-
-    virtual void learnMateria(AMateria*);
-    virtual AMateria* createMateria(std::string const & type);
-};
-
-#endif
-*/
-/*
-#ifndef MATERIASOURCE_HPP
-#define MATERIASOURCE_HPP
-
-#include "IMateriaSource.hpp"
-
-class MateriaSource : public IMateriaSource {
-private:
-    AMateria* learnedMaterias[4];
-
-public:
-    MateriaSource();
-    MateriaSource(const MateriaSource &source);
-    MateriaSource &operator=(const MateriaSource &source);
-    virtual ~MateriaSource();
-
-    virtual void learnMateria(AMateria*);
-    virtual AMateria* createMateria(std::string const & type);
-};
-
-#endif
-*/
