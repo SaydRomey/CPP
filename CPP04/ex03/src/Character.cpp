@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:08:02 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 19:41:10 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/29 13:11:43 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,17 @@ MateriaNode*	Character::_floorMateriaHead = NULL;
 
 /* ************************************************************************** */
 
-// Character::Character(void)
-// {
-// 	std::cout << "Character default constructor" << std::endl;
-// }
+Character::Character(void) : _name("")
+{
+	int	i = 0;
+	while (i < 4)
+	{
+		_inventory[i] = NULL;
+		i++;
+	}
+	std::cout << GRAYTALIC << "Character default constructor" \
+	<< RESET << std::endl;
+}
 
 Character::Character(const std::string &name) : _name(name)
 {
@@ -37,6 +44,8 @@ Character::Character(const std::string &name) : _name(name)
 		_inventory[i] = NULL;
 		i++;
 	}
+	std::cout << GRAYTALIC << "Character param(string) constructor: " \
+	<< _name << RESET << std::endl;
 }
 
 Character::Character(const Character &other) : _name(other._name)
@@ -51,6 +60,8 @@ Character::Character(const Character &other) : _name(other._name)
 		i++;
 	}
 	*this = other;
+	std::cout << GRAYTALIC << "Character copy constructor" \
+	<< _name << RESET << std::endl;
 }
 
 Character&	Character::operator=(const Character &other)
@@ -81,7 +92,8 @@ Character::~Character(void)
 		i++;
 	}
 	clearFloorMaterias();
-	std::cout << "Character default destructor" << std::endl;
+	std::cout << GRAYTALIC << "Character default destructor" \
+	<< RESET << std::endl;
 }
 
 /* ************************************************************************** */
@@ -99,6 +111,8 @@ void	Character::equip(AMateria* m)
 		if (_inventory[i] == NULL)
 		{
 			_inventory[i] = m;
+			std::cout << "Equipped '" << m->getType() \
+			<< "' in Character slot " << i << std::endl;
 			break;
 		}
 		i++;
@@ -112,6 +126,8 @@ void	Character::unequip(int idx)
 		MateriaNode*	node = new MateriaNode(_inventory[idx]);
 		node->next = _floorMateriaHead;
 		_floorMateriaHead = node;
+		std::cout << "unequipped '" << _inventory[idx]->getType() \
+		<< "' from Character slot " << idx << std::endl;
 		_inventory[idx] = NULL;
 	}
 }

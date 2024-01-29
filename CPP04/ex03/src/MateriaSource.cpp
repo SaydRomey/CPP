@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:09:13 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 19:50:26 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/29 13:26:39 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@ MateriaSource::MateriaSource(void)
 		_learnedMaterias[i] = NULL;
 		i++;
 	}
-	std::cout << "MateriaSource default constructor" << std::endl;
+	std::cout << GRAYTALIC << "MateriaSource default constructor" \
+	<< RESET << std::endl;
 }
 
 MateriaSource::MateriaSource(const MateriaSource &other)
 {
+	std::cout << GRAYTALIC << "MateriaSource copy constructor" \
+	<< RESET << std::endl;
 	*this = other;
 }
 
@@ -36,7 +39,11 @@ MateriaSource&	MateriaSource::operator=(const MateriaSource &other)
 		while (i < 4)
 		{
 			delete _learnedMaterias[i];
-			_learnedMaterias[i] = other._learnedMaterias[i] ? other._learnedMaterias[i]->clone() : NULL;
+			// _learnedMaterias[i] = other._learnedMaterias[i] ? other._learnedMaterias[i]->clone() : NULL;
+			if (other._learnedMaterias[i])
+				_learnedMaterias[i] = other._learnedMaterias[i]->clone();
+			else
+				_learnedMaterias[i] = NULL;
 			i++;
 		}
 	}
@@ -51,7 +58,8 @@ MateriaSource::~MateriaSource(void)
 		delete _learnedMaterias[i];
 		i++;
 	}
-	std::cout << "MateriaSource default destructor" << std::endl;
+	std::cout << GRAYTALIC << "MateriaSource default destructor" \
+	<< RESET << std::endl;
 }
 
 /* ************************************************************************** */
@@ -64,7 +72,8 @@ void	MateriaSource::learnMateria(AMateria* m)
 		if (_learnedMaterias[i] == NULL)
 		{
 			_learnedMaterias[i] = m;
-			// message about learned materia?
+			std::cout << "Materia '" << m->getType() \
+			<< "' placed in Materia slot " << i << std::endl;
 			break;
 		}
 		i++;
@@ -80,5 +89,6 @@ AMateria*	MateriaSource::createMateria(const std::string &type)
 			return (_learnedMaterias[i]->clone());
 		i++;
 	}
+	std::cout << "Invalid Materia" << std::endl;
 	return (NULL);
 }

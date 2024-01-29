@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:08:31 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 18:33:04 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/29 11:50:44 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 Ice::Ice(void) : AMateria("ice")
 {
-	std::cout << "Ice default constructor" << std::endl;
+	std::cout << GRAYTALIC << "Ice default constructor" << RESET << std::endl;
 }
 
 Ice::Ice(const Ice &other) : AMateria(other)
 {
-	// 
+	std::cout << GRAYTALIC << "Ice copy constructor" << RESET << std::endl;
 }
 
 Ice&	Ice::operator=(const Ice &other)
@@ -30,7 +30,7 @@ Ice&	Ice::operator=(const Ice &other)
 
 Ice::~Ice(void)
 {
-	std::cout << "Ice default destructor" << std::endl;
+	std::cout << GRAYTALIC << "Ice default destructor" << RESET << std::endl;
 }
 
 /* ************************************************************************** */
@@ -42,5 +42,6 @@ AMateria*	Ice::clone(void) const
 
 void	Ice::use(ICharacter &target)
 {
-	std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
+	std::cout << "* " << CYAN << "shoots an ice bolt at " \
+	<< target.getName() << RESET << " *" << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 18:36:59 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 18:38:46 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/29 11:50:31 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 Cure::Cure(void) : AMateria("cure")
 {
-	std::cout << "Cure default constructor" << std::endl;
+	std::cout << GRAYTALIC << "Cure default constructor" << RESET << std::endl;
 }
 
 Cure::Cure(const Cure &other) : AMateria(other)
 {
-	// 
+	std::cout << GRAYTALIC << "Cure copy constructor" << RESET << std::endl;
 }
 
 Cure&	Cure::operator=(const Cure &other)
@@ -30,7 +30,7 @@ Cure&	Cure::operator=(const Cure &other)
 
 Cure::~Cure(void)
 {
-	std::cout << "Cure default destructor" << std::endl;
+	std::cout << GRAYTALIC << "Cure default destructor" << RESET << std::endl;
 }
 
 /* ************************************************************************** */
@@ -42,5 +42,6 @@ AMateria*	Cure::clone(void) const
 
 void	Cure::use(ICharacter &target)
 {
-	std::cout << "* heals " << target.getName() << "'s wounds *" << std::endl;
+	std::cout << "* " << GREEN << "heals " \
+	<< target.getName() << "'s wounds" << RESET << " *" << std::endl;
 }

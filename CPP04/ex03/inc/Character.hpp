@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:06:23 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 20:16:24 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/29 13:12:57 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@
 # include "AMateria.hpp"
 # include <iostream>
 
+# define RESET		"\033[0m"
+# define GRAYTALIC	"\033[3;90m"
+
 class AMateria;
 
 /*
 utility structure for linked list
 used to manage unequiped ("floor") Materias
 shared amongst all 'Character' instances
+** first deleted 'Character' will delete this list' *
 */
 struct MateriaNode;
 
@@ -51,7 +55,7 @@ class Character : public ICharacter
 {
 	public:
 
-		// Character(void);
+		Character(void);
 		Character(const std::string &name);
 		Character(const Character &other);
 		Character&	operator=(const Character &other);

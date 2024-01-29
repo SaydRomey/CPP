@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:05:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/24 20:04:22 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/01/29 11:40:17 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include "Character.hpp"
 # include <iostream>
+
+# define RESET		"\033[0m"
+# define GREEN		"\033[32m"
+# define CYAN		"\033[96m"
+# define GRAYTALIC	"\033[3;90m"
 
 class ICharacter;
 class IMateriaSource;
