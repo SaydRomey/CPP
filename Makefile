@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/01/24 16:04:00 by cdumais          ###   ########.fr        #
+#    Updated: 2024/05/07 18:06:06 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,11 @@ pdf:
 	@echo "2. Module 02"
 	@echo "3. Module 03"
 	@echo "4. Module 04"
+	@echo "5. Module 05"
+	@echo "6. Module 06"
+	@echo "7. Module 07"
+	@echo "8. Module 08"
+	@echo "9. Module 09"
 	@read pdf_choice; \
 	case $$pdf_choice in \
 		0) MODULE=cpp00;; \
@@ -90,6 +95,11 @@ pdf:
 		2) MODULE=cpp02;; \
 		3) MODULE=cpp03;; \
 		4) MODULE=cpp04;; \
+		5) MODULE=cpp05;; \
+		6) MODULE=cpp06;; \
+		7) MODULE=cpp07;; \
+		8) MODULE=cpp08;; \
+		9) MODULE=cpp09;; \
 		*) echo "Invalid choice. Exiting." ; exit 1;; \
 	esac; \
 	$(MAKE) get_pdf MODULE=$$MODULE $(NPD) $$NPD
@@ -141,6 +151,11 @@ new:
 	@echo "2. Module 02"
 	@echo "3. Module 03"
 	@echo "4. Module 04"
+	@echo "5. Module 05"
+	@echo "6. Module 06"
+	@echo "7. Module 07"
+	@echo "8. Module 08"
+	@echo "9. Module 09"
 	@read module_choice; \
 	case $$module_choice in \
 		0) MODULE=CPP00;; \
@@ -148,6 +163,11 @@ new:
 		2) MODULE=CPP02;; \
 		3) MODULE=CPP03;; \
 		4) MODULE=CPP04;; \
+		5) MODULE=CPP05;; \
+		6) MODULE=CPP06;; \
+		7) MODULE=CPP07;; \
+		8) MODULE=CPP08;; \
+		9) MODULE=CPP09;; \
 		*) echo "Invalid choice. Exiting." ; exit 1;; \
 	esac; \
 	echo "Enter exercise number (e.g., 00, 01): "; \
