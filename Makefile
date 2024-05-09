@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/05/09 14:01:54 by cdumais          ###   ########.fr        #
+#    Updated: 2024/05/09 17:49:17 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -191,7 +191,11 @@ new:
 	mkdir -p $$exdir/$(SRC_DIR) $$exdir/$(INC_DIR); \
 	echo "$$MAIN_CPP" > $$exdir/$(SRC_DIR)/main.cpp; \
 	cp $(MAKEFILE_TEMPLATE) $$exdir/Makefile; \
-	sed -i '' "s/cpp00/cpp$$MODULE_NUM/" $$exdir/Makefile; \
+	if [ "$(OS)" = "Darwin" ]; then \
+		sed -i '' "s/cpp00/cpp$$MODULE_NUM/" $$exdir/Makefile; \
+	else
+		sed -i "s/cpp00/cpp$$MODULE_NUM/" $$exdir/Makefile; \
+	fi; \
 	echo "Should we create a new class? [y/N]: "; \
 	read create_class; \
 	if [ "$$create_class" = "y" ] || [ "$$create_class" = "Y" ]; then \
