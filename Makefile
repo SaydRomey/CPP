@@ -6,11 +6,11 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/05/07 18:06:06 by cdumais          ###   ########.fr        #
+#    Updated: 2024/05/09 14:01:54 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# TODO: adapt the pdf module to match the chosen module when 'make new' copies the Makefile.template
+# TODO: find module for cpp 09 in english, and set it in 42_ressource repo
 
 NAME		:=	CPP
 INC_DIR		:=	inc
@@ -158,21 +158,21 @@ new:
 	@echo "9. Module 09"
 	@read module_choice; \
 	case $$module_choice in \
-		0) MODULE=CPP00;; \
-		1) MODULE=CPP01;; \
-		2) MODULE=CPP02;; \
-		3) MODULE=CPP03;; \
-		4) MODULE=CPP04;; \
-		5) MODULE=CPP05;; \
-		6) MODULE=CPP06;; \
-		7) MODULE=CPP07;; \
-		8) MODULE=CPP08;; \
-		9) MODULE=CPP09;; \
+		0) MODULE_NUM=00;; \
+		1) MODULE_NUM=01;; \
+		2) MODULE_NUM=02;; \
+		3) MODULE_NUM=03;; \
+		4) MODULE_NUM=04;; \
+		5) MODULE_NUM=05;; \
+		6) MODULE_NUM=06;; \
+		7) MODULE_NUM=07;; \
+		8) MODULE_NUM=08;; \
+		9) MODULE_NUM=09;; \
 		*) echo "Invalid choice. Exiting." ; exit 1;; \
 	esac; \
 	echo "Enter exercise number (e.g., 00, 01): "; \
 	read exnum; \
-	exdir="$$MODULE/ex$$exnum"; \
+	exdir="CPP$$MODULE_NUM/ex$$exnum"; \
 	if [ -d "$$exdir" ]; then \
 		echo "$$exdir already exists. Overwrite? [y/N]: "; \
 		read overwrite_choice; \
@@ -191,6 +191,7 @@ new:
 	mkdir -p $$exdir/$(SRC_DIR) $$exdir/$(INC_DIR); \
 	echo "$$MAIN_CPP" > $$exdir/$(SRC_DIR)/main.cpp; \
 	cp $(MAKEFILE_TEMPLATE) $$exdir/Makefile; \
+	sed -i '' "s/cpp00/cpp$$MODULE_NUM/" $$exdir/Makefile; \
 	echo "Should we create a new class? [y/N]: "; \
 	read create_class; \
 	if [ "$$create_class" = "y" ] || [ "$$create_class" = "Y" ]; then \
