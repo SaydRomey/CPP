@@ -39,14 +39,14 @@ Bureaucrat::Bureaucrat(const Bureaucrat &other) : _name(other._name)
 	*this = other;
 	std::cout \
 		<< GRAYTALIC << "Bureaucrat " << _name << \
-		" copy constructor" << RESET << std::endl;	
+		" [copy constructor]" << RESET << std::endl;	
 }
 
 Bureaucrat::~Bureaucrat(void)
 {
 	std::cout \
 		<< GRAYTALIC << "Bureaucrat " << _name << \
-		" default destructor" << RESET << std::endl;	
+		" [default destructor]" << RESET << std::endl;	
 }
 
 /* ************************************************************************** */ // Getters / Setters
@@ -84,7 +84,7 @@ Bureaucrat&	Bureaucrat::operator=(const Bureaucrat &other)
 	if (this != &other && this->_grade != other._grade)
 	{
 		this->_grade = other._grade;
-		// const_cast<std::string&>(this->_name) = other._name;
+		// const_cast<std::string&>(this->_name) = other._name; // (if we want to override constness of '_name')
 	}
 	return (*this);
 }
@@ -92,8 +92,8 @@ Bureaucrat&	Bureaucrat::operator=(const Bureaucrat &other)
 std::ostream&	operator<<(std::ostream &out, const Bureaucrat &other)
 {
 	out << other.getName() 
-		<< ", bureaucrate grade " 
-		<< other.getGrade();
+		<< ", bureaucrat grade " 
+		<< other.getGrade() << ".";
 	return (out);
 }
 
