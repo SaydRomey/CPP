@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-# TODO: find module for cpp 09 in english, and set it in 42_ressource repo
-
 NAME		:=	CPP
 INC_DIR		:=	inc
 SRC_DIR		:=	src
