@@ -38,15 +38,15 @@ Bureaucrat::Bureaucrat(const Bureaucrat &other) : _name(other._name)
 {
 	*this = other;
 	std::cout \
-		<< GRAYTALIC << "Bureaucrat " << _name << \
-		" [copy constructor]" << RESET << std::endl;	
+		<< GRAYTALIC << "Bureaucrat " << _name \
+		<< " [copy constructor]" << RESET << std::endl;	
 }
 
 Bureaucrat::~Bureaucrat(void)
 {
 	std::cout \
-		<< GRAYTALIC << "Bureaucrat " << _name << \
-		" [default destructor]" << RESET << std::endl;	
+		<< GRAYTALIC << "Bureaucrat " << _name \
+		<< " [default destructor]" << RESET << std::endl;	
 }
 
 /* ************************************************************************** */ // Getters / Setters
