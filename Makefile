@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/05/09 17:49:17 by cdumais          ###   ########.fr        #
+#    Updated: 2024/07/06 08:59:01 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ clean fclean ffclean:
 
 .PHONY: all clean fclean ffclean
 # **************************************************************************** #
+# https://cplusplus.com/doc/oldtutorial/
+
 CPP_REF_URL		:=	https://cplusplus.com/reference/
 
 ref:
@@ -191,7 +193,7 @@ new:
 	cp $(MAKEFILE_TEMPLATE) $$exdir/Makefile; \
 	if [ "$(OS)" = "Darwin" ]; then \
 		sed -i '' "s/cpp00/cpp$$MODULE_NUM/" $$exdir/Makefile; \
-	else
+	else \
 		sed -i "s/cpp00/cpp$$MODULE_NUM/" $$exdir/Makefile; \
 	fi; \
 	echo "Should we create a new class? [y/N]: "; \

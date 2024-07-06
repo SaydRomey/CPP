@@ -1,65 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Form.hpp                                           :+:      :+:    :+:   */
+/*   AForm.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 07:24:18 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 07:26:04 by cdumais          ###   ########.fr       */
+/*   Created: 2024/07/06 07:24:36 by cdumais           #+#    #+#             */
+/*   Updated: 2024/07/06 09:52:58 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FORM_HPP
-# define FORM_HPP
+#ifndef AFORM_HPP
+# define AFORM_HPP
 
 # include <iostream>
 # include <exception>
-# include <string>
 # include "Bureaucrat.hpp"
 
 class Bureaucrat;
 
-# define GRADE_MIN	150
-# define GRADE_MAX	1
-# define GRADE_DFLT	42
-
-# define RESET		"\033[0m"
-# define RED		"\033[91m"
-# define GREEN		"\033[32m"
-# define YELLOW		"\033[33m"
-# define PURPLE		"\033[95m"
-# define ORANGE		"\033[38;5;208m"
-# define GRAYTALIC	"\033[3;90m"
-
-class Form
+class AForm
 {
 	private:
 		// Attributes
 		const std::string	_name;
-		bool				_is_signed;
+		const std::string	_target;
 		const unsigned int	_grade_to_sign;
 		const unsigned int	_grade_to_execute;
+		bool				_is_signed;
 
 	public:
 		// Constructors / Destructors
-		Form(void);
-		Form(const std::string name, const unsigned int grade_to_sign, const unsigned int grade_to_execute);
-		Form(const Form &other);
-		~Form(void);
+		AForm(void);
+		AForm(const std::string name, const std::string target, const unsigned int grade_to_sign, const unsigned int grade_to_execute);
+		AForm(const AForm &other);
+		virtual ~AForm(void) = 0;
 
 		// Getters / Setters
 		const std::string&	getName(void) const;
-		bool				getIsSigned(void) const;
+		const std::string&	getTarget(void) const;
 		unsigned int		getGradeToSign(void) const;
 		unsigned int		getGradeToExecute(void) const;
+		bool				getIsSigned(void) const;
 		void				beSigned(const Bureaucrat &bureaucrat);
 
 		// Functions / Methods
 		unsigned int		checkGrade(unsigned int grade) const;
+		virtual void		execute(const Bureaucrat &executor) const = 0; // Pure virtual function
 
 		// Operators
-		Form&	operator=(const Form &other);
+		AForm&	operator=(const AForm &other);
 
 		// Exceptions
 		class GradeTooHighException : public std::exception
@@ -72,8 +62,13 @@ class Form
 			public:
 				virtual const char* what() const throw();
 		};
+		class FormNotSignedException : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
 };
 
-std::ostream&	operator<<(std::ostream &out, const Form &other);
+std::ostream&	operator<<(std::ostream &out, const AForm &param);
 
-#endif // FORM_HPP
+#endif // AFORM_HPP
