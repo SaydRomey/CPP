@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:15:28 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 07:24:58 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/06 12:18:06 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ void	Bureaucrat::signForm(AForm &form)
 	try
 	{
 		form.beSigned(*this);
-		std::cout << this->_name << " signed " << form.getName() << std::endl;
+		std::cout << this->_name << " signed '" << form.getName() << "'" << std::endl;
 	}
 	catch (std::exception &e)
 	{
-		std::cout << this->_name << " couldn't sign " << form.getName() \
-		<< " because " << e.what() << "." << std::endl;
+		std::cout << this->_name << " couldn't sign '" << form.getName() \
+		<< "' because: " << e.what() << std::endl;
 	}
 }
 
@@ -96,12 +96,12 @@ void	Bureaucrat::executeForm(const AForm &form)
 	try
 	{
 		form.execute(*this);
-		std::cout << this->_name << " executed " << form.getName() << std::endl;
+		std::cout << this->_name << " executed '" << form.getName()  << "'" << std::endl;
 	}
 	catch (std::exception &e)
 	{
-		std::cout << this->_name << " couldn't execute " << form.getName() \
-		<< " because " << e.what() << "." << std::endl;
+		std::cout << this->_name << " couldn't execute '" << form.getName() \
+		<< "' because: " << e.what() << std::endl;
 	}
 }
 

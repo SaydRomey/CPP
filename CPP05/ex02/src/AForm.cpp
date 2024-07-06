@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:24:54 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 10:16:45 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/06 13:04:47 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,15 @@ AForm&	AForm::operator=(const AForm &other)
 std::ostream&	operator<<(std::ostream &out, const AForm &param)
 {
 	out \
-		<< "Form name:\t\t" << param.getName() << "\n" \
+		<< "\nForm name:\t\t" << param.getName() << "\n" \
 		<< "Target:\t\t\t" << param.getTarget() << "\n" \
 		<< "Grade to sign:\t\t" << param.getGradeToSign() << "\n" \
 		<< "Grade to execute:\t" << param.getGradeToExecute() << "\n" \
 		<< "Form Status:\t\t";
 	if (param.getIsSigned())
-		out << "Signed.";
+		out << "Signed";
 	else
-		out << "Not signed.";
+		out << "Not signed";
 	return (out);
 }
 

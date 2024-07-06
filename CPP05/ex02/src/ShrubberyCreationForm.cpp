@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:25:15 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 10:37:11 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/06 12:39:41 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,9 @@ void	ShrubberyCreationForm::execute(const Bureaucrat &executor) const
 			shrubfile.close();
 		}
 		catch (const std::ios_base::failure &e)
-		{
-			// throw (std::ios_base::failure("Failed to open the output file."));
-			
+		{			
 			throw (std::ios_base::failure(std::string("Failed to open the output file: ") + strerror(errno)));
 		}
-		///
-		// if (shrubfile.is_open())
-		// {
-		// 	shrubfile << ASCII_TREES << std::endl;
-
-		// 	// long	begin = shrubfile.tellg();
-		// 	// shrubfile.seekg(0, std::ios::end);
-		// 	// long	end = shrubfile.tellg();
-
-		// 	shrubfile.close();
-			
-		// 	// std::cout << "File size is: " << (end-begin) << " bytes." << std::endl;
-		// }
-		// else
-		// 	throw (std::ios_base::failure("Failed to open the output file."));
 	}
 }
 
