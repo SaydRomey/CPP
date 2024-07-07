@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:15:28 by cdumais           #+#    #+#             */
-/*   Updated: 2024/06/30 15:56:57 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 19:03:17 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,13 @@ Bureaucrat&	Bureaucrat::operator=(const Bureaucrat &other)
 	return (*this);
 }
 
-std::ostream&	operator<<(std::ostream &out, const Bureaucrat &other)
+std::ostream&	operator<<(std::ostream &out, const Bureaucrat &param)
 {
 	out \
 		<< "Bureaucrat name:\t" \
-		<< other.getName() << "\n" \
+		<< param.getName() << "\n" \
 		<< "Bureaucrat grade:\t" \
-		<< other.getGrade();
+		<< param.getGrade();
 	return (out);
 }
 

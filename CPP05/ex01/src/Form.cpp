@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:24:25 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 07:24:26 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 19:03:38 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ Form&	Form::operator=(const Form &other)
 	return (*this);
 }
 
-std::ostream&	operator<<(std::ostream &out, const Form &other)
+std::ostream&	operator<<(std::ostream &out, const Form &param)
 {
 	out \
 		<< "Form name:\t\t" << other.getName() << "\n" \

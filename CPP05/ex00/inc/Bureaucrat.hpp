@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:15:26 by cdumais           #+#    #+#             */
-/*   Updated: 2024/05/13 16:36:44 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 19:01:24 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ class Bureaucrat
 		};
 };
 
-std::ostream&	operator<<(std::ostream &out, const Bureaucrat &other);
+std::ostream&	operator<<(std::ostream &out, const Bureaucrat &param);
 
 #endif // BUREAUCRAT_HPP

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:24:18 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 07:26:04 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 19:03:27 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ class Form
 		};
 };
 
-std::ostream&	operator<<(std::ostream &out, const Form &other);
+std::ostream&	operator<<(std::ostream &out, const Form &param);
 
 #endif // FORM_HPP

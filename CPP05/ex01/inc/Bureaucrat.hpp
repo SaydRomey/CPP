@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:15:26 by cdumais           #+#    #+#             */
-/*   Updated: 2024/06/30 14:44:10 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 19:02:57 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ class Bureaucrat
 		void	decrementGrade(void);
 		void	signForm(Form &form);
 
-
 		// Operators
 		Bureaucrat&	operator=(const Bureaucrat &other);
 		
@@ -73,6 +72,6 @@ class Bureaucrat
 		};
 };
 
-std::ostream&	operator<<(std::ostream &out, const Bureaucrat &other);
+std::ostream&	operator<<(std::ostream &out, const Bureaucrat &param);
 
 #endif // BUREAUCRAT_HPP

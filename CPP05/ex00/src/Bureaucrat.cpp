@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:15:28 by cdumais           #+#    #+#             */
-/*   Updated: 2024/05/13 17:07:33 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 19:02:30 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,16 @@ Bureaucrat&	Bureaucrat::operator=(const Bureaucrat &other)
 	if (this != &other && this->_grade != other._grade)
 	{
 		this->_grade = other._grade;
-		// const_cast<std::string&>(this->_name) = other._name; // (if we want to override constness of '_name')
+		// const_cast<std::string&>(this->_name) = other._name; // (if we wanted to override constness of '_name')
 	}
 	return (*this);
 }
 
-std::ostream&	operator<<(std::ostream &out, const Bureaucrat &other)
+std::ostream&	operator<<(std::ostream &out, const Bureaucrat &param)
 {
-	out << other.getName() 
+	out << param.getName() 
 		<< ", bureaucrat grade " 
-		<< other.getGrade() << ".";
+		<< param.getGrade() << ".";
 	return (out);
 }
 
