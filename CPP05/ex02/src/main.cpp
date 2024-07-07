@@ -6,13 +6,14 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:25:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 13:14:44 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 19:00:19 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
 
 void	print(std::string str, std::string color = YELLOW)
@@ -20,7 +21,7 @@ void	print(std::string str, std::string color = YELLOW)
 	std::cout << color << "\n" << str << RESET << std::endl;
 }
 
-void	shrubTest(void)
+void	shrubTest(int grade)
 {
 	print("[ ** Testing shrubbery **]", ORANGE);
 	
@@ -31,7 +32,7 @@ void	shrubTest(void)
 		std::cout << form << std::endl;
 
 		print("-> bureaucrat");
-		Bureaucrat	b;
+		Bureaucrat	b("Arthur Beca", grade);
 		std::cout << b << std::endl;
 
 		// print("-> signing the form");
@@ -47,7 +48,7 @@ void	shrubTest(void)
 	}	
 }
 
-void	pardonTest(int lvl)
+void	pardonTest(int grade)
 {
 	print("[ ** Testing Presidential Pardon **]", ORANGE);
 	
@@ -58,7 +59,7 @@ void	pardonTest(int lvl)
 		std::cout << form << std::endl;
 
 		print("-> bureaucrat");
-		Bureaucrat	b("Bossman", lvl);
+		Bureaucrat	b("Bossman", grade);
 		std::cout << b << std::endl;
 		
 		print("-> signing the form");
@@ -74,13 +75,26 @@ void	pardonTest(int lvl)
 	}
 }
 
-void	robotomyTest(void)
+void	robotomyTest(int grade)
 {
 	print("[ ** Testing Robotomy **]", ORANGE);
 	
 	try
 	{
-		// 
+		print("-> form");
+		RobotomyRequestForm	form("Bo Ort");
+		std::cout << form << std::endl;
+
+		print("-> bureaucrat");
+		Bureaucrat	b("Dr.Wily", grade);
+		std::cout << b << std::endl;
+		
+		print("-> signing the form");
+		b.signForm(form);
+		std::cout << form << std::endl;
+
+		print("-> executing the form");
+		b.executeForm(form);
 	}
 	catch (std::exception &e)
 	{
@@ -90,9 +104,9 @@ void	robotomyTest(void)
 
 int	main(void)
 {
-	// shrubTest();
-	// pardonTest(10); // (25, 5)
-	robotomyTest();
+	// shrubTest(42);		// (145, 137)
+	// pardonTest(10);		// (25, 5)
+	robotomyTest(42);	// (72, 45)
 	
 	return (0);
 }
