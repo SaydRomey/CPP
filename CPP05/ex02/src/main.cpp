@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:25:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/07 19:00:19 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 22:11:07 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	pardonTest(int grade)
 	try
 	{
 		print("-> form");
-		PresidentialPardonForm	form("Carmil Ian");
+		PresidentialPardonForm	form("Ian Carmil");
 		std::cout << form << std::endl;
 
 		print("-> bureaucrat");

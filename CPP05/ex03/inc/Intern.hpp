@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:25:27 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/07 20:46:15 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/07 21:42:40 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,24 @@
 # include "RobotomyRequestForm.hpp"
 # include "ShrubberyCreationForm.hpp"
 
+# define FORM_NUM 3
+
 class Intern
 {
 	private:
 
+		// Private Static Methods
 		static AForm*	_makePresidentialPardonForm(const std::string &target);
 		static AForm*	_makeRobotomyRequestForm(const std::string &target);
 		static AForm*	_makeShrubberyCreationForm(const std::string &target);
 
+		// Private Static Members
 		typedef AForm *(*FormMaker)(const std::string &target);
 		static const std::string	_formNames[];
 		static const FormMaker		_formMakers[];
 		
 	public:
+	
 		// Constructors / Destructors
 		Intern(void);
 		Intern(const Intern &other);
