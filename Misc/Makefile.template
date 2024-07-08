@@ -128,15 +128,36 @@ define CLASS_HEADER
 
 # include <iostream>
 
+# define RESET		"\033[0m"
+# define RED		"\033[91m"
+# define GREEN		"\033[32m"
+# define YELLOW		"\033[33m"
+# define PURPLE		"\033[95m"
+# define ORANGE		"\033[38;5;208m"
+# define GRAYTALIC	"\033[3;90m"
+
 class CLASSNAME
 {
+	private:
+		// Attributes
+	
 	public:
-
+		// Constructors / Destructors
 		CLASSNAME(void);
 		CLASSNAME(const CLASSNAME &other);
-		CLASSNAME&	operator=(const CLASSNAME &other);
 		~CLASSNAME(void);
+
+		// Getters / Setters
+
+		// Functions / Methods
+
+		// Operators
+		CLASSNAME&	operator=(const CLASSNAME &other);
+
+		// Exceptions
 };
+
+// std::ostream&	operator<<(std::ostream &out, const CLASSNAME &param);
 
 #endif // CLASSNAME_UPPER_HPP
 endef
@@ -146,26 +167,42 @@ export CLASS_HEADER
 define CLASS_CPP
 #include "CLASSNAME.hpp"
 
+/* ************************************************************************** */ // Constructors / Destructors
+
 CLASSNAME::CLASSNAME(void)
 {
-	std::cout << "CLASSNAME default constructor" << std::endl;
+	std::cout << GRAYTALIC << "CLASSNAME [default constructor]" << RESET << std::endl;
 }
 
 CLASSNAME::CLASSNAME(const CLASSNAME &other)
 {
 	*this = other;
-}
-
-CLASSNAME&	CLASSNAME::operator=(const CLASSNAME &other)
-{
-	// if (this != &other)
-	return (*this);
+	std::cout << GRAYTALIC << "CLASSNAME [copy constructor]" << RESET << std::endl;
 }
 
 CLASSNAME::~CLASSNAME(void)
 {
-	std::cout << "CLASSNAME default destructor" << std::endl;
+	std::cout << GRAYTALIC << "CLASSNAME [default destructor]" << RESET << std::endl;
 }
+
+/* ************************************************************************** */ // Getters / Setters
+
+/* ************************************************************************** */ // Functions / Methods
+
+/* ************************************************************************** */ // Operators
+
+CLASSNAME&	CLASSNAME::operator=(const CLASSNAME &other)
+{
+	// if (this != &other)
+	// {}
+	
+	return (*this);
+}
+
+// std::ostream&	operator<<(std::ostream &out, const CLASSNAME &param)
+
+/* ************************************************************************** */ // Exceptions
+
 endef
 
 export CLASS_CPP
