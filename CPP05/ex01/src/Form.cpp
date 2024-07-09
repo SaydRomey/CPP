@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:24:25 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/07 19:03:38 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/09 12:33:26 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,11 @@ Form&	Form::operator=(const Form &other)
 std::ostream&	operator<<(std::ostream &out, const Form &param)
 {
 	out \
-		<< "Form name:\t\t" << other.getName() << "\n" \
-		<< "Grade to sign:\t\t" << other.getGradeToSign() << "\n" \
-		<< "Grade to execute:\t" << other.getGradeToExecute() << "\n" \
+		<< "Form name:\t\t" << param.getName() << "\n" \
+		<< "Grade to sign:\t\t" << param.getGradeToSign() << "\n" \
+		<< "Grade to execute:\t" << param.getGradeToExecute() << "\n" \
 		<< "Form Status:\t\t";
-	if (other.getIsSigned())
+	if (param.getIsSigned())
 		out << "Signed.";
 	else
 		out << "Not signed.";

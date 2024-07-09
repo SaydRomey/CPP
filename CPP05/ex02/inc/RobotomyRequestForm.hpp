@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:24:48 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 15:58:25 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/09 12:50:53 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class RobotomyRequestForm : public AForm
 		static bool	_is_seeded;
 
 		// Static method to seed the random number generator
-		static bool	seedRandom(void);
+		static bool	_seedRandom(void);
 
 	public:
 		// Constructors / Destructors

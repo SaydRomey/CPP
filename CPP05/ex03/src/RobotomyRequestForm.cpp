@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 07:25:11 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/06 16:03:28 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/09 12:50:53 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ Otherwise, informs that the robotomy failed.
 
 /* ************************************************************************** */ // Static random seeding
 
-bool	RobotomyRequestForm::_is_seeded = RobotomyRequestForm::seedRandom();
+bool	RobotomyRequestForm::_is_seeded = RobotomyRequestForm::_seedRandom();
 
-bool	RobotomyRequestForm::seedRandom(void)
+bool	RobotomyRequestForm::_seedRandom(void)
 {
 	std::srand(std::time(0));
 	

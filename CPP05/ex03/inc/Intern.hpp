@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:25:27 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/07 21:42:40 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/09 13:02:28 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,5 @@ class Intern
 				virtual const char* what() const throw();
 		};
 };
-
-// std::ostream&	operator<<(std::ostream &out, const Intern &param);
 
 #endif // INTERN_HPP

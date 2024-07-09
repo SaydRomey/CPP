@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:47:09 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/07 22:23:47 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/09 13:12:10 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,7 @@ const Intern::FormMaker	Intern::_formMakers[] = {
 
 Intern&	Intern::operator=(const Intern &other)
 {
-	// (void)other;
-	if (this != &other)
-	{
-		*this = other;
-	}
+	(void)other;
 	return (*this);
 }
 

@@ -6,7 +6,7 @@
 # PDFs
 *.pdf
 
-# MacOS specific files
+# macOS specific files
 *.dSYM
 .DS_Store
 

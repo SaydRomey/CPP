@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 21:50:20 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/07 22:28:33 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/09 13:16:42 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ void	printFormCreation(const AForm &form, string color = GREEN)
 
 void	internTest(void)
 {
-	print("[ ** Testing intern **]", ORANGE);
+	print("[ ** Testing intern **]\n", ORANGE);
 
 	Intern	someRandomIntern;
 
 	try
-	{		
+	{
+		print("-> valid forms:\n");
+		
 		AForm	*ppf = someRandomIntern.makeForm("presidential pardon", "Ian Carmil");
 		printFormCreation(*ppf);
 		delete ppf;
@@ -58,6 +60,8 @@ void	internTest(void)
 		delete scf;
 		cout << "\n";
 
+		print("-> invalid forms:\n");
+		
 		AForm	*invalid_form = someRandomIntern.makeForm("<what is this piece of paper", "an intruder");
 		printFormCreation(*invalid_form);
 		delete invalid_form;
