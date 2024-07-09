@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:13:30 by cdumais           #+#    #+#             */
-/*   Updated: 2024/05/13 17:09:14 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/09 11:16:29 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,5 @@ int	main(void)
 	test_exceptions();
 	// test_member_functions();
 
-	
 	return (0);
 }
