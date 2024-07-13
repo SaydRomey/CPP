@@ -128,13 +128,13 @@ define CLASS_HEADER
 
 # include <iostream>
 
-# define RESET		"\033[0m"
-# define RED		"\033[91m"
-# define GREEN		"\033[32m"
-# define YELLOW		"\033[33m"
-# define PURPLE		"\033[95m"
-# define ORANGE		"\033[38;5;208m"
-# define GRAYTALIC	"\033[3;90m"
+# define RESET		"\\033[0m"
+# define RED		"\\033[91m"
+# define GREEN		"\\033[32m"
+# define YELLOW		"\\033[33m"
+# define PURPLE		"\\033[95m"
+# define ORANGE		"\\033[38;5;208m"
+# define GRAYTALIC	"\\033[3;90m"
 
 class CLASSNAME
 {
