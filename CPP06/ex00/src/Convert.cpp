@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:36:12 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/15 22:55:49 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/16 19:38:24 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,9 @@
 
 bool	isNanOrInf(const std::string &literal)
 {
-	return (literal == "-inff" || literal == "+inff" || literal == "nanf" || 
-			literal == "-inf" || literal == "+inf" || literal == "nan");
-}
-
-bool	isScientificNotation(const std::string &literal)
-{
-	size_t	e_pos = literal.find('e');
-	if (e_pos == std::string::npos)
-	{
-		e_pos = literal.find('E');
-	}
-	return (e_pos != std::string::npos);
-}
-
-double	scientificToFixed(const std::string &literal)
-{
-	char	*endptr;
-	errno = 0;
-	double	result = strtod(literal.c_str(), &endptr);
-	if (errno == ERANGE)
-	{
-		throw std::overflow_error("Overflow during scientific to fixed conversion");
-	}
-	return (result);
+	return (literal == "nan" || literal == "nanf" || 
+			literal == "-inf" || literal == "-inff" || 
+			literal == "+inf" || literal == "+inff");
 }
 
 /*
@@ -48,34 +27,29 @@ bool	isValidScalarType(const std::string &literal)
 {
 	char	*endptr;
 	
-	// valid char
 	if (literal.length() == 1 && std::isprint(literal[0]))
-		return (true);
+		return (true); // valid char
 
-	// valid int
 	strtol(literal.c_str(), &endptr, 10);
 	if (*endptr == '\0')
-		return (true);
+		return (true); // valid int
 
-	// pseudo-literals
 	if (isNanOrInf(literal))
-		return (true);
-	
-	// float with 'f' suffix
+		return (true); // pseudo-literals
+
 	if (literal.length() > 1 && literal[literal.length() - 1] == 'f')
 	{
 		strtof(literal.c_str(), &endptr);
 		if (*endptr == 'f' && *(endptr + 1) == '\0')
-			return (true);
+			return (true); // float with 'f' suffix
 	}
-
-	// double
+	
 	strtod(literal.c_str(), &endptr);
 	if (*endptr == '\0')
-		return (true);
+		return (true); // valid double
 	
 	std::cout << INVALID_TYPE << std::endl;
-	return (false);	
+	return (false);	// invalid input
 }
 
 void	handlePseudoLiteral(const std::string &literal)
@@ -118,81 +92,92 @@ void	handleCharLiteral(const std::string &literal)
 	std::cout << "double: " << d << std::endl;
 }
 
-/* ************************************************************************** */
-
-
-void	handleNumericLiteral(const std::string &literal)
+void	displayCharConversion(int i)
 {
-	char	*endptr;
+	char	c;
 
-	double d = 0;
-	if (isScientificNotation(literal))
+	if (i >= std::numeric_limits<char>::min() && i <= std::numeric_limits<char>::max())
 	{
-		d = scientificToFixed(literal);
+		c = static_cast<char>(i);
+		if (std::isprint(c))
+			std::cout << "char: '" << c << "'" << std::endl;
+		else
+			std::cout << "char: Non displayable" << std::endl;
 	}
 	else
 	{
-		errno = 0;
-		d = strtod(literal.c_str(), &endptr);
-		if (*endptr != '\0' && *endptr != 'f')
-		{
-			std::cout << "Invalid input" << std::endl;
-			return ;
-		}
+		std::cout << "char: impossible" << std::endl;
 	}
-	bool	doubleOverflow = errno == ERANGE || !std::isfinite(d);
+}
 
-	// errno = 0;
-	// double	d = strtod(literal.c_str(), &endptr);
-	// bool	doubleOverflow = errno == ERANGE || !std::isfinite(d);
+void	displayFloatingPointConversions(float f, bool floatOverflow, double d, bool doubleOverflow)
+{
+	std::cout << std::fixed << std::setprecision(1);
+
+	if (floatOverflow)
+		std::cout << "float: impossible" << std::endl;
+	else
+		std::cout << "float: " << f << "f" << std::endl;
+	
+	if (doubleOverflow)
+		std::cout << "double: impossible" << std::endl;
+	else
+		std::cout << "double: " << d << std::endl;
+}
+
+double	parseDouble(const std::string &literal, bool &overflow)
+{
+	double	d;
+	char	*endptr;
 
 	errno = 0;
-	float	f = strtof(literal.c_str(), &endptr);
-	bool	floatOverflow = errno == ERANGE || !std::isfinite(f);
+	d = strtod(literal.c_str(), &endptr);
+	overflow = errno == ERANGE || !std::isfinite(d);
+	return (d);
+}
 
-	// // check if double value can be represented as an integer
-	bool	isIntegerRepresentable = !doubleOverflow && d >= std::numeric_limits<int>::min() && d <= std::numeric_limits<int>::max();
-	int		i = static_cast<int>(d);
-	bool	intOverflow = !isIntegerRepresentable;
-	
-	// errno = 0;
-	// long	l = strtol(literal.c_str(), &endptr, 10);
-	// bool	intOverflow = errno == ERANGE || l < std::numeric_limits<int>::min() || l > std::numeric_limits<int>::max();
+float	parseFloat(double d, bool &overflow)
+{
+	float	f;
 
-	// display conversion results with overflow checks
+	errno = 0;
+	f = static_cast<float>(d);
+	overflow = errno == ERANGE || !std::isfinite(f);
+	return (f);
+}
+
+bool	parseInt(double d, int &i)
+{
+	if (d >= std::numeric_limits<int>::min() && d <= std::numeric_limits<int>::max())
+	{
+		i = static_cast<int>(d);
+		return (false);
+	}
+	return (true);
+}
+
+void	handleNumericLiteral(const std::string &literal)
+{
+	bool	doubleOverflow;
+	double	d = parseDouble(literal, doubleOverflow);
+
+	bool	floatOverflow;
+	float	f = parseFloat(d, floatOverflow);
+
+	int		i;
+	bool	intOverflow = parseInt(d, i);
+
 	if (intOverflow)
-	{		
+	{
 		std::cout << "char: impossible" << std::endl;
 		std::cout << "int: impossible" << std::endl;
 	}
 	else
 	{
-		// int	i = static_cast<int>(l);
-		if (i >= std::numeric_limits<char>::min() && i <= std::numeric_limits<char>::max())
-		{
-			char	c = static_cast<char>(i);
-			if (std::isprint(c))
-				std::cout << "char: '" << c << "'" << std::endl;
-			else
-				std::cout << "char: Non displayable" << std::endl;
-		}
-		else
-		{
-			std::cout << "char: impossible" << std::endl;
-		}
+		displayCharConversion(i);
 		std::cout << "int: " << i << std::endl;
 	}
-	
-	std::cout << std::fixed << std::setprecision(1);
-	if (floatOverflow)
-		std::cout << "float: impossible" << std::endl;
-	else
-		std::cout << "float: " << f << "f" << std::endl;
-
-	if (doubleOverflow)
-		std::cout << "double: impossible" << std::endl;
-	else
-		std::cout << "double: " << d << std::endl;
+	displayFloatingPointConversions(f, floatOverflow, d, doubleOverflow);
 }
 
 void	convert(const std::string &literal)
@@ -209,125 +194,6 @@ void	convert(const std::string &literal)
 		handleNumericLiteral(literal);
 }
 
-/* ************************************************************************** */
-
-
-// ////
-
-// void	convert(const std::string &literal)
-// {
-// 	char	c;
-// 	int		i;
-// 	float	f;
-// 	double	d;
-
-// 	// check if pseudo litteral special case
-// 	if (isNanOrInf(literal))
-// 	{
-// 		if (literal == "nan" || literal == "nanf")
-// 		{
-// 			f = std::numeric_limits<float>::quiet_NaN();
-// 			d = std::numeric_limits<double>::quiet_NaN();
-// 		}
-// 		else if (literal == "+inf" || literal == "+inff")
-// 		{
-// 			f = std::numeric_limits<float>::infinity();
-// 			d = std::numeric_limits<double>::infinity();
-// 		}
-// 		else if (literal == "-inf" || literal == "-inff")
-// 		{
-// 			f = -std::numeric_limits<float>::infinity();
-// 			d = -std::numeric_limits<double>::infinity();
-// 		}
-// 		// display results
-// 		std::cout << "char: impossible" << std::endl;
-// 		std::cout << "int: impossible" << std::endl;
-// 		std::cout << "float: " << f << "f" << std::endl;
-// 		std::cout << "double: " << d << std::endl;
-// 		return ;
-// 	}
-
-// 	// check if input is a single character [enclosed in single quotes]
-// 	if (literal.length() == 1 && std::isprint(literal[0]) && !std::isdigit(literal[0]))
-// 	{
-// 		c = literal[0];
-// 		i = static_cast<int>(c);
-// 		f = static_cast<float>(c);
-// 		d = static_cast<double>(c);
-
-// 		std::cout << "char: '" << c << "'" << std::endl;
-// 		std::cout << "int: " << i << std::endl;
-// 		std::cout << std::fixed << std::setprecision(1);
-// 		std::cout << "float: " << f << "f" << std::endl;
-// 		std::cout << "double: " << d << std::endl;
-// 		return ;
-// 	}
-
-// 	//attempt to convert to each type (checking overflows)
-// 	char		*endptr;
-	
-// 	errno = 0;
-// 	long long	ll = strtoll(literal.c_str(), &endptr, 10);
-// 	bool	intOverflow = errno == ERANGE || *endptr != '\0' || ll < std::numeric_limits<int>::min() || ll > std::numeric_limits<int>::max();
-	
-// 	errno = 0;
-// 	f = strtof(literal.c_str(), &endptr);
-// 	// bool	floatOverflow = errno == ERANGE || f == HUGE_VALF || f == -HUGE_VALF;
-// 	bool	floatOverflow = errno == ERANGE || !std::isfinite(f);
-
-// 	errno = 0;
-// 	d = strtod(literal.c_str(), &endptr);
-// 	// bool	doubleOverflow = errno == ERANGE || d == HUGE_VAL || d == -HUGE_VAL;
-// 	bool	doubleOverflow = errno == ERANGE || !std::isfinite(d);
-
-// 	// display conversion results with overflow checks
-// 	if (intOverflow)
-// 	{
-// 		std::cout << "char: impossible" << std::endl;
-// 		std::cout << "int: impossible" << std::endl;
-// 	}
-// 	else
-// 	{
-// 		i = static_cast<int>(ll);
-// 		if (i >= std::numeric_limits<char>::min() && i <= std::numeric_limits<char>::max())
-// 		{
-// 			c = static_cast<char>(i);
-// 			if (std::isprint(c))
-// 				std::cout << "char: '" << c << "'" << std::endl;
-// 			else
-// 				std::cout << "char: Non displayable" << std::endl;
-// 		}
-// 		else
-// 		{
-// 			std::cout << "char: impossible" << std::endl;
-// 		}
-// 		std::cout << "int: " << i << std::endl;
-// 	}
-
-// 	if (floatOverflow)
-// 	{
-// 		std::cout << "float: impossible" << std::endl;
-// 	}
-// 	else
-// 	{
-// 		std::cout << std::fixed << std::setprecision(1);
-// 		std::cout << "float: " << f << "f" << std::endl;
-// 	}
-
-// 	if (doubleOverflow)
-// 	{
-// 		std::cout << "double: impossible" << std::endl;
-// 	}
-// 	else
-// 	{
-// 		std::cout << "double: " << d << std::endl;
-// 	}
-// }
-
-/*
-c++ -Wall -Werror -Wextra -std=c++98 src/convert.cpp
-
-*/
 int	main(int argc, char *argv[])
 {
 	if (argc != 2)
@@ -343,18 +209,3 @@ int	main(int argc, char *argv[])
 	
 	return (0);
 }
-
-/*
-Edge Cases and Invalid Inputs
-
-
-3.4e+38f - Float close to overflow
-3.5e+38f - Float overflow
-
-1.7e+308 - Double close to overflow
-1.8e+308 - Double overflow
-
-./a.out abc - Invalid scalar type
-./a.out 4.2.0 - Invalid scalar type
-./a.out --42 - Invalid scalar type
-*/

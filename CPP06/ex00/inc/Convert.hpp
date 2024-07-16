@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:24:42 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/15 21:58:51 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/16 19:02:44 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ Invalid scalar type. Accepted values are:\n\
 char: single printable character (e.g., 'a')\n\
 int: integer values (e.g., 42)\n\
 float: floating-point values with 'f' suffix (e.g., 42.0f)\n\
-double: floating-point values (e.g., 42.0)\n"
-
-
+double: floating-point values (e.g., 42.0)"
 
 #endif // CONVERT_HPP
