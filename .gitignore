@@ -19,6 +19,9 @@
 
 # # Executables
 
+# Default executable
+a.out
+
 # Info (for testing and tutorials)
 placeholder
 
