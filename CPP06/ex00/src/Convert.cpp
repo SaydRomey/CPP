@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:36:12 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/16 20:19:02 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:15:02 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ maybe add check for input format:
 bool	isValidScalarType(const std::string &literal)
 {
 	char	*endptr;
+
+	if (literal.empty())
+		return (false);
 	
 	if (literal.length() == 1 && std::isprint(literal[0]))
 		return (true); // valid char
@@ -48,7 +51,6 @@ bool	isValidScalarType(const std::string &literal)
 	if (*endptr == '\0')
 		return (true); // valid double
 	
-	std::cout << INVALID_TYPE << std::endl;
 	return (false);	// invalid input
 }
 
@@ -203,6 +205,7 @@ int	main(int argc, char *argv[])
 	}
 	if (!isValidScalarType(argv[1]))
 	{
+		std::cout << INVALID_TYPE << std::endl;	
 		return (1);
 	}
 	convert(argv[1]);
