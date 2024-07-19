@@ -1,5 +1,5 @@
 
-NAME		:=	Placeholder
+NAME		:=	Serialization
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
