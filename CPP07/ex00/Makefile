@@ -1,5 +1,5 @@
 
-NAME		:=	Placeholder
+NAME		:=	StartWithAFewFunctions
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
