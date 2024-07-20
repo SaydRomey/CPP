@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 21:24:42 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/16 20:17:59 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/20 14:30:42 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <cerrno>
 # include <cfloat>
 # include <cstdlib>
-# include <exception>
 # include <iomanip>
 # include <iostream>
 # include <limits>
@@ -31,5 +30,8 @@ char:\tsingle printable character (e.g., 'a')\n\
 int:\tinteger values (e.g., 42)\n\
 float:\tfloating-point values with 'f' suffix (e.g., 42.0f)\n\
 double:\tfloating-point values (e.g., 42.0)"
+
+bool	isValidScalarType(const std::string &literal);
+void	convert(const std::string &literal);
 
 #endif // CONVERT_HPP

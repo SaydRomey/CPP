@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:36:12 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/19 16:15:02 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/20 14:35:26 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,13 @@ bool	isNanOrInf(const std::string &literal)
 			literal == "+inf" || literal == "+inff");
 }
 
-/*
-maybe add check for input format:
-	check how we can handle numbers passed as chars : '1' is the char '1', not the int 1 ...
-*/
 bool	isValidScalarType(const std::string &literal)
 {
 	char	*endptr;
 
 	if (literal.empty())
 		return (false);
-	
+
 	if (literal.length() == 1 && std::isprint(literal[0]))
 		return (true); // valid char
 
@@ -46,7 +42,7 @@ bool	isValidScalarType(const std::string &literal)
 		if (*endptr == 'f' && *(endptr + 1) == '\0')
 			return (true); // float with 'f' suffix
 	}
-	
+
 	strtod(literal.c_str(), &endptr);
 	if (*endptr == '\0')
 		return (true); // valid double
@@ -56,8 +52,8 @@ bool	isValidScalarType(const std::string &literal)
 
 void	handlePseudoLiteral(const std::string &literal)
 {
-	float	f;
-	double	d;
+	float	f = 0.0f;
+	double	d = 0.0;
 
 	if (literal == "nan" || literal == "nanf")
 	{
@@ -194,21 +190,4 @@ void	convert(const std::string &literal)
 	}
 	else
 		handleNumericLiteral(literal);
-}
-
-int	main(int argc, char *argv[])
-{
-	if (argc != 2)
-	{
-		std::cout << "Usage: " << argv[0] << " <literal>" << std::endl;
-		return (1);
-	}
-	if (!isValidScalarType(argv[1]))
-	{
-		std::cout << INVALID_TYPE << std::endl;	
-		return (1);
-	}
-	convert(argv[1]);
-	
-	return (0);
 }
