@@ -1,5 +1,5 @@
 
-NAME		:=	Placeholder
+NAME		:=	Iter
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
