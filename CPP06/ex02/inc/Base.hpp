@@ -1,26 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Base.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:59:17 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/19 22:13:08 by cdumais          ###   ########.fr       */
+/*   Created: 2024/07/19 17:17:54 by cdumais           #+#    #+#             */
+/*   Updated: 2024/07/19 22:14:30 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "Base.hpp"
+#ifndef BASE_HPP
+# define BASE_HPP
 
-int	main(void)
+# include <cstdlib>
+# include <ctime>
+# include <iostream>
+
+class Base
 {
-	Base	*obj = generate();
+	public:
+		virtual ~Base(void) {}
+};
 
-	identify(obj);
-	identify(*obj);
+class A : public Base
+{
+	// 
+};
 
-	delete obj;
+class B : public Base
+{
+	// 
+};
 
-	return (0);
-}
+class C : public Base
+{
+	// 
+};
+
+Base*	generate(void);
+void	identify(Base *p);
+void	identify(Base &p);
+
+#endif // BASE_HPP
