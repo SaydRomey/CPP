@@ -1,5 +1,5 @@
 
-NAME		:=	Placeholder
+NAME		:=	Array
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
