@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:05:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/26 15:43:50 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/07/26 16:07:43 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,38 @@
 #include <iostream>
 #include <vector>
 
+void	printSpan(Span &sp, unsigned int numElements)
+{
+	std::cout << "\n(" << numElements << " numbers)" << std::endl;
+	std::cout << "Shortest span:\t" << sp.shortestSpan() << std::endl;
+	std::cout << "Longest span:\t" << sp.longestSpan() << std::endl;
+}
+
+void	testLargeSpan(unsigned int numElements)
+{
+	try
+	{
+		Span	sp(numElements);
+		
+		std::srand(static_cast<unsigned int>(std::time(0)));
+		unsigned int	i = 0;
+		while (i < numElements)
+		{
+			sp.addNumber(std::rand());
+			i++;
+		}
+		printSpan(sp, numElements);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+}
+
 int	main(void)
 {
+	testLargeSpan(10000);
+
 	try
 	{
 		Span	sp = Span(5);
@@ -24,8 +54,9 @@ int	main(void)
 		sp.addNumber(17);
 		sp.addNumber(9);
 		sp.addNumber(11);
-		std::cout << sp.shortestSpan() << std::endl;
-		std::cout << sp.longestSpan() << std::endl;
+		// std::cout << sp.shortestSpan() << std::endl;
+		// std::cout << sp.longestSpan() << std::endl;
+		printSpan(sp, 5);
 
 		std::vector<int>	numbers;
 		numbers.push_back(1);
@@ -41,8 +72,7 @@ int	main(void)
 				
 		Span	sp2 = Span(10);
 		sp2.addNumbers(numbers.begin(), numbers.end());
-		std::cout << sp2.shortestSpan() << std::endl;
-		std::cout << sp2.longestSpan() << std::endl;
+		printSpan(sp2, 10);
 	}
 	catch (const std::exception &e)
 	{
