@@ -6,20 +6,41 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:26:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/26 15:42:59 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/02 13:07:22 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
+
+Span::Span(void) : _maxSize(0)
+{
+	// 
+}
 
 Span::Span(unsigned int N) : _maxSize(N)
 {
 	// 
 }
 
+Span::Span(const Span &other) : _maxSize(other._maxSize)
+{
+	*this = other;
+}
+
 Span::~Span(void)
 {
 	// default desctructor
+}
+
+Span&	Span::operator=(const Span &other)
+{
+	if (this != &other)
+	{
+		_numbers.clear();
+		_maxSize = other._maxSize;
+		_numbers = other._numbers;
+	}
+	return (*this);
 }
 
 void	Span::addNumber(int number)
@@ -60,6 +81,6 @@ int	Span::longestSpan(void) const
 		throw (std::logic_error("Not enough numbers to find a span"));
 	}
 	int	min = *std::min_element(_numbers.begin(), _numbers.end());
-	int	max= *std::max_element(_numbers.begin(), _numbers.end());
+	int	max = *std::max_element(_numbers.begin(), _numbers.end());
 	return (max - min);
 }

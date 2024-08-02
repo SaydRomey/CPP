@@ -6,24 +6,28 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:14:52 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/26 14:19:23 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/02 13:09:44 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SPAN_HPP
 # define SPAN_HPP
 
-# include <iostream>
-# include <vector>
 # include <algorithm>
+# include <iostream>
+# include <limits>
 # include <stdexcept>
+# include <vector>
 
 class Span
 {
 	public:
 		Span(void);
 		Span(unsigned int N);
+		Span(const Span &other);
 		~Span(void);
+
+		Span&	operator=(const Span &other);
 
 		void	addNumber(int number);
 		template <typename Iterator>

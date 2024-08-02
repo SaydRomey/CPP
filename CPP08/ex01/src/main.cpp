@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:05:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/26 16:07:43 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/02 13:08:35 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	testLargeSpan(unsigned int numElements)
 	{
 		Span	sp(numElements);
 		
-		std::srand(static_cast<unsigned int>(std::time(0)));
+		std::srand(static_cast<unsigned int>(time(0)));
 		unsigned int	i = 0;
 		while (i < numElements)
 		{
