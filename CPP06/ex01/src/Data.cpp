@@ -6,14 +6,14 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 16:22:39 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/20 14:33:18 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/09 12:16:29 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Data.hpp"
 
-Data::Data(int id, const std::string &name, double value)
-	: id(id), name(name), value(value)
+Data::Data(int id, const std::string &name, double value) \
+: id(id), name(name), value(value)
 {
 	// 
 }
