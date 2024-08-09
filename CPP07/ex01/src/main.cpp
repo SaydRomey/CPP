@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:36:05 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/20 17:04:09 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/09 16:40:36 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 template <typename T, size_t N>
 size_t	arrayLength(T (&)[N])
 {
+	std::cout << "Length = " << N << std::endl;
 	return (N);
 }
 

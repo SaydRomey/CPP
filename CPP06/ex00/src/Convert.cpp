@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:36:12 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/09 12:09:58 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/09 15:05:56 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	handlePseudoLiteral(const std::string &literal)
 		f = -std::numeric_limits<float>::infinity();
 		d = -std::numeric_limits<double>::infinity();
 	}
-	std::cout << "char: impossible" << std::endl;
-	std::cout << "int: impossible" << std::endl;
-	std::cout << "float: " << f << "f" << std::endl;
+	std::cout << "char:   impossible" << std::endl;
+	std::cout << "int:    impossible" << std::endl;
+	std::cout << "float:  " << f << "f" << std::endl;
 	std::cout << "double: " << d << std::endl;
 }
 
@@ -84,10 +84,10 @@ void	handleCharLiteral(const std::string &literal)
 	float	f = static_cast<float>(c);
 	double	d = static_cast<double>(c);
 
-	std::cout << "char: '" << c << "'" << std::endl;
-	std::cout << "int: " << i << std::endl;
+	std::cout << "char:  '" << c << "'" << std::endl;
+	std::cout << "int:    " << i << std::endl;
 	std::cout << std::fixed << std::setprecision(1);
-	std::cout << "float: " << f << "f" << std::endl;
+	std::cout << "float:  " << f << "f" << std::endl;
 	std::cout << "double: " << d << std::endl;
 }
 
@@ -99,13 +99,13 @@ void	displayCharConversion(int i)
 	{
 		c = static_cast<char>(i);
 		if (std::isprint(c))
-			std::cout << "char: '" << c << "'" << std::endl;
+			std::cout << "char:  '" << c << "'" << std::endl;
 		else
-			std::cout << "char: Non displayable" << std::endl;
+			std::cout << "char:   Non displayable" << std::endl;
 	}
 	else
 	{
-		std::cout << "char: impossible" << std::endl;
+		std::cout << "char:   impossible" << std::endl;
 	}
 }
 
@@ -114,9 +114,9 @@ void	displayFloatingPointConversions(float f, bool floatOverflow, double d, bool
 	std::cout << std::fixed << std::setprecision(1);
 
 	if (floatOverflow)
-		std::cout << "float: impossible" << std::endl;
+		std::cout << "float:  impossible" << std::endl;
 	else
-		std::cout << "float: " << f << "f" << std::endl;
+		std::cout << "float:  " << f << "f" << std::endl;
 	
 	if (doubleOverflow)
 		std::cout << "double: impossible" << std::endl;
@@ -168,13 +168,13 @@ void	handleNumericLiteral(const std::string &literal)
 
 	if (intOverflow)
 	{
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
+		std::cout << "char:   impossible" << std::endl;
+		std::cout << "int:    impossible" << std::endl;
 	}
 	else
 	{
 		displayCharConversion(i);
-		std::cout << "int: " << i << std::endl;
+		std::cout << "int:    " << i << std::endl;
 	}
 	displayFloatingPointConversions(f, floatOverflow, d, doubleOverflow);
 }

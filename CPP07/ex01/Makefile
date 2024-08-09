@@ -1,5 +1,6 @@
 
 NAME		:=	Iter
+AUTHOR		:=	cdumais
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
@@ -21,11 +22,20 @@ REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
 NPD			:=	--no-print-directory
 
+# Detect OS and define OPEN command
+ifeq ($(shell uname), Darwin)
+	OPEN := open
+else
+	OPEN := xdg-open
+endif
+
 # Conditional flag for Linux to allow implicit fall-through in switch statements
 ifeq ($(OS), Linux)
 	C_FLAGS += -Wno-error=implicit-fallthrough -Wimplicit-fallthrough=0
 endif
+
 # **************************************************************************** #
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(INCS)
@@ -76,13 +86,47 @@ get_pdf: | $(TMP_DIR)
 	@PDF=$(MODULE)_en.pdf; \
 	PDF_URL=$(GIT_URL)/blob/main/pdf/CPP/$$PDF?raw=true; \
 	curl -# -L $$PDF_URL -o $(TMP_DIR)/$$PDF; \
-	if [ "$(OS)" = "Darwin" ]; then \
-		open $(TMP_DIR)/$$PDF; \
-	else \
-		xdg-open $(TMP_DIR)/$$PDF || echo "Please install a compatible PDF viewer"; \
-	fi
+	$(OPEN) $(TMP_DIR)/$$PDF
 
 .PHONY: pdf get_pdf
+# **************************************************************************** #
+# ------------------------------ DOCUMENTATION ------------------------------- #
+# **************************************************************************** #
+CPP_REF_URL		:=	https://cplusplus.com/reference/
+CPP_TUTO_URL	:=	https://cplusplus.com/doc/oldtutorial/
+
+ref:
+	@echo "Opening cplusplus reference's url..."
+	@$(OPEN) $(CPP_REF_URL)
+
+tuto:
+	@echo "Opening cplusplus oldtutorial's url..."
+	@$(OPEN) $(CPP_TUTO_URL)
+
+.PHONY: ref tuto
+# **************************************************************************** #
+# --------------------------------- GITHUB ----------------------------------- #
+# **************************************************************************** #
+REPO_LINK	:= https://github.com/SaydRomey/CPP
+
+repo:
+	@echo "Opening $(AUTHOR)'s github repo..."
+	@$(OPEN) $(REPO_LINK);
+
+.PHONY: repo
+# **************************************************************************** #
+# ---------------------------------- UTILS ----------------------------------- #
+# **************************************************************************** #
+run: all
+	./$(NAME)
+
+$(TMP_DIR):
+	@mkdir -p $(TMP_DIR)
+
+ffclean: fclean
+	@$(REMOVE) $(TMP_DIR)
+
+.PHONY: run ffclean
 # **************************************************************************** #
 # --------------------------------- CLASS ------------------------------------ #
 # **************************************************************************** #
@@ -106,19 +150,6 @@ class:
 	echo "$$classname created"
 
 .PHONY: class
-# **************************************************************************** #
-# ---------------------------------- UTILS ----------------------------------- #
-# **************************************************************************** #
-run: all
-	./$(NAME)
-
-$(TMP_DIR):
-	@mkdir -p $(TMP_DIR)
-
-ffclean: fclean
-	@$(REMOVE) $(TMP_DIR)
-
-.PHONY: run ffclean
 # **************************************************************************** #
 # ------------------------------- TEMPLATES ---------------------------------- #
 # **************************************************************************** #
@@ -206,6 +237,8 @@ CLASSNAME&	CLASSNAME::operator=(const CLASSNAME &other)
 endef
 
 export CLASS_CPP
+# **************************************************************************** #
+# ----------------------------------- ANSI ----------------------------------- #
 # **************************************************************************** #
 ESC			:= \033
 
