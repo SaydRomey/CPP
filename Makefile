@@ -6,11 +6,12 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 20:33:58 by cdumais           #+#    #+#              #
-#    Updated: 2024/07/06 08:59:01 by cdumais          ###   ########.fr        #
+#    Updated: 2024/08/09 14:44:11 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	CPP
+AUTHOR		:=	cdumais
 INC_DIR		:=	inc
 SRC_DIR		:=	src
 TMP_DIR		:=	tmp
@@ -18,13 +19,34 @@ REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
 NPD			:=	--no-print-directory
 
-all:
+# Detect OS and define OPEN command
+ifeq ($(shell uname), Darwin)
+	OPEN := open
+else
+	OPEN := xdg-open
+endif
 
-	@echo "'make pdf' \t-> get a CPP instruction pdf in './$(TMP_DIR)/'"
-	@echo "'make update' \t-> pull the github version"
-	@echo "'make ref' \t-> open the c++ reference url"
-	@echo "'make class \t-> create a class template in hpp file and cpp file"
-	@echo "'make new' \t-> create an new exercise basic template"
+define MAN
+
+Available 'make' targets:
+
+$(UNDERLINE)Documentation:$(RESET)
+'make pdf'     -> get a specific CPP instruction pdf in './$(TMP_DIR)/'
+'make ref'     -> open the c++ reference url
+'make tuto'    -> open the c++ old tutorial url
+
+$(UNDERLINE)Git and Github:$(RESET)
+'make update'  -> pull the github version
+'make repo'    -> open this repo on github
+
+$(UNDERLINE)Scripts and Templates:$(RESET)
+'make new'     -> create an new exercise (and directory if needed)
+
+endef
+export MAN
+
+all:
+	@echo "$$MAN"
 
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
@@ -40,37 +62,6 @@ clean fclean ffclean:
 	fi
 
 .PHONY: all clean fclean ffclean
-# **************************************************************************** #
-# https://cplusplus.com/doc/oldtutorial/
-
-CPP_REF_URL		:=	https://cplusplus.com/reference/
-
-ref:
-	@if [ "$(OS)" = "Darwin" ]; then \
-		open $(CPP_REF_URL); \
-	else \
-		xdg-open $(CPP_REF_URL) || echo "Please install a compatible PDF viewer"; \
-	fi
-
-.PHONY: ref
-# **************************************************************************** #
-# ----------------------------------- GIT ------------------------------------ #
-# **************************************************************************** #
-MAIN_BRANCH	:= $(shell git branch -r | grep -E 'origin/(main|master)' \
-					| grep -v 'HEAD' | head -n 1 | sed 's@^.*origin/@@')
-
-update:
-	@echo "Updating repository from branch $(CYAN)$(MAIN_BRANCH)$(RESET)..."
-	@echo "Are you sure you want to update the repo? [y/N] " \
-	&& read ANSWER; \
-	if [ "$$ANSWER" = "y" ] || [ "$$ANSWER" = "Y" ]; then \
-		git pull origin $(MAIN_BRANCH); \
-		echo "Repository updated."; \
-	else \
-		echo "canceling update..."; \
-	fi
-
-.PHONY: update
 # **************************************************************************** #
 # ---------------------------------- PDF ------------------------------------- #
 # **************************************************************************** #
@@ -108,36 +99,52 @@ get_pdf: | $(TMP_DIR)
 	@PDF=$(MODULE)_en.pdf; \
 	PDF_URL=$(GIT_URL)/blob/main/pdf/CPP/$$PDF?raw=true; \
 	curl -# -L $$PDF_URL -o $(TMP_DIR)/$$PDF; \
-	if [ "$(OS)" = "Darwin" ]; then \
-		open $(TMP_DIR)/$$PDF; \
-	else \
-		xdg-open $(TMP_DIR)/$$PDF || echo "Please install a compatible PDF viewer"; \
-	fi
+	$(OPEN) $(TMP_DIR)/$$PDF;
 
 .PHONY: pdf get_pdf
 # **************************************************************************** #
-# --------------------------------- CLASS ------------------------------------ #
+# ------------------------------ DOCUMENTATION ------------------------------- #
 # **************************************************************************** #
-class:
-	@echo "Enter the class name: "; \
-	read classname; \
-	classname_upper=`echo $$classname | tr a-z A-Z`; \
-	if [ -f inc/$$classname.hpp ] || [ -f src/$$classname.cpp ]; then \
-		read -p "Files exist. Overwrite? [y/N]: " confirm; \
-		if [ "$$confirm" != "y" ] || [ "$$confirm" != "Y" ]; then \
-			echo "Canceling class creation"; \
-			exit 1; \
-		fi; \
-	fi; \
-	mkdir -p $(INC_DIR) $(SRC_DIR); \
-	echo "$$CLASS_HEADER" \
-	| sed "s/CLASSNAME_UPPER/$$classname_upper/g" \
-	| sed "s/CLASSNAME/$$classname/g" > inc/$$classname.hpp; \
-	echo "$$CLASS_CPP" \
-	| sed "s/CLASSNAME/$$classname/g" > src/$$classname.cpp; \
-	echo "$$classname created"
+CPP_REF_URL		:=	https://cplusplus.com/reference/
+CPP_TUTO_URL	:=	https://cplusplus.com/doc/oldtutorial/
 
-.PHONY: class
+ref:
+	@echo "Opening cplusplus reference's url..."
+	@$(OPEN) $(CPP_REF_URL);
+
+tuto:
+	@echo "Opening cplusplus oldtutorial's url..."
+	@$(OPEN) $(CPP_TUTO_URL);
+
+.PHONY: ref tuto
+# **************************************************************************** #
+# ----------------------------------- GIT ------------------------------------ #
+# **************************************************************************** #
+MAIN_BRANCH	:= $(shell git branch -r | grep -E 'origin/(main|master)' \
+					| grep -v 'HEAD' | head -n 1 | sed 's@^.*origin/@@')
+
+update:
+	@echo "Updating repository from branch $(CYAN)$(MAIN_BRANCH)$(RESET)..."
+	@echo "Are you sure you want to update the repo? [y/N] " \
+	&& read ANSWER; \
+	if [ "$$ANSWER" = "y" ] || [ "$$ANSWER" = "Y" ]; then \
+		git pull origin $(MAIN_BRANCH); \
+		echo "Repository updated."; \
+	else \
+		echo "canceling update..."; \
+	fi
+
+.PHONY: update
+# **************************************************************************** #
+# --------------------------------- GITHUB ----------------------------------- #
+# **************************************************************************** #
+REPO_LINK	:= https://github.com/SaydRomey/CPP
+
+repo:
+	@echo "Opening $(AUTHOR)'s github repo..."
+	@$(OPEN) $(REPO_LINK);
+
+.PHONY: repo
 # **************************************************************************** #
 # ---------------------------------- NEW ------------------------------------- #
 # **************************************************************************** #
@@ -206,68 +213,7 @@ new:
 .PHONY: new
 # $(MAKE) -C $$exdir class #(insted of cd $$exdir...)?
 # **************************************************************************** #
-# ------------------------------- TEMPLATES ---------------------------------- #
-# **************************************************************************** #
-define MAIN_CPP
-#include <iostream>
-
-int	main(void)
-{
-	std::cout << "Don't panic !" << std::endl;
-	return (0);
-}
-endef
-
-export MAIN_CPP
-# **************************************************************************** #
-define CLASS_HEADER
-#ifndef CLASSNAME_UPPER_HPP
-# define CLASSNAME_UPPER_HPP
-
-class CLASSNAME
-{
-	public:
-		CLASSNAME(void);
-		CLASSNAME(const CLASSNAME &src);
-		~CLASSNAME(void);
-
-		CLASSNAME & operator=(const CLASSNAME &rhs);
-
-	private:
-};
-
-#endif // CLASSNAME_UPPER_HPP
-endef
-
-export CLASS_HEADER
-# **************************************************************************** #
-define CLASS_CPP
-#include "CLASSNAME.hpp"
-
-CLASSNAME::CLASSNAME(void)
-{
-	// Constructor
-}
-
-CLASSNAME::CLASSNAME(const CLASSNAME &src)
-{
-	// Copy constructor
-	*this = src;
-}
-
-CLASSNAME::~CLASSNAME(void)
-{
-	// Destructor
-}
-
-CLASSNAME&	CLASSNAME::operator=(const CLASSNAME &rhs)
-{
-	// Copy assignment overload
-	return (*this);
-}
-endef
-
-export CLASS_CPP
+# ----------------------------------- ANSI ----------------------------------- #
 # **************************************************************************** #
 ESC			:= \033
 
