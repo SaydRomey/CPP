@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 22:36:12 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/20 14:35:26 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/09 12:09:58 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ bool	isNanOrInf(const std::string &literal)
 {
 	return (literal == "nan" || literal == "nanf" || 
 			literal == "-inf" || literal == "-inff" || 
-			literal == "+inf" || literal == "+inff");
+			literal == "+inf" || literal == "+inff" || 
+			literal == "inf" || literal == "inff");
 }
 
 bool	isValidScalarType(const std::string &literal)
@@ -60,7 +61,7 @@ void	handlePseudoLiteral(const std::string &literal)
 		f = std::numeric_limits<float>::quiet_NaN();
 		d = std::numeric_limits<double>::quiet_NaN();
 	}
-	else if (literal == "+inf" || literal == "+inff")
+	else if (literal == "inf" || literal == "inff" || literal == "+inf" || literal == "+inff")
 	{
 		f = std::numeric_limits<float>::infinity();
 		d = std::numeric_limits<double>::infinity();
