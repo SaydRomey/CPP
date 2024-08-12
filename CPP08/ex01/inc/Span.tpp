@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:19:35 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/26 15:44:06 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/11 19:55:20 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@
 template <typename Iterator>
 void	Span::addNumbers(Iterator begin, Iterator end)
 {
-	while (begin != end)
+	Iterator	it = begin;
+
+	while (it != end)
 	{
-		addNumber(*begin++);
+		addNumber(*it);
+		it++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:26:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/02 13:07:22 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/11 19:55:33 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Span::Span(const Span &other) : _maxSize(other._maxSize)
 
 Span::~Span(void)
 {
-	// default desctructor
+	// 
 }
 
 Span&	Span::operator=(const Span &other)
@@ -60,7 +60,7 @@ int	Span::shortestSpan(void) const
 	}
 	std::vector<int>	sorted = _numbers;
 	std::sort(sorted.begin(), sorted.end());
-	int	shortest = std::numeric_limits<int>::max();
+	int		shortest = std::numeric_limits<int>::max();
 	size_t	i = 1;
 	while (i < sorted.size())
 	{

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:05:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/09 16:48:35 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/11 19:50:43 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	printSpan(Span &sp, unsigned int numElements)
 	std::cout << "Longest span:\t" << sp.longestSpan() << std::endl;
 }
 
-void	testLargeSpan(unsigned int numElements)
+/*
+creates a 'Span' object with 'numElements' numbers randomized
+*/
+void	testSpan(unsigned int numElements)
 {
 	try
 	{
@@ -38,45 +41,68 @@ void	testLargeSpan(unsigned int numElements)
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cout << e.what() << std::endl;
 	}
 }
 
-int	main(void)
+/*
+"[...]it would be wonderful to fill your Span using a range of iterators.
+Making thousands calls to addNumber() is so annoying.
+Implement a member function to add many numbers to your Span in one call."
+*/
+void	testAddManyNumbersToSpan(unsigned int numElements)
 {
-	testLargeSpan(10000);
-
 	try
 	{
-		Span	sp = Span(5);
-		sp.addNumber(6);
-		sp.addNumber(3);
-		sp.addNumber(17);
-		sp.addNumber(9);
-		sp.addNumber(11);
-		// std::cout << sp.shortestSpan() << std::endl;
-		// std::cout << sp.longestSpan() << std::endl;
-		printSpan(sp, 5);
-
 		std::vector<int>	numbers;
-		numbers.push_back(1);
-		numbers.push_back(2);
-		numbers.push_back(3);
-		numbers.push_back(4);
-		numbers.push_back(5);
-		numbers.push_back(6);
-		numbers.push_back(7);
-		numbers.push_back(8);
-		numbers.push_back(9);
-		numbers.push_back(10);
+		unsigned int	i = 1;
+		while (i <= numElements)
+		{
+			numbers.push_back(i);
+			i++;
+		}
 				
-		Span	sp2 = Span(10);
-		sp2.addNumbers(numbers.begin(), numbers.end());
-		printSpan(sp2, 10);
+		Span	sp = Span(numElements);
+		
+		sp.addNumbers(numbers.begin(), numbers.end());
+		
+		printSpan(sp, numElements);
 	}
 	catch (const std::exception &e)
 	{
 		std::cout << e.what() << std::endl;
 	}
+}
+
+/*
+"Running this code [...] should output:"
+2
+14
+*/
+void	pdfTest(void)
+{
+	try
+	{
+		Span	sp = Span(5);
+		
+		sp.addNumber(6);
+		sp.addNumber(3);
+		sp.addNumber(17);
+		sp.addNumber(9);
+		sp.addNumber(11);
+		std::cout << sp.shortestSpan() << std::endl;
+		std::cout << sp.longestSpan() << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+}
+
+int	main(void)
+{
+	pdfTest();
+	testSpan(10000);
+	testAddManyNumbersToSpan(10);
 	return (0);
 }
