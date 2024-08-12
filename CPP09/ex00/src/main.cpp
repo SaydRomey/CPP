@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 18:37:54 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/09 20:30:10 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/11 23:45:08 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,164 +76,6 @@ Warning: The container(s) you use to validate this exercise will no longer be us
 
 #include "BitcoinExchange.hpp"
 
-bool	isValidDate(const std::string &date)
-{
-	std::istringstream	ss(date);
-	int		year, month, day;
-	char	dash1, dash2;
-
-	if (!(ss >> year >> dash1 >> month >> dash2 >> day) || dash1 != '-' || dash2 != '-' \
-	|| year < 0 || month <= 0 || month > 12 || day <= 0 || day > 31)
-	{
-		return (false);
-	}
-	return (true);
-}
-
-bool	isValidValue(const std::string &value, float &outputValue)
-{
-	std::istringstream	ss(value);
-	ss >> outputValue;
-
-	if (ss.fail() || !ss.eof())
-	{
-		return (false); // non-numeric values or other invalid formats
-	}
-	
-	if (outputValue < 0)
-	{
-		std::cout << "Error: not a positive number." << std::endl;
-		return (false);
-	}
-	
-	if (outputValue > 1000)
-	{
-		std::cout << "Error: too large a number." << std::endl;
-		return (false);
-	}
-	return (true);
-}
-
-/*
-function to trim leading and trailing whitespaces
-*/
-std::string	trim(const std::string &str)
-{
-	size_t	first = str.find_first_not_of(" \n\r\t");
-	size_t	last = str.find_last_not_of(" \n\r\t");
-
-	if (first == std::string::npos || last == std::string::npos)
-		return ("");
-	else
-		return (str.substr(first, last - first + 1));
-}
-
-/*
-function to check if the fisrt line is a header
-*/
-bool	isHeaderLine(const std::string &line)
-{
-	std::istringstream	ss(line);
-	std::string	dateHeader;
-	std::string	valueHeader;
-	
-	if (std::getline(ss, dateHeader, '|') && std::getline(ss, valueHeader))
-	{
-		// trim whitespaces
-		dateHeader = trim(dateHeader);
-		valueHeader = trim(valueHeader);
-		return ((dateHeader == "date" && valueHeader == "value"));
-	}
-	return (false);
-}
-
-void	processLine(const std::string &line, BitcoinExchange &btc)
-{
-	std::istringstream	ss(line);
-	std::string	date;
-	std::string	valueStr;
-
-	if(std::getline(ss, date, '|') && std::getline(ss, valueStr))
-	{
-		date = trim(date);
-		valueStr = trim(valueStr);
-		
-		if (!isValidDate(date))
-		{
-			std::cout << "Error: bad input => " << date << std::endl;
-			return ;
-		}
-			
-		float	value;
-		if (!isValidValue(valueStr, value))
-		{
-			return ; // error msg handled in 'isValidValue()'
-		}
-		float	rate = btc.getPriceForDate(date);
-		float	result = value * rate;
-		std::cout << date << " => " << value << " = " << result << std::endl;
-	}
-	else
-	{
-		std::cout << "Error: bad input => " << line << std::endl;
-	}
-}
-
-/*
-this version skips the line in the pdf example:
-"date | value"
-*/
-bool	loadInputFile(const std::string &filename, BitcoinExchange &btc)
-{
-	std::ifstream	inputFile(filename.c_str());
-	
-	if (!inputFile.is_open())
-	{
-		std::cout << "Error: could not open file" << std::endl;
-		return (false);
-	}
-	
-	std::string	line;
-	// read the first line and check if it's a header
-	if (std::getline(inputFile, line))
-	{
-		if (!isHeaderLine(line))
-		{
-			// not a header, process it as data
-			processLine(line, btc);
-		}
-	}
-
-	// process the remaining lines
-	while (std::getline(inputFile, line))
-	{
-		processLine(line, btc);
-	}
-
-	inputFile.close();
-	return (true);
-}
-
-// bool	loadInputFile(const std::string &filename, BitcoinExchange &btc)
-// {
-// 	std::ifstream	inputFile(filename.c_str());
-	
-// 	if (!inputFile.is_open())
-// 	{
-// 		std::cout << "Error: could not open file" << std::endl;
-// 		return (false);
-// 	}
-
-// 	std::string	line;
-// 	while (std::getline(inputFile, line))
-// 	{
-// 		processLine(line, btc);
-// 	}
-
-// 	inputFile.close();
-// 	return (true);
-// }
-
 int	main(int argc, char *argv[])
 {
 	if (argc != 2)
@@ -253,7 +95,7 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 
-	if (!loadInputFile(argv[1], btc))
+	if (!btc.processInputFile(argv[1]))
 	{
 		return (1);
 	}
