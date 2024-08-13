@@ -6,27 +6,17 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 18:53:53 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/11 23:48:10 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/12 22:03:27 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange(void)
-{
-	// std::cout << GRAYTALIC << "BitcoinExchange [default constructor]" << RESET << std::endl;
-}
+BitcoinExchange::BitcoinExchange(void) {}
 
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) \
-: _exchangeRates(other._exchangeRates)
-{
-	// std::cout << GRAYTALIC << "BitcoinExchange [copy constructor]" << RESET << std::endl;
-}
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) : _exchangeRates(other._exchangeRates) {}
 
-BitcoinExchange::~BitcoinExchange(void)
-{
-	// std::cout << GRAYTALIC << "BitcoinExchange [default destructor]" << RESET << std::endl;
-}
+BitcoinExchange::~BitcoinExchange(void) {}
 
 BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange &other)
 {
@@ -37,7 +27,7 @@ BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange &other)
 	return (*this);
 }
 
-/* ************************************************************************** */
+/* ************************************************************************** */ // Public Methods
 
 void	BitcoinExchange::loadDatabase(const std::string &filename)
 {
@@ -80,7 +70,6 @@ bool	BitcoinExchange::processInputFile(const std::string &filename)
 			processLine(line); // if not, process it as data
 		}
 	}
-	
 	while (std::getline(inputFile, line))
 	{
 		processLine(line); // process the remaining lines
@@ -90,44 +79,7 @@ bool	BitcoinExchange::processInputFile(const std::string &filename)
 	return (true);
 }
 
-/* ************************************************************************** */
-
-bool	BitcoinExchange::isValidDate(const std::string &date) const
-{
-	std::istringstream	ss(date);
-	int		year, month, day;
-	char	dash1, dash2;
-
-	if (!(ss >> year >> dash1 >> month >> dash2 >> day) || dash1 != '-' || dash2 != '-' || year < 0 || month <= 0 || month > 12 || day <= 0 || day > 31)
-	{
-		return (false);
-	}
-	return (true);
-}
-
-bool	BitcoinExchange::isValidValue(const std::string &value, float &outputValue) const
-{
-	std::istringstream	ss(value);
-	ss >> outputValue;
-
-	if (ss.fail() || !ss.eof())
-	{
-		return (false); // non-numeric values or other invalid formats
-	}
-	
-	if (outputValue < 0)
-	{
-		std::cout << "Error: not a positive number." << std::endl;
-		return (false);
-	}
-	
-	if (outputValue > 1000)
-	{
-		std::cout << "Error: too large a number." << std::endl;
-		return (false);
-	}
-	return (true);
-}
+/* ************************************************************************** */ // Private Helper Methods
 
 std::string	BitcoinExchange::trim(const std::string &str) const
 {
@@ -142,6 +94,59 @@ std::string	BitcoinExchange::trim(const std::string &str) const
 	{
 		return (str.substr(first, last - first + 1));
 	}
+}
+
+/*
+"A valid date will always be in the following format: Year-Month-Day."
+
+// 	if (!(ss >> year >> dash1 >> month >> dash2 >> day) || dash1 != '-' || dash2 != '-' || year < 0 || month <= 0 || month > 12 || day <= 0 || day > 31)
+// 		return (false);
+
+*/
+bool	BitcoinExchange::isValidDate(const std::string &date) const
+{
+	std::istringstream	ss(date);
+	int		year, month, day;
+	char	dash1, dash2;
+
+	bool	parsedCorrectly = (ss >> year >> dash1 >> month >> dash2 >> day);
+	bool	dashesAreCorrect = (dash1 == '-' && dash2 == '-');
+
+	bool	yearIsValid = (year >= 0);
+	bool	monthIsValid = (month > 0 && month <= 12);
+	bool	dayIsValid = (day > 0 && day <= 31);
+
+	if (parsedCorrectly && dashesAreCorrect && yearIsValid && monthIsValid && dayIsValid)
+	{
+		return (true);
+	}
+	return (false);
+}
+
+bool	BitcoinExchange::isValidValue(const std::string &value, float &outputValue, std::string &errorMsg) const
+{
+	std::istringstream	ss(value);
+	ss >> outputValue;
+
+	if (ss.fail() || !ss.eof())
+	{
+		errorMsg = "Error: bad input";
+		return (false);
+	}
+	
+	if (outputValue < 0)
+	{
+		errorMsg = "Error: not a positive number.";
+		return (false);
+	}
+	
+	if (outputValue > 1000)
+	{
+		errorMsg = "Error: too large a number.";
+		return (false);
+	}
+	
+	return (true);
 }
 
 bool	BitcoinExchange::isHeaderLine(const std::string &line) const
@@ -173,8 +178,16 @@ float	BitcoinExchange::getPriceForDate(const std::string &date) const
 		return (0.0f);
 }
 
+/* ** need to split this in subfunctions **!
+
+*/
 void	BitcoinExchange::processLine(const std::string &line)
 {
+	if (line.empty())
+	{
+		return ;
+	}
+	
 	std::istringstream	ss(line);
 	std::string	date;
 	std::string	valueStr;
@@ -186,14 +199,23 @@ void	BitcoinExchange::processLine(const std::string &line)
 		
 		if (!isValidDate(date))
 		{
-			std::cout << "Error: bad input => " << date << std::endl;
+			std::cout << "Error: bad input => " << line << std::endl;
 			return ;
 		}
 			
 		float	value;
-		if (!isValidValue(valueStr, value))
+		std::string	errorMsg;
+		if (!isValidValue(valueStr, value, errorMsg))
 		{
-			return ; // error msg handled in 'isValidValue()'
+			if (errorMsg == "Error: bad input")
+			{
+				std::cout << errorMsg << " => " << line << std::endl;
+			}
+			else
+			{
+				std::cout << errorMsg << std::endl;
+			}
+			return ;
 		}
 		
 		float	rate = getPriceForDate(date);

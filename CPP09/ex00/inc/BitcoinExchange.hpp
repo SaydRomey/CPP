@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:13:09 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/11 23:46:41 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/12 21:48:14 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ class BitcoinExchange
 		BitcoinExchange(void);
 		BitcoinExchange(const BitcoinExchange &other);
 		~BitcoinExchange(void);
-
 		BitcoinExchange&	operator=(const BitcoinExchange &other);
 
 		void	loadDatabase(const std::string &filename);
@@ -35,10 +34,10 @@ class BitcoinExchange
 	
 	private:
 		std::map<std::string, float>	_exchangeRates;
-
-		bool	isValidDate(const std::string &date) const;
-		bool	isValidValue(const std::string &value, float &outputValue) const;
+		
 		std::string	trim(const std::string &str) const;
+		bool	isValidDate(const std::string &date) const;
+		bool	isValidValue(const std::string &value, float &outputValue, std::string &errorMsg) const;
 		bool	isHeaderLine(const std::string &line) const;
 		float	getPriceForDate(const std::string &date) const;
 		void	processLine(const std::string &line);
