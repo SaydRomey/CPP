@@ -6,12 +6,13 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 18:37:54 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/11 23:45:08 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/18 18:08:07 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-Create aprogram which outputs the value of a certain amount of bitcoin on a certain date.
+Create a program which outputs
+the value of a certain amount of bitcoin on a certain date.
 
 This program must use a database in csv format (comma-separated values)
 which will represent bitcoin price over time.
@@ -48,7 +49,9 @@ $>
 
 Your program will use the value in your input file.
 
-Your program should display on the standard output the result of the value multiplied by the exchange rate according to the date indicated in your database.
+Your program should display on the standard output
+the result of the value multiplied by the exchange rate
+according to the date indicated in your database.
 
 If the date used in the input does not exist in your DB
 then you must use the closest date contained in your DB.
@@ -70,8 +73,8 @@ Error: bad input => 2001-42-42
 Error: too large a number.
 $>
 
-Warning: The container(s) you use to validate this exercise will no longer be usable for the rest of this module.
-
+Warning: The container(s) you use to validate this exercise
+will no longer be usable for the rest of this module.
 */
 
 #include "BitcoinExchange.hpp"
@@ -80,25 +83,21 @@ int	main(int argc, char *argv[])
 {
 	if (argc != 2)
 	{
-		std::cout << "Error: could not open file" << std::endl;
+		// std::cout << "Error: could not open file" << std::endl; // <- to produce the same output as in the PDF
+		std::cout << "Usage: " << argv[0] << " <input_file>" << std::endl;
 		return (1);
 	}
-
-	BitcoinExchange	btc;
 	try
 	{
-		btc.loadDatabase("data.csv"); // define as a constant in header ?
+		BitcoinExchange	btc;
+		
+		btc.loadDatabase(DATABASE_PATH);
+		btc.processInputFile(argv[1]);		
 	}
 	catch (const std::exception &e)
 	{
 		std::cout << e.what() << std::endl;
 		return (1);
 	}
-
-	if (!btc.processInputFile(argv[1]))
-	{
-		return (1);
-	}
-
 	return (0);
 }

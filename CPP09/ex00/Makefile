@@ -6,12 +6,13 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/09 18:36:41 by cdumais           #+#    #+#              #
-#    Updated: 2024/08/09 18:37:39 by cdumais          ###   ########.fr        #
+#    Updated: 2024/08/18 14:02:10 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	btc
 AUTHOR		:=	cdumais
+INPUT_FILE	:=	input.txt
 
 COMPILE		:=	c++
 C_FLAGS		:=	-Wall -Wextra -Werror
@@ -129,7 +130,7 @@ repo:
 # ---------------------------------- UTILS ----------------------------------- #
 # **************************************************************************** #
 run: all
-	./$(NAME)
+	./$(NAME) $(INPUT_FILE)
 
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
