@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/09 18:36:41 by cdumais           #+#    #+#              #
-#    Updated: 2024/08/18 14:02:10 by cdumais          ###   ########.fr        #
+#    Updated: 2024/08/18 20:46:44 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -159,6 +159,13 @@ class:
 	| sed "s/CLASSNAME/$$classname/g" > inc/$$classname.hpp; \
 	echo "$$CLASS_CPP" \
 	| sed "s/CLASSNAME/$$classname/g" > src/$$classname.cpp; \
+	if [ -f $(SRC_DIR)/main.cpp ]; then \
+		awk 'BEGIN {count=0} \
+			/^$$/ {count++} \
+			{print} \
+			count==1 && !printed {print "#include \"'$$classname'.hpp\""; printed=1}' \
+			$(SRC_DIR)/main.cpp > $(SRC_DIR)/tmp && mv $(SRC_DIR)/tmp $(SRC_DIR)/main.cpp; \
+	fi; \
 	echo "$$classname created"
 
 .PHONY: class

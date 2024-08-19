@@ -1,5 +1,5 @@
 
-NAME		:=	Placeholder
+NAME		:=	RPN
 AUTHOR		:=	cdumais
 
 COMPILE		:=	c++
@@ -80,7 +80,7 @@ GIT_URL		:= https://github.com/SaydRomey/42_ressources
 
 pdf:
 	@echo "Obtaining pdf..."
-	@$(MAKE) get_pdf MODULE=cpp00 $(NPD)
+	@$(MAKE) get_pdf MODULE=cpp09 $(NPD)
 
 get_pdf: | $(TMP_DIR)
 	@PDF=$(MODULE)_en.pdf; \
