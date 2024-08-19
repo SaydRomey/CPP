@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.hpp                                            :+:      :+:    :+:   */
+/*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/18 20:56:14 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/18 20:56:15 by cdumais          ###   ########.fr       */
+/*   Created: 2024/08/18 20:56:01 by cdumais           #+#    #+#             */
+/*   Updated: 2024/08/18 20:56:02 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RPN_HPP
-# define RPN_HPP
+#ifndef PMERGEME_HPP
+# define PMERGEME_HPP
 
 # include <iostream>
 
@@ -23,27 +23,27 @@
 # define ORANGE		"\033[38;5;208m"
 # define GRAYTALIC	"\033[3;90m"
 
-class RPN
+class PmergeMe
 {
 	private:
 		// Attributes
 	
 	public:
 		// Constructors / Destructors
-		RPN(void);
-		RPN(const RPN &other);
-		~RPN(void);
+		PmergeMe(void);
+		PmergeMe(const PmergeMe &other);
+		~PmergeMe(void);
 
 		// Getters / Setters
 
 		// Functions / Methods
 
 		// Operators
-		RPN&	operator=(const RPN &other);
+		PmergeMe&	operator=(const PmergeMe &other);
 
 		// Exceptions
 };
 
-// std::ostream&	operator<<(std::ostream &out, const RPN &param);
+// std::ostream&	operator<<(std::ostream &out, const PmergeMe &param);
 
-#endif // RPN_HPP
+#endif // PMERGEME_HPP

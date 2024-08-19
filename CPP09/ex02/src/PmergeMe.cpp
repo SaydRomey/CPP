@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.cpp                                            :+:      :+:    :+:   */
+/*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/18 20:56:11 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/18 20:56:12 by cdumais          ###   ########.fr       */
+/*   Created: 2024/08/18 20:56:04 by cdumais           #+#    #+#             */
+/*   Updated: 2024/08/18 20:56:05 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RPN.hpp"
+#include "PmergeMe.hpp"
 
 /* ************************************************************************** */ // Constructors / Destructors
 
-RPN::RPN(void)
+PmergeMe::PmergeMe(void)
 {
-	std::cout << GRAYTALIC << "RPN [default constructor]" << RESET << std::endl;
+	std::cout << GRAYTALIC << "PmergeMe [default constructor]" << RESET << std::endl;
 }
 
-RPN::RPN(const RPN &other)
+PmergeMe::PmergeMe(const PmergeMe &other)
 {
 	*this = other;
-	std::cout << GRAYTALIC << "RPN [copy constructor]" << RESET << std::endl;
+	std::cout << GRAYTALIC << "PmergeMe [copy constructor]" << RESET << std::endl;
 }
 
-RPN::~RPN(void)
+PmergeMe::~PmergeMe(void)
 {
-	std::cout << GRAYTALIC << "RPN [default destructor]" << RESET << std::endl;
+	std::cout << GRAYTALIC << "PmergeMe [default destructor]" << RESET << std::endl;
 }
 
 /* ************************************************************************** */ // Getters / Setters
@@ -36,7 +36,7 @@ RPN::~RPN(void)
 
 /* ************************************************************************** */ // Operators
 
-RPN&	RPN::operator=(const RPN &other)
+PmergeMe&	PmergeMe::operator=(const PmergeMe &other)
 {
 	// if (this != &other)
 	// {}
@@ -44,7 +44,7 @@ RPN&	RPN::operator=(const RPN &other)
 	return (*this);
 }
 
-// std::ostream&	operator<<(std::ostream &out, const RPN &param)
+// std::ostream&	operator<<(std::ostream &out, const PmergeMe &param)
 
 /* ************************************************************************** */ // Exceptions
 

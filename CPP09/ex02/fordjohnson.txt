@@ -1,0 +1,79 @@
+
+The Ford-Johnson algorithm, also known as "Merge-Insertion,"
+is a comparison sorting algorithm that aims to minimize the number of comparisons needed to sort a list.
+It was developed by L.R. Ford and S.M. Johnson in 1959
+and is particularly notable because
+it achieves an optimal number of comparisons for small numbers of elements,
+though it is less commonly used in practice today
+compared to more well-known algorithms like QuickSort or MergeSort.
+
+
+How the Algorithm Works:
+The Ford-Johnson algorithm operates by a clever combination of
+merge sorting and insertion sorting principles.
+Here's a high-level overview:
+
+Divide and Conquer:
+The list is divided into pairs of elements.
+Each pair is compared, and the smaller of the two is placed into a "sorted" list,
+while the larger elements are set aside for later insertion.
+
+Recursive Sorting:
+The smaller sorted list is recursively sorted,
+while the larger elements are inserted into
+their correct positions within this sorted list using a binary search.
+
+Merging:
+The process of inserting the larger elements involves
+finding their correct position within the sorted list and placing them there,
+minimizing the number of comparisons.
+
+Insertion:
+Finally, the larger elements that were set aside
+are inserted into their correct positions in the sorted list.
+
+Why It's Useful:
+The Ford-Johnson algorithm is useful in situations
+where the number of comparisons is critical, especially for small lists.
+The algorithm is provably optimal for small input sizes,
+meaning it uses the fewest possible comparisons to sort the list.
+For larger datasets, other algorithms like MergeSort or QuickSort
+tend to be more practical due to their better average-case performance
+and simpler implementation.
+
+(Making sure it is not some other algo)
+
+1. Review the Number of Comparisons:
+Ford-Johnson:
+The hallmark of Ford-Johnson is its optimization for the number of comparisons,
+particularly for small lists.
+If the code is tracking and minimizing comparisons meticulously,
+it might indicate the use of Ford-Johnson or a similar algorithm.
+Other Algorithms:
+Compare the number of comparisons to known values for other algorithms
+(e.g., MergeSort, Insertion Sort, etc.).
+If the number aligns with a different sorting algorithm’s pattern, that might be a clue.
+
+2. Examine the Code Structure:
+Pairing and Recursive Sorting:
+Ford-Johnson begins by pairing elements
+and recursively sorting smaller parts of the list
+before inserting larger elements.
+
+Look for code that explicitly handles element pairs,
+recursive sorting, and careful insertion.
+
+Merging Steps:
+The merging and insertion steps in Ford-Johnson are quite specific.
+If you see code that diverges from this,
+such as using straightforward merging without pair-based partitioning,
+it might suggest another algorithm.
+
+3. Check for Binary Insertion:
+Binary Search for Insertion:
+Ford-Johnson uses binary search to place elements in their correct positions.
+If the implementation uses binary search heavily during insertion phases,
+it might indicate Ford-Johnson or a similar technique.
+Linear Insertion:
+If the insertion phase is more linear and not optimized through binary search,
+it might be closer to a basic insertion sort or another non-Ford-Johnson method.
