@@ -215,7 +215,7 @@ float	BitcoinExchange::_getPriceForDate(const std::string &date) const
 /*
 Centralized error message printing
 If error is "Error: bad input", prints the line that triggered an error
-Otherwise it prints a specific error message
+Otherwise prints a specific error message
 */
 void	BitcoinExchange::_printError(const std::string &errorMsg, const std::string &line) const
 {
@@ -259,13 +259,13 @@ bool	BitcoinExchange::_parseLine(const std::string &line, std::string &date, std
 Handles the logic for processing and printing valid data
 Retrieves the exchange rate for the given date, computes the result, and prints the output
 Handles monetary values with precision:
-- Converts value (in dollars) and the exchange rate to cents
-	by multiplying it by 100 and rounding to the nearest integer
+- Converts 'value' and the exchange rate to cents
+	by multiplying them by 100 and rounding to the nearest integer
 - Calculates the result in cents, then divides by 100 to maintain correct scaling
 - Converts the result back to dollars to restore it to a floating-point (double)
 Uses 'std::fixed' to avoid scientific notation,
 and 'std::setprecision()' to format the result conditionally (as in the PDF example)
-and print result in a monetary format (with between zero and two decimal places)
+and then prints the result in a monetary format (with between zero and two decimal places)
 */
 void	BitcoinExchange::_processValidData(const std::string &date, float value) const
 {
@@ -298,7 +298,7 @@ void	BitcoinExchange::_processValidData(const std::string &date, float value) co
 Processes a single line from the input file
 Trims the line, validates the date and value,
 and either processes the data or prints an appropriate error message
-(skips empty lines and lines containing whitespace)
+(skips empty lines and lines containing only whitespace)
 */
 void	BitcoinExchange::_processLine(const std::string &line)
 {
