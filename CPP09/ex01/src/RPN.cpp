@@ -6,45 +6,83 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:11 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/18 20:56:12 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/18 21:35:53 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 
-/* ************************************************************************** */ // Constructors / Destructors
+RPN::RPN(void) {}
 
-RPN::RPN(void)
-{
-	std::cout << GRAYTALIC << "RPN [default constructor]" << RESET << std::endl;
-}
+RPN::RPN(const RPN &other) : _stack(other._stack) {}
 
-RPN::RPN(const RPN &other)
-{
-	*this = other;
-	std::cout << GRAYTALIC << "RPN [copy constructor]" << RESET << std::endl;
-}
-
-RPN::~RPN(void)
-{
-	std::cout << GRAYTALIC << "RPN [default destructor]" << RESET << std::endl;
-}
-
-/* ************************************************************************** */ // Getters / Setters
-
-/* ************************************************************************** */ // Functions / Methods
-
-/* ************************************************************************** */ // Operators
+RPN::~RPN(void) {}
 
 RPN&	RPN::operator=(const RPN &other)
 {
-	// if (this != &other)
-	// {}
-	
+	if (this != &other)
+	{
+		this->_stack = other._stack;
+	}
 	return (*this);
 }
 
-// std::ostream&	operator<<(std::ostream &out, const RPN &param)
+/* ************************************************************************** */ // Public Methods
 
-/* ************************************************************************** */ // Exceptions
+int	RPN::evaluate(const std::string &expression)
+{
+	std::stringstream	ss(expression);
+	std::string			token;
 
+	while (ss >> token)
+	{
+		if (isdigit(token[0]) && token.length() == 1)
+		{
+			_stack.push(token[0] - '0'); // convert char to int
+		}
+		else if (_isOperator(token))
+		{
+			if (_stack.size() < 2)
+			{
+				std::cout << "Error" << std::endl;
+				return (-1);
+			}
+			int	b = _stack.top();
+			_stack.pop();
+			int	a = _stack.top();
+			_stack.pop();
+			_stack.push(_applyOperation(token, a, b));
+		}
+		else
+		{
+			std::cout << "Error" << std::endl;
+			return (-1);
+		}
+	}
+	if (_stack.size() != 1)
+	{
+		std::cout << "Error" << std::endl;
+		return (-1);
+	}
+	return (_stack.top());
+}
+
+/* ************************************************************************** */ // Private Helper Methods
+
+bool	RPN::_isOperator(const std::string &token) const
+{
+	return (token == "+" || token == "-" || token == "*" || token == "/");
+}
+
+int		RPN::_applyOperation(const std::string &operation, int a, int b) const
+{
+	if (operation == "+")
+		return (a + b);
+	if (operation == "-")
+		return (a - b);
+	if (operation == "*")
+		return (a * b);
+	if (operation == "/")
+		return (a / b);
+	return (0); // should not reach here
+}

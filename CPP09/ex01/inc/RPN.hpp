@@ -6,44 +6,34 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:14 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/18 20:56:15 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/18 21:35:04 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RPN_HPP
 # define RPN_HPP
 
+# include <cctype>
 # include <iostream>
-
-# define RESET		"\033[0m"
-# define RED		"\033[91m"
-# define GREEN		"\033[32m"
-# define YELLOW		"\033[33m"
-# define PURPLE		"\033[95m"
-# define ORANGE		"\033[38;5;208m"
-# define GRAYTALIC	"\033[3;90m"
+# include <sstream>
+# include <stack>
+# include <string>
 
 class RPN
 {
-	private:
-		// Attributes
-	
 	public:
-		// Constructors / Destructors
 		RPN(void);
 		RPN(const RPN &other);
 		~RPN(void);
-
-		// Getters / Setters
-
-		// Functions / Methods
-
-		// Operators
 		RPN&	operator=(const RPN &other);
 
-		// Exceptions
-};
+		int	evaluate(const std::string &expression);
 
-// std::ostream&	operator<<(std::ostream &out, const RPN &param);
+	private:
+		std::stack<int>	_stack;
+
+		bool	_isOperator(const std::string &token) const;
+		int		_applyOperation(const std::string &operation, int a, int b) const;
+};
 
 #endif // RPN_HPP
