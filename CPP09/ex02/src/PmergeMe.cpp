@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/20 01:17:51 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/20 01:23:14 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,18 @@ void	PmergeMe::mergeInsertSortImpl(std::deque<int> &seq)
 		}
 		i++;
 	}
+
+	i = 0;
+	while (i < auxiliary.size())
+	{
+		if (std::find(mainChain.begin(), mainChain.end(), auxiliary[i]) == mainChain.end())
+		{
+			size_t	pos = binarySearchPosition(mainChain, auxiliary[i]);
+			mainChain.insert(mainChain.begin() + pos, auxiliary[i]);
+		}
+		i++;
+	}	
+	
 	seq = mainChain;
 }
 
