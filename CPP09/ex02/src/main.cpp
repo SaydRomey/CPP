@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:55:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/18 21:12:44 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/20 01:19:52 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,41 +69,58 @@ Warning: The container(s) you used in the previous exercises are forbidden here.
 The management of errors related to duplicates is left to your discretion.
 */
 
-/*
-
-1. Class Design:
-Class Name: PmergeMe.
-Member Variables:
-Two containers (e.g., std::vector<int> and std::deque<int>).
-Member Functions:
-Constructor, Destructor, Copy Constructor, and Assignment Operator (Canonical Form).
-sortVector() to sort using std::vector.
-sortDeque() to sort using std::deque.
-printBeforeAndAfter() to handle output formatting.
-measureTime() to measure and display sorting times.
-
-2. Implementation:
-Sorting with Ford-Johnson Algorithm:
-Implement the merge-insert sort algorithm separately for each container (std::vector and std::deque).
-Error Handling:
-Validate input for non-integer values, negative numbers, and duplicates if you choose to handle them.
-Time Measurement:
-Use clock() from <ctime> to measure the sorting time for each container.
-
-3. Main Function:
-Parse command-line arguments into a list of positive integers.
-Instantiate the PmergeMe class.
-Invoke the sorting functions for both containers.
-Print the results.
-*/
-
 #include "PmergeMe.hpp"
 
-int	main(int argc, char *argv[])
+void	testJacobsthal(int num)
 {
-	(void)argc;
-	(void)argv;
+	std::vector<int> jacobsthalOrder = generateJacobsthalOrder<int, std::vector<int> >(num);
+	std::vector<int>::const_iterator	it = jacobsthalOrder.begin();
+	
+	std::cout << "jacobstal of size " << num << ": ";
+	while (it != jacobsthalOrder.end())
+	{
+		if (it + 1 == jacobsthalOrder.end())
+			std::cout << *it;
+		else
+			std::cout << *it << ", ";
+		it++;
+	}
+	std::cout << std::endl;
+}
 
+int	main(int argc, char *argv[])
+{	
+	if (argc < 2)
+	{
+		std::cout << "Error: No input sequence provided" << std::endl;
+		return (1);
+	}
+
+	std::vector<int>	inputSequence;
+	try
+	{
+		inputSequence = parseInput(argc, argv);
+
+		PmergeMe	sorter;
+		sorter.setSequence(inputSequence);
+
+		std::vector<int>	vectorSequence = inputSequence;
+		std::deque<int>		dequeSequence(inputSequence.begin(), inputSequence.end());
+
+		sorter.mergeInsertSort(vectorSequence);
+		sorter.mergeInsertSort(dequeSequence);
+		sorter.displayResults();
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Error: " << e.what() << std::endl;
+		return (1);
+	}
 	return (0);
 }
 
+//
+/*
+we have trouble with 300 values...
+
+*/
