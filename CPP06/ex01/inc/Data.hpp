@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 16:18:05 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/20 14:22:00 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/23 13:26:53 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <iostream>
 # include <string>
-// # include <cstdint>
 # include <stdint.h>
 
 # define RESET		"\033[0m"

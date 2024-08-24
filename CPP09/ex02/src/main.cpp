@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:55:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/20 01:23:41 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/23 23:38:27 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,45 +71,19 @@ The management of errors related to duplicates is left to your discretion.
 
 #include "PmergeMe.hpp"
 
-void	testJacobsthal(int num)
-{
-	std::vector<int> jacobsthalOrder = generateJacobsthalOrder<int, std::vector<int> >(num);
-	std::vector<int>::const_iterator	it = jacobsthalOrder.begin();
-	
-	std::cout << "jacobstal of size " << num << ": ";
-	while (it != jacobsthalOrder.end())
-	{
-		if (it + 1 == jacobsthalOrder.end())
-			std::cout << *it;
-		else
-			std::cout << *it << ", ";
-		it++;
-	}
-	std::cout << std::endl;
-}
-
 int	main(int argc, char *argv[])
 {	
-	if (argc < 2)
-	{
-		std::cout << "Error: No input sequence provided" << std::endl;
-		return (1);
-	}
-
-	std::vector<int>	inputSequence;
 	try
 	{
-		inputSequence = parseInput(argc, argv);
+		// PmergeMe	sorter;
+		// sorter.parseInput(argc, argv);
+		
+		PmergeMe	sorter(argc, argv);
+		
+		printSequence(sorter.getInputSequence(), "Input:  ");
 
-		PmergeMe	sorter;
-		sorter.setSequence(inputSequence);
+		sorter.process();
 
-		std::vector<int>	vectorSequence = inputSequence;
-		std::deque<int>		dequeSequence(inputSequence.begin(), inputSequence.end());
-
-		sorter.mergeInsertSort(vectorSequence);
-		sorter.mergeInsertSort(dequeSequence);
-		sorter.displayResults();
 	}
 	catch (const std::exception &e)
 	{
@@ -118,9 +92,3 @@ int	main(int argc, char *argv[])
 	}
 	return (0);
 }
-
-//
-/*
-we have trouble with 300 values...
-
-*/

@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Jacobsthal.hpp                                     :+:      :+:    :+:   */
+/*   PmergeMe.tpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/20 00:29:47 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/23 15:57:29 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef JACOBSTHAL_HPP
-# define JACOBSTHAL_HPP
+#ifndef PMERGEME_TPP
+# define PMERGEME_TPP
 
-# include <vector>
+# include "PmergeMe.hpp"
 
 /*
 Starts with the first two terms of the Jacobsthal sequence: 0 and 1
@@ -60,4 +60,4 @@ Container	generateJacobsthalOrder(T size)
 	return (order);
 }
 
-#endif // JACOBSTHAL_HPP
+#endif // PMERGEME_TPP

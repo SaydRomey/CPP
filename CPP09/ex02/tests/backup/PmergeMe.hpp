@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:01 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/24 00:06:33 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/23 21:08:12 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,55 +15,45 @@
 
 # include <algorithm>
 # include <cstdlib>
-# include <cerrno>
 # include <ctime>
 # include <deque>
 # include <iostream>
-# include <limits>
-# include <list>
 # include <set>
 # include <stdexcept>
 # include <string>
-# include <utility>
 # include <vector>
 
 class PmergeMe
 {
 	public:
 		PmergeMe(void);
-		PmergeMe(int argc, char *argv[]);
 		PmergeMe(const PmergeMe &other);
 		~PmergeMe(void);
 		PmergeMe&	operator=(const PmergeMe &other);
 
-		void	parseInput(int argc, char *argv[]);
-
-		void	process(void); // tmp function to test stuff
-		
-		
-		
-		const std::list<int>	&getInputSequence(void) const;
-		const std::vector<int>	&getVectorSequence(void) const;
-		const std::deque<int>	&getDequeSequence(void) const;
+		void	setSequence(const std::vector<int> &seq);
+		void	mergeInsertSort(std::vector<int> &vec);
+		void	mergeInsertSort(std::deque<int> &deq);
+		void	displayResults(void) const;
 	
 	private:
-		std::list<int>		_inputSequence;
-		std::vector<int>	_vectorSequence;
-		std::deque<int>		_dequeSequence;
+		std::vector<int>	_inputSequence;
+		std::vector<int>	_sortedVector;
+		std::deque<int>		_sortedDeque;
+		double				_vectorTime;
+		double				_dequeTime;
 
-		template <typename Container>
-		void		setSequence(Container &seq);
+		void	sortAndMeasureVector(void);
+		void	sortAndMeasureDeque(void);
 
-		template <typename Container>
-		std::vector<std::pair<int, int> >	groupPairs(const Container &container) const;
+		void	mergeInsertSortImpl(std::vector<int> &seq);
+		void	mergeInsertSortImpl(std::deque<int> &seq);
 
-		template <typename Container>
-		void	printPairs(const Container &pairs) const;
-
+		template <typename T>
+		size_t	binarySearchPosition(T &mainChain, typename T::value_type element);
 };
 
-template <typename C>
-void	printSequence(const C &seq, const std::string &str);
+std::vector<int>	parseInput(int argc, char *argv[]);
 
 # include "PmergeMe.tpp"
 
