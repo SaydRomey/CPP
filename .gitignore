@@ -17,6 +17,9 @@
 **/tmp/
 **/obj/
 
+# output files
+out.txt
+
 # # Executables
 
 # Default executable

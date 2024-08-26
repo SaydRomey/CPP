@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:55:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/23 23:38:27 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/25 19:42:09 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,18 @@ The management of errors related to duplicates is left to your discretion.
 
 #include "PmergeMe.hpp"
 
+
 int	main(int argc, char *argv[])
 {	
 	try
 	{
+		PmergeMe	sorter(argc, argv);
+		
 		// PmergeMe	sorter;
 		// sorter.parseInput(argc, argv);
 		
-		PmergeMe	sorter(argc, argv);
-		
-		printSequence(sorter.getInputSequence(), "Input:  ");
-
 		sorter.process();
-
+		
 	}
 	catch (const std::exception &e)
 	{

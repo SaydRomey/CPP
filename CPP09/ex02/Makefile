@@ -121,6 +121,9 @@ ARG	:= 3 5 9 7 4
 run: all
 	./$(NAME) $(ARG)
 
+debug: C_FLAGS += -DDEBUG=true
+debug: all
+
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
 

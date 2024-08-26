@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/24 00:08:23 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/25 22:38:44 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ PmergeMe::PmergeMe(int argc, char *argv[])
 }
 
 PmergeMe::PmergeMe(const PmergeMe &other) 
-	: _inputSequence(other._inputSequence), _vectorSequence(other._vectorSequence), _dequeSequence(other._dequeSequence)
+	:	_inputSequence(other._inputSequence),
+		_vectorSequence(other._vectorSequence),
+		_dequeSequence(other._dequeSequence)
 {
 	// 
 }
@@ -42,20 +44,111 @@ PmergeMe&	PmergeMe::operator=(const PmergeMe &other)
 }
 
 /* ************************************************************************** */
-/* ************************************************************************** */
 
 /*
-tmp function to test order of execution for methods
+calculates the nth jacobsthal number
+
+return (static_cast<int>((pow(2, n) + pow(-1, n - 1)) / 3));
+*/
+int	PmergeMe::jacobsthal(int n)
+{
+	if (n == 0)
+		return (0);
+	if (n == 1)
+		return (1);
+
+	int	prev2 = 0;  // J_0
+	int	prev1 = 1;  // J_1
+	int	current = 0;
+
+	int	i = 2;
+	while (i <= n)
+	{
+		current = prev1 + 2 * prev2; // J_n = J_{n-1} + 2 * J_{n-2}
+		prev2 = prev1;
+		prev1 = current;
+		i++;
+	}
+	return (current);
+}
+/*
+Get the order of pending elements using Jacobsthal numbers
+*/
+std::vector<int>	PmergeMe::getJacobsthalOrder(int n)
+{
+	std::vector<int>	order;
+
+	// Generate Jacobsthal numbers until the number exceeds n
+	int	j = 0;
+	while (jacobsthal(j) < n)
+	{
+		order.push_back(jacobsthal(j));
+		j++;
+	}
+
+	// Add the last number
+	order.push_back(n);
+
+	// Generate the sequence based on Jacobsthal order
+	std::vector<int>	result;
+	size_t	i = 0;
+	while (i < order.size() - 1)
+	{
+		int	k = order[i + 1] - 1;
+		while (k >= order[i])
+		{
+			result.push_back(k);
+			k--;
+		}
+		i++;
+	}
+	return (result);
+}
+
+
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+
+// void	delaySimulation(void)
+// {
+// 	volatile int	i = 0;
+// 	while (i < 1000000)
+// 	{
+// 		i++; // example delay
+// 	}
+// }
+
+std::vector<int>	PmergeMe::processVector(double &duration)
+{
+	std::clock_t	start = std::clock();
+	
+	setSequence(this->_vectorSequence);
+
+	std::vector<int>	sortedSequence = mergeInsertionSort(_vectorSequence);
+	// _vectorSequence = sortedSequence;
+
+	std::clock_t	end = std::clock();
+	duration = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+
+	return (sortedSequence);
+}
+
+/*
+tmp public function to test order of execution order for methods
 */
 void	PmergeMe::process(void)
 {
-	setSequence(this->_vectorSequence);
-	printSequence(this->_vectorSequence, "Vector: ");
+	printSequence(getInputSequence(), "Before: ");
+	
+	double	vectorTime;
+	std::vector<int>	sortedSequence = processVector(vectorTime);
 
-	// group the elements of X into [n/2] pairs of elements, arbitrarily, leaving one element unpaired if odd num of elem
-	std::vector<std::pair<int, int> >	pairs = groupPairs(getVectorSequence());
-	std::cout << "Grouped Pairs:" << std::endl;
-	printPairs(pairs);
+	// printSequence(getVectorSequence(), "After: ");
+	printSequence(sortedSequence, "After: ");
+	printTime(_vectorSequence, "std::vector" , vectorTime);
 }
 
 /* ************************************************************************** */
@@ -82,15 +175,11 @@ void	PmergeMe::parseInput(int argc, char *argv[])
 		long	num = std::strtol(argv[i], &endPtr, 10);
 		if (errno == ERANGE || num > std::numeric_limits<int>::max() || num < std::numeric_limits<int>::min())
 		{
-			std::string errorMsg = "Integer overflow detected: " + std::string(argv[i]);
-			throw (std::overflow_error(errorMsg));
-			// throw (std::overflow_error("Integer overflow detected"));
+			throw (std::overflow_error(("Integer overflow detected: ") + std::string(argv[i])));
 		}
 		if (*endPtr != '\0')
 		{
-			std::string errorMsg = "Invalid integer input: " + std::string(argv[i]);
-			throw (std::invalid_argument(errorMsg));
-			// throw (std::invalid_argument("Invalid integer input"));
+			throw (std::invalid_argument(("Invalid integer input: ") + std::string(argv[i])));
 		}
 		if (num < 0)
 		{
@@ -105,8 +194,6 @@ void	PmergeMe::parseInput(int argc, char *argv[])
 		i++;
 	}
 	this->_inputSequence = inputSequence;
-	// this->_inputSequence = setSequence(inputSequence); // to test
-	// setSequence(inputSequence); //to test
 }
 
 /* ************************************************************************** */
