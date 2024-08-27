@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:01 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/25 23:17:38 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:32:37 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PMERGEME_HPP
 
 # include <algorithm>
-# include <cmath>		// pow
+// # include <cmath>		// pow
 # include <cstdlib>
 # include <cerrno>
 # include <ctime>
@@ -23,7 +23,6 @@
 # include <limits>
 # include <list>
 # include <set>
-# include <sstream>		// ostringstream
 # include <stdexcept>
 # include <string>
 # include <utility>
@@ -66,6 +65,12 @@ class PmergeMe
 		std::vector<int>	_vectorSequence;
 		std::deque<int>		_dequeSequence;
 
+		// calculates the nth Jacobsthal number
+		int	jacobsthal(int n);
+
+		// gets the order of pending elements using the Jacobsthal numbers
+		std::vector<int>	getJacobsthalOrder(int n);
+
 
 		// // merge-insertion sort function for any container type
 		// template <typename Container>
@@ -95,12 +100,6 @@ class PmergeMe
 
     	template <typename Container>
     	void splitMainAndPendingChains(const std::vector<typename Container::value_type> &sortedPairs, Container &mainChain, Container &pendingElements);
-
-		// calculates the nth Jacobsthal number
-		int	jacobsthal(int n);
-
-		// gets the order of pending elements using the Jacobsthal numbers
-		std::vector<int>	getJacobsthalOrder(int n);
 		
     	template <typename Container>
     	void applyJacobsthalOrder(Container &mainChain, const Container &pendingElements);

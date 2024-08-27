@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/25 23:17:54 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/26 20:33:20 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,9 +197,6 @@ void PmergeMe::applyJacobsthalOrder(Container &mainChain, const Container &pendi
 template <typename Container>
 Container PmergeMe::mergeInsertionSort(const Container &container)
 {
-	std::cout << "Input container size: " << container.size() << std::endl;
-	printSequence(container, "Input values: ", DEBUG);
-
 	if (container.size() < 2)
 	{
 		return (container);
@@ -324,7 +321,7 @@ void	PmergeMe::setSequence(Container &seq)
 template <typename Container>
 void	PmergeMe::printTime(const Container &container, const std::string &containerType, double time) const
 {
-	std::cout 
+	std::cout << std::fixed
 		<< "Time to process a range of " << container.size() 
 		<< " elements with " << containerType << " : " 
 		<< time << " seconds" << std::endl;
