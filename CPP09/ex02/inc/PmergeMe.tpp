@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/29 10:32:33 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/29 15:59:44 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,45 +172,46 @@ Container	PmergeMe::binaryInsert(const T &element, const Container &container)
 ////
 
 template <typename Container>
-std::vector<typename Container::value_type> PmergeMe::createPairs(const Container &container)
+std::vector<std::pair<int, int> >	PmergeMe::createPairs(const Container &container)
 {
-	std::vector<typename Container::value_type>	pairs;
-	
-	typename	Container::const_iterator it = container.begin();
+	std::vector<std::pair<int, int> >	pairs;	
+	typename	Container::const_iterator	it = container.begin();
 	
 	while (it != container.end())
 	{
-		typename Container::value_type first = *it;
-
+		int	first = *it;
 		++it;
 		if (it == container.end())
 		{
-			pairs.push_back(first);
-			pairs.push_back(-1);  // Marker for odd value
-			break;
+			pairs.push_back(std::make_pair(first, ODDFLAG));
+			// pairs.push_back(first);
+			// pairs.push_back(ODDFLAG);  // Marker for odd value
+			break ;
 		}
 		
-		typename Container::value_type second = *it;
+		int	second = *it;
 		++it;
+		
 		// Ensure pairs are (bigger, smaller)
 		if (first < second)
 		{
 			std::swap(first, second);
 		}
-		
-		pairs.push_back(first);
-		pairs.push_back(second);
+		pairs.push_back(std::make_pair(first, second));
+		// pairs.push_back(first);
+		// pairs.push_back(second);
 	}
+	// printPairs<std::vector<typename Container::value_type> >(pairs, "Pairs created: ", DEBUG);
 	return (pairs);
 }
 
+/*	need to separate the pair creation process and the recursive sorting into two separate functions
+
+*/
 template <typename Container>
-Container PmergeMe::recursivelySortLargerElements(const Container& sequence, Container& pendingElements)
+Container	PmergeMe::recursivelySortLargerElements(const std::vector<std::pair<int, int> > &pairs, Container &pendingElements)
 {
 	Container	mainChain;
-
-	// Create pairs from the input sequence
-	std::vector<typename Container::value_type> pairs = createPairs(sequence);
 
 	// Base case: if no pairs, return empty mainChain
 	if (pairs.empty())
@@ -218,67 +219,73 @@ Container PmergeMe::recursivelySortLargerElements(const Container& sequence, Con
 		return (mainChain);
 	}
 
-	// Base case: if one pair, handle it directly
-	if (pairs.size() == 2)
-	{
-		if (pairs[1] == -1)
-		{
-			// This is the odd value case
-			pendingElements.push_back(pairs[0]);  // Add odd value to pendingElements
-		}
-		else
-		{
-			mainChain.push_back(pairs[0]);    // Add larger value to mainChain
-			pendingElements.push_back(pairs[1]);  // Add smaller value to pendingElements
-		}
-		return (mainChain);
-	}
+	// Process pairs one at a time
+	int	larger = pairs[0].first;
+	int	smaller = pairs[0].second;
+	// typename Container::value_type	larger = pairs[0].first;
+	// typename Container::value_type	smaller = pairs[0].second;
 
-	// Recursive case: process one pair at a time
-	typename Container::value_type	larger = pairs[0];
-	typename Container::value_type	smaller = pairs[1];
-
-	if (smaller == -1)
+	if (smaller != ODDFLAG)
 	{
-		// Odd value detected
-		pendingElements.push_back(larger);  // Add odd value to pendingElements
+		// normal pair processing
+		pendingElements.push_back(smaller); // add smaller value to pendingElements
 	}
 	else
 	{
-		// Normal pair processing
-		pendingElements.push_back(smaller);
-		mainChain = recursivelySortLargerElements(Container(sequence.begin() + 2, sequence.end()), pendingElements);
-		
-		// Insert larger value into sorted position
-		typename Container::iterator	it = mainChain.begin();
-		while (it != mainChain.end() && *it < larger)
-		{
-			++it;
-		}
-		mainChain.insert(it, larger);
+		// handle odd value
+		pendingElements.push_back(larger); // the odd value
+		return (mainChain); // no need to sort odd value
 	}
+
+	
+	// recursively call the function to process remaining pairs
+	std::vector<std::pair<int, int> >	remainingPairs(pairs.begin() + 1, pairs.end());
+	mainChain = recursivelySortLargerElements(remainingPairs, pendingElements);
+
+	// insert the larger value into the sorted position in mainChain
+	typename Container::iterator	it = mainChain.begin();
+	while (it != mainChain.end() && *it < larger)
+	{
+		++it;
+	}
+	mainChain.insert(it, larger);
 
 	return (mainChain);
 }
 
-template <typename Container>
-void PmergeMe::splitMainAndPendingChains(const std::vector<typename Container::value_type> &pairs, Container &mainChain, Container &pendingElements)
-{
-	typename std::vector<typename Container::value_type>::const_iterator it = pairs.begin();
+// template <typename Container>
+// void	PmergeMe::insertFirstPendingElement(Container &mainChain, Container &pendingElements)
+// {
+// 	if (!pendingElements.empty())
+// 	{
+// 		// remove the first value from pendingElements
+// 		int	firstPending = pendingElements.front();
+// 		pendingElements.insert(0,)
+// 		pendingElements.pop_front();
+
+// 		// insert it at the start of mainChain
+// 		mainChain.push_front(firstPending);
+// 	}
+// }
+
+// template <typename Container>
+// void PmergeMe::splitMainAndPendingChains(const std::vector<typename Container::value_type> &pairs, Container &mainChain, Container &pendingElements)
+// {
+// 	typename std::vector<typename Container::value_type>::const_iterator it = pairs.begin();
 	
-	while (it != pairs.end())
-	{
-		if (mainChain.size() < pairs.size() / 2)
-		{
-			mainChain = binaryInsert(*it, mainChain);
-		}
-		else
-		{
-			pendingElements.push_back(*it);
-		}
-		it++;
-	}
-}
+// 	while (it != pairs.end())
+// 	{
+// 		if (mainChain.size() < pairs.size() / 2)
+// 		{
+// 			mainChain = binaryInsert(*it, mainChain);
+// 		}
+// 		else
+// 		{
+// 			pendingElements.push_back(*it);
+// 		}
+// 		it++;
+// 	}
+// }
 
 template <typename Container>
 void PmergeMe::applyJacobsthalOrder(Container &mainChain, const Container &pendingElements)
@@ -291,11 +298,9 @@ void PmergeMe::applyJacobsthalOrder(Container &mainChain, const Container &pendi
 	{
 		if (order[i] < static_cast<int>(pendingElements.size()))
 		{
-			printSequence(mainChain, "Before inserting element at Jacobsthal index ", order[i], DEBUG);
-
+			// printSequence(mainChain, "Before inserting element at Jacobsthal index ", order[i], DEBUG);
 			mainChain = binaryInsert(pendingElements[order[i]], mainChain);
-
-			printSequence(mainChain, "After inserting element at Jacobsthal index ", order[i], DEBUG);
+			// printSequence(mainChain, "After inserting element at Jacobsthal index ", order[i], DEBUG);
 		}
 		i++;
 	}
@@ -309,14 +314,15 @@ Container PmergeMe::mergeInsertionSort(const Container &container)
 		return (container);
 	}
 	
-	std::vector<typename Container::value_type> pairs = createPairs(container);
+	std::vector<std::pair<int, int> >	pairs = createPairs(container);
+	// printPairs<std::vector<std::pair<int, int> >(pairs, "Pairs created: ", DEBUG);
 	printPairs<std::vector<typename Container::value_type> >(pairs, "Pairs created: ", DEBUG);
-
-	// add recursive sorting of the larger element in each pairs to create a sorted sequence (Main Chain) in ascending order...
 	
 	Container mainChain;
 	Container pendingElements;
-	splitMainAndPendingChains(pairs, mainChain, pendingElements);
+	mainChain = recursivelySortLargerElements(pairs, pendingElements);
+
+	// insertFirstPendingElement(mainChain, pendingElements);
 
 	printSequence(mainChain, "Main Chain after splitting: ", DEBUG);
 	printSequence(pendingElements, "Pending elements after splitting: ", DEBUG);

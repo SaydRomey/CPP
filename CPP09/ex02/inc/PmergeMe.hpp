@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:01 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/27 20:13:24 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/29 15:57:15 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 // #  define DEBUG	false	// 'make debug' target to toggle this and print debug messages
 #  define DEBUG	true //tmp
 # endif // DEBUG
+
+# define ODDFLAG -1
 
 class PmergeMe
 {
@@ -98,13 +100,16 @@ class PmergeMe
 		Container	binaryInsert(const T &element, const Container &container);
 
 		template <typename Container>
-    	std::vector<typename Container::value_type> createPairs(const Container &container);
+		std::vector<std::pair<int, int> >	createPairs(const Container &container);
 
-    	template <typename Container>
-    	void splitMainAndPendingChains(const std::vector<typename Container::value_type> &sortedPairs, Container &mainChain, Container &pendingElements);
-		
-    	template <typename Container>
-    	void applyJacobsthalOrder(Container &mainChain, const Container &pendingElements);
+		template <typename Container>
+		Container	recursivelySortLargerElements(const std::vector<std::pair<int, int> > &pairs, Container &pendingElements);
+
+		// template <typename Container>
+		// void	insertFirstPendingElement(Container &mainChain, Container &pendingElements);
+
+		template <typename Container>
+		void applyJacobsthalOrder(Container &mainChain, const Container &pendingElements);
 
 		std::vector<int>	processVector(double &duration);
 
