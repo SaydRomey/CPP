@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:01 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/26 20:32:37 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/27 20:13:24 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PMERGEME_HPP
 
 # include <algorithm>
-// # include <cmath>		// pow
 # include <cstdlib>
 # include <cerrno>
 # include <ctime>
@@ -29,8 +28,8 @@
 # include <vector>
 
 # ifndef DEBUG
-#  define DEBUG	false	// 'make debug' target to toggle this and print debug messages
-// #  define DEBUG	true //tmp
+// #  define DEBUG	false	// 'make debug' target to toggle this and print debug messages
+#  define DEBUG	true //tmp
 # endif // DEBUG
 
 class PmergeMe
@@ -51,6 +50,9 @@ class PmergeMe
 
 		template <typename C>
 		void	printSequence(const C &seq, const std::string &str, int value, bool shouldPrint = true);
+
+		template <typename Container>
+		void	printPairs(const std::vector<typename Container::value_type> &pairs, const std::string &str, bool shouldPrint = true);
 
 		// merge-insertion sort function for any container type
 		template <typename Container>
