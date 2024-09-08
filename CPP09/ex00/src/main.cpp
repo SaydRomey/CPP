@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 18:37:54 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/18 18:08:07 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/06 00:57:08 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char *argv[])
 {
 	if (argc != 2)
 	{
-		// std::cout << "Error: could not open file" << std::endl; // <- to produce the same output as in the PDF
+		// std::cout << "Error: could not open file." << std::endl; // <- to produce the same output as in the PDF
 		std::cout << "Usage: " << argv[0] << " <input_file>" << std::endl;
 		return (1);
 	}

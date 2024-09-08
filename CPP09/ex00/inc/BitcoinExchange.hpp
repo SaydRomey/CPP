@@ -6,23 +6,23 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:13:09 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/18 18:04:40 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/06 00:52:50 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOINEXCHANGE_HPP
 # define BITCOINEXCHANGE_HPP
 
-# include <cerrno>		// errno: what error occured during last function call
-# include <cmath>		// std::round: rounding floating-point values to the nearest integer
-# include <cstring>		// std::strerror: convert errno value to error message string
-# include <fstream>		// std::ifstream: file input operations
-# include <iomanip>		// std::fixed, std::setprecision: formatting output to ensure consistent decimal places
-# include <iostream>	// std::cout, std::endl: standard input and output stream operations
-# include <map>			// std::map: storing the exchange rates with dates as keys
-# include <sstream>		// std::istringstream, std::ostringstream: string stream operations (parsing and formatting strings)
-# include <stdexcept>	// std::runtime_error: throwing exceptions when file operations fail
-# include <string>		// std::string: handling and manipulating strings
+# include <cerrno>		// errno: which error occured during last function call
+# include <cmath>		// round: rounding floating-point values to the nearest integer
+# include <cstring>		// strerror: convert errno value to error message string
+# include <fstream>		// ifstream: file input operations
+# include <iomanip>		// fixed, setprecision: formatting output to ensure consistent decimal places
+# include <iostream>	// cout, endl: standard input and output stream operations
+# include <map>			// map: storing the exchange rates with dates as keys
+# include <sstream>		// istringstream, ostringstream: string stream operations (parsing and formatting strings)
+# include <stdexcept>	// runtime_error: throwing exceptions when file operations fail
+# include <string>		// string: handling and manipulating strings
 
 # define DATABASE_PATH	"data.csv"
 
