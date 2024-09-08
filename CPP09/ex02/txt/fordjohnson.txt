@@ -21,9 +21,8 @@ to determine the larger of the two elements in each pair
 creating a sorted sequence 'S' of [n/2] of the input elements,
 in ascending order
 
-4. Insert at the start of S
-the element that was paired with
-the first and smallest element of S
+4. Insert at the start of S the element
+that was paired with the first and smallest element of S
 
 5. Insert the remaining [n/2] - 1 elements of X\S into S,
 one at a time,

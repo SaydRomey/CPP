@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:55:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/08 04:31:50 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/08/25 19:42:09 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ The management of errors related to duplicates is left to your discretion.
 
 #include "PmergeMe.hpp"
 
+
 int	main(int argc, char *argv[])
 {	
 	try
@@ -79,21 +80,9 @@ int	main(int argc, char *argv[])
 		
 		// PmergeMe	sorter;
 		// sorter.parseInput(argc, argv);
-
-		printSequence(sorter.getInputSequence(), "Before: ");
-
-		double				vectorTime;
-		std::vector<int>	vectorSequence;
-		sorter.process(vectorSequence, vectorTime);
-
-		double				dequeTime;
-		std::deque<int>		dequeSequence;
-		sorter.process(dequeSequence, dequeTime);
-
-		printSequence(vectorSequence, "After:  ");
-		printTime(vectorSequence, "std::vector", vectorTime);
-		printTime(dequeSequence, "std::deque ", dequeTime);
-
+		
+		sorter.process();
+		
 	}
 	catch (const std::exception &e)
 	{

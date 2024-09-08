@@ -24,7 +24,7 @@ OS			:=	$(shell uname)
 NPD			:=	--no-print-directory
 
 # Detect OS and define OPEN command
-ifeq ($(shell uname), Darwin)
+ifeq ($(OS), Darwin)
 	OPEN := open
 else
 	OPEN := xdg-open
@@ -118,12 +118,41 @@ repo:
 # **************************************************************************** #
 # ---------------------------------- UTILS ----------------------------------- #
 # **************************************************************************** #
+GENERATED_SEQUENCE	:= $(TMP_DIR)/generated_sequence.txt
+
+SEQUENCE_HYPERLINK	:= \033]8;;file://$(GENERATED_SEQUENCE)\a$(GENERATED_SEQUENCE)\033]8;;\a
+
+
+rand: all | $(TMP_DIR)
+	@read -p "How many values should we generate for $(NAME)? " NUM_VALUES; \
+	if [ -z "$$NUM_VALUES" ]; then \
+		echo "No value entered. Running $(NAME) without arguments."; \
+		./$(NAME); \
+	elif [ $$NUM_VALUES -gt 0 ]; then \
+		if [ "$(shell uname)" = "Linux" ]; then \
+			RAND_SEQUENCE=$$(shuf -i 1-$$NUM_VALUES -n $$NUM_VALUES | tr '\n' ' '); \
+		else \
+			RAND_SEQUENCE=$$(jot -r $$NUM_VALUES 1 $$NUM_VALUES | tr '\n' ' '); \
+		fi; \
+	printf "$(UP)$(ERASE_LINE)"; \
+		if [ $$NUM_VALUES -gt 40 ]; then \
+			echo $$RAND_SEQUENCE > $(GENERATED_SEQUENCE); \
+			echo "Generated input sequence written in $(BLUE)$(SEQUENCE_HYPERLINK)$(RESET)"; \
+		fi; \
+		./$(NAME) $$RAND_SEQUENCE; \
+	else \
+		echo "Error: Invalid number of values, must be greater than 0."; \
+		exit 1; \
+	fi
+
+
 ARG	:= 3 5 9 7 4
+
 run: all
 	./$(NAME) $(ARG)
 
 debug: C_FLAGS += -DDEBUG=true
-debug: all
+debug: re
 
 $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
@@ -131,7 +160,7 @@ $(TMP_DIR):
 ffclean: fclean
 	@$(REMOVE) $(TMP_DIR)
 
-.PHONY: run ffclean
+.PHONY: rand run debug ffclean
 # **************************************************************************** #
 # --------------------------------- CLASS ------------------------------------ #
 # **************************************************************************** #
@@ -271,3 +300,7 @@ UP			:= $(ESC)[A
 
 # Erasing
 ERASE_LINE	:= $(ESC)[2K
+
+# Hyperlinks
+# HYPERLINK			:= \033]8;;
+# usage: $(HYPERLINK)file://$(FILEPATH)\a$(FILEPATH)$(HYPERLINK)\a
