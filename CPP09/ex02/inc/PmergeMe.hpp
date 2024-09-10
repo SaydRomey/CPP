@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:01 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/08 04:39:56 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/08 17:57:47 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,29 @@ struct is_deque<std::deque<T, Alloc> >
 	static const bool	value = true;
 };
 
+// general template for mapping a container type to a container of pairs of int
+template <typename Container>
+struct PairType;
+
+// specialisation for std::vector<int>
+template <>
+struct PairType<std::vector<int> >
+{
+	typedef std::vector<std::pair<int, int>	> type;
+};
+
+// specialisation for std::deque
+template <>
+struct PairType<std::deque<int> >
+{
+	typedef std::deque<std::pair<int, int> > type;
+};
+
 class PmergeMe
 {
 	public:
 	
 		PmergeMe(void);
-		
-		// template <typename Container>
-		// PmergeMe(Container &container);
-		
 		PmergeMe(int argc, char *argv[]);
 		PmergeMe(const PmergeMe &other);
 		~PmergeMe(void);
@@ -93,11 +107,11 @@ class PmergeMe
 		const std::list<int>	&getInputSequence(void) const;
 	
 	private:
+	
 		std::list<int>		_inputSequence;
 
 		template <typename Container, typename InputContainer>
 		void	setSequence(Container &container, InputContainer &inputSequence);
-		// void	setSequence(Container &container);
 
 		template <typename Container, typename PairContainer>
 		void	createPairs(const Container &container, PairContainer &pairs);
@@ -108,17 +122,14 @@ class PmergeMe
 		template <typename PairContainer, typename Container>
 		Container	sortPairs(PairContainer &pairs, Container &pending);
 
-		// template <typename PairContainer, typename SortedContainer, typename PendingContainer>
-		// SortedContainer	sortPairs(PairContainer &pairs, PendingContainer &pending);
-
 		template <typename Container>
 		void	insertSmallestPairedElement(Container &sorted, Container &pending);
 
-		// template <typename SortedContainer, typename PendingContainer>
-		// void	insertSmallestPairedElement(SortedContainer &sorted, PendingContainer &pending);
-
 		template <typename Container>
 		void	insertRemainingElements(Container &sorted, Container &pending);
+
+		template <typename Container>
+		void	mergeInsertionSort(Container &container);
 };
 
 template <typename Container>
@@ -130,8 +141,8 @@ void	printTime(const Container &container, const std::string &containerType, dou
 template <typename PairContainer>
 void	printPairs(const PairContainer &pairs, const std::string &str, bool shouldPrint = true);
 
-// void	print(const std::string &str, const std::string &color);
 void	print(const std::string &str, const std::string &color = GRAYTALIC);
+void	print(const std::string &str, int value, const std::string &color = GRAYTALIC);
 
 # include "PmergeMe.tpp"
 # include "printUtils.tpp"

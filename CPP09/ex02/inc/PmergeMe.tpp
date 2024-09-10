@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/08 04:39:30 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/08 18:07:52 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,13 @@
 # include "PmergeMe.hpp"
 
 /*
-Fills the container with values from the list '_inputSequence'
+Fills 'container' with values from 'inputSequence'
 */
 template <typename Container, typename InputContainer>
 void	PmergeMe::setSequence(Container &container, InputContainer &inputSequence)
 {
 	container.assign(inputSequence.begin(), inputSequence.end());
 }
-// template <typename Container>
-// void	PmergeMe::setSequence(Container &container)
-// {
-// 	container.assign(this->_inputSequence.begin(), this->_inputSequence.end());
-// }
 
 /* ************************************************************************** */
 /* ************** Ford-Johnson Merge-Insertion Sort Algorithm *************** */
@@ -41,7 +36,6 @@ template <typename Container, typename PairContainer>
 void	PmergeMe::createPairs(const Container &container, PairContainer &pairs)
 {
 	typename Container::const_iterator	it;
-	// int	unpaired = -1;
 	
 	it = container.begin();
 	while (it != container.end())
@@ -57,15 +51,14 @@ void	PmergeMe::createPairs(const Container &container, PairContainer &pairs)
 		}
 		else
 		{
-			// unpaired = first;
-			if (DEBUG)
-				std::cout << "Unpaired element: " << first << std::endl;
+			print("Unpaired element: ", container.back());
+			// print("Unpaired element: ", first);
 			break ;
 		}
 	}
 	printPairs(pairs, "Created pairs:", DEBUG);
-	// if (DEBUG && container.size() % 2 != 0)
-		// std::cout << "Unpaired element: " << unpaired << std::endl;
+	// if (container.size() % 2 != 0)
+	// 	print("Unpaired element: ", container.back());
 }
 
 /*
@@ -77,12 +70,12 @@ template <typename PairContainer>
 void	PmergeMe::compareAndSwapPairs(PairContainer &pairs)
 {
 	typename PairContainer::iterator	it;
-	// std::pair<int, int>	&currentPair;
-	
+
 	it = pairs.begin();
 	while (it != pairs.end())
 	{
 		std::pair<int, int>	&currentPair = *it;
+		
 		if (currentPair.first < currentPair.second)
 			std::swap(currentPair.first, currentPair.second);
 		++it;
@@ -154,6 +147,8 @@ Container	PmergeMe::sortPairs(PairContainer &pairs, Container &pending)
 		pending.push_back(it->second);
 		++it;
 	}
+	printSequence(sorted, "Sorted sequence: ", DEBUG);
+	printSequence(pending, "Pending elements: ", DEBUG);
 	return (sorted);
 }
 
@@ -167,15 +162,15 @@ that was paired with the first and smallest element of S
 template <typename Container>
 void	PmergeMe::insertSmallestPairedElement(Container &sorted, Container &pending)
 {
-	print("insertSmallestPairedElement");
+	print("Inserting element paired with first and smallest element of 'sorted'");
 	if (sorted.empty() || pending.empty())
 		return ;
 
 	sorted.insert(sorted.begin(), pending.front());
 	pending.erase(pending.begin());
 
-	printSequence(sorted, "Sorted larger elements: ", DEBUG);
-	printSequence(pending, "Pending smaller elements: ", DEBUG);
+	printSequence(sorted, "Updated sorted sequence: ", DEBUG);
+	printSequence(pending, "Remaining pending elements: ", DEBUG);
 }
 
 /* ************************************************************************** */
@@ -214,10 +209,11 @@ inline int	jacobsthal(int n)
 Generates order of insertion for the pending elements
 using the Jacobsthal number sequence
 */
-inline std::vector<int>	getJacobsthalOrder(int n)
+template <typename Container>
+inline Container	getJacobsthalOrder(int n)
 {
 	// generate Jacobsthal numbers until the number exceeds n
-	std::vector<int>	jacobsthalSequence;
+	Container	jacobsthalSequence;
 
 	int	j = 0;
 	while (jacobsthal(j) < n)
@@ -225,26 +221,73 @@ inline std::vector<int>	getJacobsthalOrder(int n)
 		jacobsthalSequence.push_back(jacobsthal(j));
 		j++;
 	}
-	jacobsthalSequence.push_back(n);	// add the last number
-	printSequence(jacobsthalSequence, "Jacobsthal numbers generated: ", DEBUG);
+	jacobsthalSequence.push_back(n); // add the last number
+	// printSequence(jacobsthalSequence, "Jacobsthal numbers generated: ", DEBUG);
 
 	// generate the insertion order based on Jacobsthal's sequence
-	std::vector<int>	insertOrder;
-	
-	size_t	i = 0;
-	while (i < jacobsthalSequence.size() - 1)
+	Container	insertOrder;
+
+	typename Container::const_iterator	it = jacobsthalSequence.begin();
+
+	while (it != jacobsthalSequence.end() - 1)
 	{
-		int	k = jacobsthalSequence[i + 1] - 1;
-		while (k >= jacobsthalSequence[i])
+		int	k = *(it + 1) - 1;
+		while (k >= *it)
 		{
 			insertOrder.push_back(k);
 			k--;
 		}
-		i++;
+		++it;
 	}
-	printSequence(insertOrder, "Jacobsthal order generated: ", DEBUG);
+	
+	// size_t	i = 0;
+	// while (i < jacobsthalSequence.size() - 1)
+	// {
+	// 	int	k = jacobsthalSequence[i + 1] - 1;
+	// 	while (k >= jacobsthalSequence[i])
+	// 	{
+	// 		insertOrder.push_back(k);
+	// 		k--;
+	// 	}
+	// 	i++;
+	// }
+	
+	// printSequence(insertOrder, "Jacobsthal order generated: ", DEBUG);
 	return (insertOrder);
 }
+
+
+// inline std::vector<int>	getJacobsthalOrder(int n)
+// {
+// 	// generate Jacobsthal numbers until the number exceeds n
+// 	std::vector<int>	jacobsthalSequence;
+
+// 	int	j = 0;
+// 	while (jacobsthal(j) < n)
+// 	{
+// 		jacobsthalSequence.push_back(jacobsthal(j));
+// 		j++;
+// 	}
+// 	jacobsthalSequence.push_back(n); // add the last number
+// 	// printSequence(jacobsthalSequence, "Jacobsthal numbers generated: ", DEBUG);
+
+// 	// generate the insertion order based on Jacobsthal's sequence
+// 	std::vector<int>	insertOrder;
+	
+// 	size_t	i = 0;
+// 	while (i < jacobsthalSequence.size() - 1)
+// 	{
+// 		int	k = jacobsthalSequence[i + 1] - 1;
+// 		while (k >= jacobsthalSequence[i])
+// 		{
+// 			insertOrder.push_back(k);
+// 			k--;
+// 		}
+// 		i++;
+// 	}
+// 	// printSequence(insertOrder, "Jacobsthal order generated: ", DEBUG);
+// 	return (insertOrder);
+// }
 
 /* ************************************************************************** */
 
@@ -273,8 +316,6 @@ inline int	binarySearchInsertionPoint(Container &sorted, int element)
 	}
 	return (lowerBound);
 
-
-
 	/* or */
 	
 	// typename Container::const_iterator	it;
@@ -296,12 +337,13 @@ the position at which each element should be inserted
 template <typename Container>
 void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
 {
-	std::vector<int>	insertOrder = getJacobsthalOrder(pending.size());
+	Container	insertOrder = getJacobsthalOrder<Container>(pending.size());
 
-	size_t	i = 0;
-	while (i < insertOrder.size())
+	typename Container::const_iterator	it = insertOrder.begin();
+	
+	while (it != insertOrder.end())
 	{
-		int	elementIndex = insertOrder[i];
+		int	elementIndex = *it;
 
 		if (elementIndex < static_cast<int>(pending.size()))
 		{
@@ -309,97 +351,162 @@ void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
 			
 			sorted.insert(sorted.begin() + insertIndex, pending[elementIndex]);
 		}
-		i++;
+		++it;
 	}
+
+	/* todo: check differences and choose between these */
+
+	// size_t	i = 0;
+	// while (i < insertOrder.size())
+	// {
+	// 	int	elementIndex = insertOrder[i];
+
+	// 	if (elementIndex < static_cast<int>(pending.size()))
+	// 	{
+	// 		int	insertIndex = binarySearchInsertionPoint(sorted, pending[elementIndex]);
+			
+	// 		sorted.insert(sorted.begin() + insertIndex, pending[elementIndex]);
+	// 	}
+	// 	i++;
+	// }
+
+	printSequence(sorted, "\nFinal sorted sequence: ", DEBUG);
 }
+
+/* ************************************************************************** */
+
+// template <typename Container>
+// void	PmergeMe::process(Container &container, double &duration)
+// {
+// 	std::clock_t	start = std::clock();
+
+// 	setSequence(container, getInputSequence());
+	
+// 	if (is_vector<Container>::value)
+// 	{
+// 		print("\nProcessing std::vector\n", ORANGE);
+// 		// print("Sequence length: ", container.size());
+		
+// 		std::vector<std::pair<int, int> >	pairs;
+
+// 		createPairs(container, pairs);
+// 		compareAndSwapPairs(pairs);
+		
+// 		std::vector<int>	pending;
+// 		std::vector<int>	sorted = sortPairs(pairs, pending);
+
+// 		if (container.size() % 2 != 0)
+// 		{
+// 			// std::stringstream	unpairedValue;
+// 			// unpairedValue << container.back();
+// 			// print("Remaining unpaired element (" + unpairedValue.str() + ") added to 'pending'");
+
+// 			print("Remaining unpaired element placed in 'pending'");
+// 			pending.push_back(container.back());
+// 			printSequence(pending, "Updated pending elements: ", DEBUG);
+// 		}
+
+// 		insertSmallestPairedElement(sorted, pending);
+		
+// 		insertRemainingElements(sorted, pending);
+
+// 		setSequence(container, sorted);
+// 	}
+// 	else if (is_deque<Container>::value)
+// 	{
+// 		print("\nProcessing std::deque", ORANGE);
+
+// 		std::deque<std::pair<int, int> >	pairs;
+		
+// 		createPairs(container, pairs);
+// 		compareAndSwapPairs(pairs);
+
+// 		std::deque<int>	sorted;
+// 		std::deque<int>	pending;
+		
+// 		sorted = sortPairs(pairs, pending);
+
+// 		if (container.size() % 2 != 0)
+// 		{
+// 			// std::stringstream	unpairedValue;
+// 			// unpairedValue << container.back();
+// 			// print("Remaining unpaired element (" + unpairedValue.str() + ") added to 'pending'");
+
+// 			print("Remaining unpaired element placed in 'pending'");
+// 			pending.push_back(container.back());
+// 			printSequence(pending, "Updated pending elements: ", DEBUG);
+// 		}
+
+// 		insertSmallestPairedElement(sorted, pending);
+		
+// 		insertRemainingElements(sorted, pending);
+
+// 		setSequence(container, sorted);
+// 	}
+// 	else
+// 	{
+// 		// maybe implement list and other containers ?
+// 		std::cout << "Handling other container type" << std::endl;
+// 	}
+	
+// 	std::clock_t	end = std::clock();
+// 	duration = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+// }
+
 
 /* ************************************************************************** */
 
 template <typename Container>
+void	PmergeMe::mergeInsertionSort(Container &container)
+{
+	// deduce the correct container type for pairs
+	// typedef typename PairType<Container>::type PairContainerType;
+	// PairContainerType	pairs;
+
+	typename PairType<Container>::type	pairs;
+	
+	createPairs(container, pairs);
+	compareAndSwapPairs(pairs);
+
+	Container	pending;
+	Container	sorted = sortPairs(pairs, pending);
+
+	if (container.size() % 2 != 0)
+	{
+		print("Remaining unpaired element placed in 'pending'");
+		pending.push_back(container.back());
+		printSequence(pending, "Updated pending elements: ", DEBUG);
+	}
+
+	insertSmallestPairedElement(sorted, pending);
+	insertRemainingElements(sorted, pending);
+
+	setSequence(container, sorted);
+}
+
+template <typename Container>
 void	PmergeMe::process(Container &container, double &duration)
 {
-	std::clock_t	start = std::clock();
-
-	// setSequence(container);
+	std::clock_t start = std::clock();
 	setSequence(container, getInputSequence());
-	
+
+	// Handle type-specific messages
 	if (is_vector<Container>::value)
 	{
-		std::vector<std::pair<int, int> >	pairs;
-
-		createPairs(container, pairs);
-		compareAndSwapPairs(pairs);
-		
-		std::vector<int>	sorted;
-		std::vector<int>	pending;
-		
-		sorted = sortPairs<std::vector<std::pair<int, int> >, std::vector<int> >(pairs, pending);
-
-		if (container.size() % 2 != 0)
-		{
-			std::stringstream	unpairedValue;
-			unpairedValue << container.back();
-			print("adding unpaired element [" + unpairedValue.str() + "] to 'pending'");
-			pending.push_back(container.back());
-		}
-
-		// tmp to check odd element being added to sorted sequence
-		printSequence(sorted, "Sorted larger elements: ", DEBUG);
-		printSequence(pending, "Pending smaller elements: ", DEBUG);
-		//
-
-		insertSmallestPairedElement(sorted, pending);
-
-		insertRemainingElements(sorted, pending);
-
-		// container = sorted;
-		setSequence(container, sorted);
-		
+		print("\nProcessing std::vector\n", ORANGE);
+		mergeInsertionSort(container);
 	}
 	else if (is_deque<Container>::value)
 	{
-		std::deque<std::pair<int, int> >	pairs;
-		
-		createPairs(container, pairs);
-		compareAndSwapPairs(pairs);
-
-		std::deque<int>	sorted;
-		std::deque<int>	pending;
-		
-		sorted = sortPairs<std::deque<std::pair<int, int> >, std::deque<int> >(pairs, pending);
-
-		if (container.size() % 2 != 0)
-		{
-			std::stringstream	unpairedValue;
-			unpairedValue << container.back();
-			print("adding unpaired element [" + unpairedValue.str() + "] to 'pending'");
-			pending.push_back(container.back());
-		}
-
-		// tmp to check odd element being added to sorted sequence
-		printSequence(sorted, "Sorted larger elements: ", DEBUG);
-		printSequence(pending, "Pending smaller elements: ", DEBUG);
-		//
-
-		insertSmallestPairedElement(sorted, pending);
-
-		insertRemainingElements(sorted, pending);
-
-		setSequence(container, sorted);
-
+		print("\nProcessing std::deque\n", ORANGE);
+		mergeInsertionSort(container);
 	}
 	else
 	{
-		// maybe implement list and other containers ?
 		std::cout << "Handling other container type" << std::endl;
 	}
-	
-	std::clock_t	end = std::clock();
+
+	std::clock_t end = std::clock();
 	duration = static_cast<double>(end - start) / CLOCKS_PER_SEC;
 }
-
-
-/* ************************************************************************** */
-
-
 #endif // PMERGEME_TPP

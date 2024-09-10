@@ -6,14 +6,14 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 07:05:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/08 04:02:44 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/08 11:29:05 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINTUTILS_TPP
 # define PRINTUTILS_TPP
 
-# include <fstream>		// file output
+# include <fstream>
 # include <iostream>
 # include <stdexcept>
 
@@ -109,7 +109,7 @@ void	printFullSequenceToFile(const Container &container, const std::string &str)
 	outFile.close();
 }
 
-/*		** maybe add formatting based on number of digits of biggest value ? maybe not...
+/*
 */
 template <typename Container>
 void	printSequence(const Container &container, const std::string &str, bool shouldPrint)
@@ -161,7 +161,7 @@ void	printPairs(const PairContainer &pairs, const std::string &str, bool shouldP
 	if (!shouldPrint)
 		return ;
 
-	std::cout << str << std::endl;
+	std::cout << GRAYTALIC << str << RESET << std::endl;
 	
 	typename PairContainer::const_iterator	it = pairs.begin();
 	
