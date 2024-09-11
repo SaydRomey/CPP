@@ -137,7 +137,7 @@ rand: all | $(TMP_DIR)
 	printf "$(UP)$(ERASE_LINE)"; \
 		if [ $$NUM_VALUES -gt 40 ]; then \
 			echo $$RAND_SEQUENCE > $(GENERATED_SEQUENCE); \
-			echo "Generated input sequence written in $(BLUE)$(SEQUENCE_HYPERLINK)$(RESET)"; \
+			echo "Generated input sequence written in $(BLUE)$(SEQUENCE_HYPERLINK)$(RESET)\n"; \
 		fi; \
 		./$(NAME) $$RAND_SEQUENCE; \
 	else \

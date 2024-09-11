@@ -6,12 +6,20 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/08 18:07:52 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:56:56 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGEME_TPP
 # define PMERGEME_TPP
+
+/*
+*!!	use ++i for small optimization with iterators
+post-increment creates a tmp copy before incr.
+pre-increment directly modifies the iterator.
+
+for primitive types (int), negligable, compilers optimize this
+*/
 
 # include "PmergeMe.hpp"
 
@@ -292,29 +300,35 @@ inline Container	getJacobsthalOrder(int n)
 /* ************************************************************************** */
 
 template <typename Container>
-inline int	binarySearchInsertionPoint(Container &sorted, int element)
+typename Container::iterator	binarySearchInsertionPoint(Container &sorted, int element, typename Container::iterator upperBound)
+// inline int	binarySearchInsertionPoint(Container &sorted, int element, int lowerBound, int upperBound)
 {
-	int	lowerBound = 0;
-	int	upperBound = sorted.size() - 1;
+	 typename Container::iterator	lowerBound = sorted.begin();
+	// int	lowerBound = 0;
+	// int	upperBound = sorted.size() - 1;
+
 
 	while (lowerBound <= upperBound)
 	{
-		int	mid = (lowerBound + upperBound) / 2;
+		typename Container::iterator	mid = lowerBound + (std::distance(lowerBound, upperBound) / 2);
+		// int	mid = (lowerBound + upperBound) / 2;
 		
-		if (element < sorted[mid])
+		if (element < *mid)
+		// if (element < sorted[mid])
 		{
 			upperBound = mid - 1;
 		}
-		else if (element > sorted[mid])
+		else if (element > *mid)
+		// else if (element > sorted[mid])
 		{
 			lowerBound = mid + 1;
 		}
 		else
 		{
-			return (mid);
+			return (mid); // exact match found
 		}
 	}
-	return (lowerBound);
+	return (lowerBound); // correct insertion point
 
 	/* or */
 	
@@ -327,19 +341,36 @@ inline int	binarySearchInsertionPoint(Container &sorted, int element)
 	// return (it - sorted.begin());
 }
 
+// int	calculatePowerOfTwo(int batchIndex)
+// {
+// 	int	result = 1;
+// 	int	i = 0;
+	
+// 	while (i < batchIndex)
+// 	{
+// 		result *= 2;
+// 		++i;
+// 	}
+// 	return (result);
+// }
+
 /*
 5. Insert the remaining [n/2] - 1 elements of X\S into S, one at a time,
 with a specially chosen insertion ordering (jacobsthal sequence)
 
 Use binary search in subsequences of S, to determine 
 the position at which each element should be inserted
+
+Only search in the range [0, 2^k - 1], where k is the Jacobsthal index
 */
 template <typename Container>
 void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
 {
 	Container	insertOrder = getJacobsthalOrder<Container>(pending.size());
 
+	// 
 	typename Container::const_iterator	it = insertOrder.begin();
+	size_t	batchIndex = 0;
 	
 	while (it != insertOrder.end())
 	{
@@ -347,14 +378,18 @@ void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
 
 		if (elementIndex < static_cast<int>(pending.size()))
 		{
-			int	insertIndex = binarySearchInsertionPoint(sorted, pending[elementIndex]);
+			typename Container::iterator	upperBoundIt = sorted.begin();
+			std::advance(upperBoundIt, std::min(static_cast<int>(sorted.size()) - 1, (1 << batchIndex) - 1));
 			
-			sorted.insert(sorted.begin() + insertIndex, pending[elementIndex]);
+			typename Container::iterator	insertIt = binarySearchInsertionPoint(sorted, pending[elementIndex], upperBoundIt);
+			
+			sorted.insert(insertIt, pending[elementIndex]);
 		}
 		++it;
+		++batchIndex;
 	}
 
-	/* todo: check differences and choose between these */
+	// or
 
 	// size_t	i = 0;
 	// while (i < insertOrder.size())
@@ -363,7 +398,19 @@ void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
 
 	// 	if (elementIndex < static_cast<int>(pending.size()))
 	// 	{
-	// 		int	insertIndex = binarySearchInsertionPoint(sorted, pending[elementIndex]);
+	// 		// find the batch index k corresponding to the current element
+	// 		int	batchIndex = i; // this is the index in the Jacobsthal sequence
+
+	// 		int	powerOfTwo = 1 << batchIndex; // 2^batchIndex
+	// 		// int	powerOfTwo = static_cast<int>(std::pow(2, batchIndex)); // 2^batchIndex
+	// 		// int	powerOfTwo = calculatePowerOfTwo(batchIndex); using a loop  (helper function)
+			
+	// 		int	maxIndexForBatch = powerofTwo - 1; // max index in the sorted sequence for this batch
+	// 		int	upperBound = std::min(static_cast<int>(sorted.size()) - 1, maxIndexForBatch);
+
+	// 		int	upperBound = std::min(static_cast<int>(sorted.size()) - 1, (1 << batchIndex) - 1); // 2^k - 1
+			
+	// 		int	insertIndex = binarySearchInsertionPoint(sorted, pending[elementIndex], 0, upperBound);
 			
 	// 		sorted.insert(sorted.begin() + insertIndex, pending[elementIndex]);
 	// 	}
@@ -494,6 +541,15 @@ void	PmergeMe::process(Container &container, double &duration)
 	if (is_vector<Container>::value)
 	{
 		print("\nProcessing std::vector\n", ORANGE);
+		
+		// // idea: pre-allocate space for vector to reduce reallocations
+		// typename PairType<Container>::type	pairs;
+		// pairs.reserve(container.size() / 2);
+		// Container	pending;
+		// pending.reserve(container.size() / 2); // + 1); ?? should we add odd value after putting smallest paired value
+		// Container	sorted;
+		// sorted.reserve(container.size());
+		
 		mergeInsertionSort(container);
 	}
 	else if (is_deque<Container>::value)
