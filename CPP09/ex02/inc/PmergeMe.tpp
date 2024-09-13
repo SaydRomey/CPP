@@ -6,20 +6,12 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/10 20:56:56 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/13 03:31:12 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGEME_TPP
 # define PMERGEME_TPP
-
-/*
-*!!	use ++i for small optimization with iterators
-post-increment creates a tmp copy before incr.
-pre-increment directly modifies the iterator.
-
-for primitive types (int), negligable, compilers optimize this
-*/
 
 # include "PmergeMe.hpp"
 
@@ -59,14 +51,11 @@ void	PmergeMe::createPairs(const Container &container, PairContainer &pairs)
 		}
 		else
 		{
-			print("Unpaired element: ", container.back());
-			// print("Unpaired element: ", first);
+			print("Unpaired element: ", first);
 			break ;
 		}
 	}
 	printPairs(pairs, "Created pairs:", DEBUG);
-	// if (container.size() % 2 != 0)
-	// 	print("Unpaired element: ", container.back());
 }
 
 /*
@@ -134,7 +123,8 @@ void	quicksort_pair(PairContainer &pairs, int low, int high)
 }
 
 /*
-3.
+3.	*?(maybe split the pair sorting logic and the populating of sorted and pending in two func ?)
+
 Recursively sort the [n/2] larger elements from each pair,
 creating a sorted sequence 'S' of [n/2] of the input elements,
 in ascending order
@@ -220,7 +210,6 @@ using the Jacobsthal number sequence
 template <typename Container>
 inline Container	getJacobsthalOrder(int n)
 {
-	// generate Jacobsthal numbers until the number exceeds n
 	Container	jacobsthalSequence;
 
 	int	j = 0;
@@ -264,62 +253,20 @@ inline Container	getJacobsthalOrder(int n)
 	return (insertOrder);
 }
 
-
-// inline std::vector<int>	getJacobsthalOrder(int n)
-// {
-// 	// generate Jacobsthal numbers until the number exceeds n
-// 	std::vector<int>	jacobsthalSequence;
-
-// 	int	j = 0;
-// 	while (jacobsthal(j) < n)
-// 	{
-// 		jacobsthalSequence.push_back(jacobsthal(j));
-// 		j++;
-// 	}
-// 	jacobsthalSequence.push_back(n); // add the last number
-// 	// printSequence(jacobsthalSequence, "Jacobsthal numbers generated: ", DEBUG);
-
-// 	// generate the insertion order based on Jacobsthal's sequence
-// 	std::vector<int>	insertOrder;
-	
-// 	size_t	i = 0;
-// 	while (i < jacobsthalSequence.size() - 1)
-// 	{
-// 		int	k = jacobsthalSequence[i + 1] - 1;
-// 		while (k >= jacobsthalSequence[i])
-// 		{
-// 			insertOrder.push_back(k);
-// 			k--;
-// 		}
-// 		i++;
-// 	}
-// 	// printSequence(insertOrder, "Jacobsthal order generated: ", DEBUG);
-// 	return (insertOrder);
-// }
-
 /* ************************************************************************** */
 
-template <typename Container>
-typename Container::iterator	binarySearchInsertionPoint(Container &sorted, int element, typename Container::iterator upperBound)
-// inline int	binarySearchInsertionPoint(Container &sorted, int element, int lowerBound, int upperBound)
+template <typename Iterator>
+Iterator	binarySearchInsertionPoint(Iterator lowerBound, Iterator upperBound, int element)
 {
-	 typename Container::iterator	lowerBound = sorted.begin();
-	// int	lowerBound = 0;
-	// int	upperBound = sorted.size() - 1;
-
-
 	while (lowerBound <= upperBound)
 	{
-		typename Container::iterator	mid = lowerBound + (std::distance(lowerBound, upperBound) / 2);
-		// int	mid = (lowerBound + upperBound) / 2;
+		Iterator	mid = lowerBound + (std::distance(lowerBound, upperBound) / 2);
 		
 		if (element < *mid)
-		// if (element < sorted[mid])
 		{
 			upperBound = mid - 1;
 		}
 		else if (element > *mid)
-		// else if (element > sorted[mid])
 		{
 			lowerBound = mid + 1;
 		}
@@ -329,30 +276,7 @@ typename Container::iterator	binarySearchInsertionPoint(Container &sorted, int e
 		}
 	}
 	return (lowerBound); // correct insertion point
-
-	/* or */
-	
-	// typename Container::const_iterator	it;
-	
-	// it = std::lower_bound(sorted.begin() + lowerBound, sorted.begin() + upperBound + 1, element);
-	
-	// int	insertionPoint = it - sorted.begin();
-	
-	// return (it - sorted.begin());
 }
-
-// int	calculatePowerOfTwo(int batchIndex)
-// {
-// 	int	result = 1;
-// 	int	i = 0;
-	
-// 	while (i < batchIndex)
-// 	{
-// 		result *= 2;
-// 		++i;
-// 	}
-// 	return (result);
-// }
 
 /*
 5. Insert the remaining [n/2] - 1 elements of X\S into S, one at a time,
@@ -361,16 +285,14 @@ with a specially chosen insertion ordering (jacobsthal sequence)
 Use binary search in subsequences of S, to determine 
 the position at which each element should be inserted
 
-Only search in the range [0, 2^k - 1], where k is the Jacobsthal index
+Only search in the range [0, 2^k - 1], where k is the Jacobsthal index // to implement *!!
 */
 template <typename Container>
 void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
 {
 	Container	insertOrder = getJacobsthalOrder<Container>(pending.size());
 
-	// 
 	typename Container::const_iterator	it = insertOrder.begin();
-	size_t	batchIndex = 0;
 	
 	while (it != insertOrder.end())
 	{
@@ -378,145 +300,32 @@ void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
 
 		if (elementIndex < static_cast<int>(pending.size()))
 		{
-			typename Container::iterator	upperBoundIt = sorted.begin();
-			std::advance(upperBoundIt, std::min(static_cast<int>(sorted.size()) - 1, (1 << batchIndex) - 1));
-			
-			typename Container::iterator	insertIt = binarySearchInsertionPoint(sorted, pending[elementIndex], upperBoundIt);
+			typename Container::iterator	upperBoundIt = sorted.end();
+			typename Container::iterator	insertIt = binarySearchInsertionPoint(sorted.begin(), upperBoundIt, pending[elementIndex]);
 			
 			sorted.insert(insertIt, pending[elementIndex]);
 		}
 		++it;
-		++batchIndex;
 	}
-
-	// or
-
-	// size_t	i = 0;
-	// while (i < insertOrder.size())
-	// {
-	// 	int	elementIndex = insertOrder[i];
-
-	// 	if (elementIndex < static_cast<int>(pending.size()))
-	// 	{
-	// 		// find the batch index k corresponding to the current element
-	// 		int	batchIndex = i; // this is the index in the Jacobsthal sequence
-
-	// 		int	powerOfTwo = 1 << batchIndex; // 2^batchIndex
-	// 		// int	powerOfTwo = static_cast<int>(std::pow(2, batchIndex)); // 2^batchIndex
-	// 		// int	powerOfTwo = calculatePowerOfTwo(batchIndex); using a loop  (helper function)
-			
-	// 		int	maxIndexForBatch = powerofTwo - 1; // max index in the sorted sequence for this batch
-	// 		int	upperBound = std::min(static_cast<int>(sorted.size()) - 1, maxIndexForBatch);
-
-	// 		int	upperBound = std::min(static_cast<int>(sorted.size()) - 1, (1 << batchIndex) - 1); // 2^k - 1
-			
-	// 		int	insertIndex = binarySearchInsertionPoint(sorted, pending[elementIndex], 0, upperBound);
-			
-	// 		sorted.insert(sorted.begin() + insertIndex, pending[elementIndex]);
-	// 	}
-	// 	i++;
-	// }
-
 	printSequence(sorted, "\nFinal sorted sequence: ", DEBUG);
 }
-
-/* ************************************************************************** */
-
-// template <typename Container>
-// void	PmergeMe::process(Container &container, double &duration)
-// {
-// 	std::clock_t	start = std::clock();
-
-// 	setSequence(container, getInputSequence());
-	
-// 	if (is_vector<Container>::value)
-// 	{
-// 		print("\nProcessing std::vector\n", ORANGE);
-// 		// print("Sequence length: ", container.size());
-		
-// 		std::vector<std::pair<int, int> >	pairs;
-
-// 		createPairs(container, pairs);
-// 		compareAndSwapPairs(pairs);
-		
-// 		std::vector<int>	pending;
-// 		std::vector<int>	sorted = sortPairs(pairs, pending);
-
-// 		if (container.size() % 2 != 0)
-// 		{
-// 			// std::stringstream	unpairedValue;
-// 			// unpairedValue << container.back();
-// 			// print("Remaining unpaired element (" + unpairedValue.str() + ") added to 'pending'");
-
-// 			print("Remaining unpaired element placed in 'pending'");
-// 			pending.push_back(container.back());
-// 			printSequence(pending, "Updated pending elements: ", DEBUG);
-// 		}
-
-// 		insertSmallestPairedElement(sorted, pending);
-		
-// 		insertRemainingElements(sorted, pending);
-
-// 		setSequence(container, sorted);
-// 	}
-// 	else if (is_deque<Container>::value)
-// 	{
-// 		print("\nProcessing std::deque", ORANGE);
-
-// 		std::deque<std::pair<int, int> >	pairs;
-		
-// 		createPairs(container, pairs);
-// 		compareAndSwapPairs(pairs);
-
-// 		std::deque<int>	sorted;
-// 		std::deque<int>	pending;
-		
-// 		sorted = sortPairs(pairs, pending);
-
-// 		if (container.size() % 2 != 0)
-// 		{
-// 			// std::stringstream	unpairedValue;
-// 			// unpairedValue << container.back();
-// 			// print("Remaining unpaired element (" + unpairedValue.str() + ") added to 'pending'");
-
-// 			print("Remaining unpaired element placed in 'pending'");
-// 			pending.push_back(container.back());
-// 			printSequence(pending, "Updated pending elements: ", DEBUG);
-// 		}
-
-// 		insertSmallestPairedElement(sorted, pending);
-		
-// 		insertRemainingElements(sorted, pending);
-
-// 		setSequence(container, sorted);
-// 	}
-// 	else
-// 	{
-// 		// maybe implement list and other containers ?
-// 		std::cout << "Handling other container type" << std::endl;
-// 	}
-	
-// 	std::clock_t	end = std::clock();
-// 	duration = static_cast<double>(end - start) / CLOCKS_PER_SEC;
-// }
-
 
 /* ************************************************************************** */
 
 template <typename Container>
 void	PmergeMe::mergeInsertionSort(Container &container)
 {
-	// deduce the correct container type for pairs
-	// typedef typename PairType<Container>::type PairContainerType;
-	// PairContainerType	pairs;
-
 	typename PairType<Container>::type	pairs;
-	
+
+	Container	pending, sorted;
+
 	createPairs(container, pairs);
+	
 	compareAndSwapPairs(pairs);
 
-	Container	pending;
-	Container	sorted = sortPairs(pairs, pending);
+	sorted = sortPairs(pairs, pending);
+
+	insertSmallestPairedElement(sorted, pending);
 
 	if (container.size() % 2 != 0)
 	{
@@ -525,7 +334,8 @@ void	PmergeMe::mergeInsertionSort(Container &container)
 		printSequence(pending, "Updated pending elements: ", DEBUG);
 	}
 
-	insertSmallestPairedElement(sorted, pending);
+	insertSmallestPairedElement(sorted, pending); // test with this before adding unpaired to pending (to keep size of containers at (intput.size() / 2))
+	
 	insertRemainingElements(sorted, pending);
 
 	setSequence(container, sorted);
@@ -541,15 +351,6 @@ void	PmergeMe::process(Container &container, double &duration)
 	if (is_vector<Container>::value)
 	{
 		print("\nProcessing std::vector\n", ORANGE);
-		
-		// // idea: pre-allocate space for vector to reduce reallocations
-		// typename PairType<Container>::type	pairs;
-		// pairs.reserve(container.size() / 2);
-		// Container	pending;
-		// pending.reserve(container.size() / 2); // + 1); ?? should we add odd value after putting smallest paired value
-		// Container	sorted;
-		// sorted.reserve(container.size());
-		
 		mergeInsertionSort(container);
 	}
 	else if (is_deque<Container>::value)

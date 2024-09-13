@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 07:05:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/08 11:29:05 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/13 03:11:52 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 
 # define OUT_FILE "out.txt" // output file to store full versions of truncated sequences
 # define SEQUENCE_TRUNCATION_THRESHOLD 10 // sequence size limit before being truncated
-# define ENABLE_SEQUENCE_TRUNCATION true
+// # define ENABLE_SEQUENCE_TRUNCATION true
+# define ENABLE_SEQUENCE_TRUNCATION false
 
 /*
 Overites pre-existing OUT_FILE's content when called for the first time,

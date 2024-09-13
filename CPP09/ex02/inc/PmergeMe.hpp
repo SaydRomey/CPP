@@ -6,9 +6,10 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:01 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/10 19:54:52 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/13 03:10:34 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
@@ -40,7 +41,6 @@
 
 # ifndef DEBUG
 #  define DEBUG	false	// 'make debug' to toggle this and print debug messages
-// #  define DEBUG	true //tmp
 # endif // DEBUG
 
 // general template for type trait
