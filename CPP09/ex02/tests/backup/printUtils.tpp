@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 07:05:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/13 15:48:03 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/13 03:11:52 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,18 @@ void	printSequence(const Container &container, const std::string &str, bool shou
 
 /* ************************************************************************** */
 
+template <typename Container>
+void	printTime(const Container &container, const std::string &containerType, double time)
+{
+	std::cout << std::fixed
+		<< "Time to process a range of "
+		<< std::setw(4) << std::right << container.size()
+		<< " elements with " << containerType << " : "
+		<< time << " seconds" << std::endl;
+}
+
+/* ************************************************************************** */
+
 template <typename PairContainer>
 void	printPairs(const PairContainer &pairs, const std::string &str, bool shouldPrint)
 {
@@ -160,23 +172,5 @@ void	printPairs(const PairContainer &pairs, const std::string &str, bool shouldP
 		++it;
 	}
 }
-/* ************************************************************************** */
-
-template <typename Container>
-void	printTime(const Container &container, double time)
-{
-	std::string	containerType = "";
-	
-	if (is_vector<Container>::value)
-		containerType = "std::vector";
-	else if (is_deque<Container>::value)
-		containerType = "std::deque";
-	
-	std::cout << std::fixed
-		<< "Time to process a range of " << container.size()
-		<< " elements with " << containerType << " : "
-		<< time << " seconds" << std::endl;
-}
-
 
 #endif // PRINTUTILS_TPP

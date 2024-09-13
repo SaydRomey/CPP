@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:55:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/13 16:14:50 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/08 04:31:50 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,35 +71,29 @@ The management of errors related to duplicates is left to your discretion.
 
 #include "PmergeMe.hpp"
 
-template <typename Container>
-void	testFJ(PmergeMe<Container> &sorter)
-{
-	sorter.process();
-	printSequence(sorter.getInputSequence(), "Before: ");
-	printSequence(sorter.getSortedSequence(), "After:  ");
-	printTime(sorter.getInputSequence(), sorter.getSortingTime());
-}
-
 int	main(int argc, char *argv[])
 {	
 	try
 	{
-		// PmergeMe<std::vector<int> >	sorterV;
-		// sorterV.parseInput(argc, argv);
+		PmergeMe	sorter(argc, argv);
 		
-		PmergeMe<std::vector<int> >	sorterV(argc, argv);
-		PmergeMe<std::deque<int> >	sorterD(argc, argv);
+		// PmergeMe	sorter;
+		// sorter.parseInput(argc, argv);
 
-		// testFJ(sorterV);
-		// testFJ(sorterD);
-		
-		sorterV.process();
-		sorterD.process();
-		
-		printSequence(sorterV.getInputSequence(), "Before: ");
-		printSequence(sorterV.getSortedSequence(), "After:  ");
-		printTime(sorterV.getInputSequence(), sorterV.getSortingTime());
-		printTime(sorterD.getInputSequence(), sorterD.getSortingTime());
+		printSequence(sorter.getInputSequence(), "Before: ");
+
+		double				vectorTime;
+		std::vector<int>	vectorSequence;
+		sorter.process(vectorSequence, vectorTime);
+
+		double				dequeTime;
+		std::deque<int>		dequeSequence;
+		sorter.process(dequeSequence, dequeTime);
+
+		printSequence(vectorSequence, "After:  ");
+		printTime(vectorSequence, "std::vector", vectorTime);
+		printTime(dequeSequence, "std::deque ", dequeTime);
+
 	}
 	catch (const std::exception &e)
 	{

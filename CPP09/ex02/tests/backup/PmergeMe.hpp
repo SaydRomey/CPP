@@ -6,9 +6,10 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:56:01 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/13 16:09:42 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/13 03:10:34 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
@@ -18,6 +19,7 @@
 # include <cerrno>
 # include <ctime>
 # include <deque>
+# include <iomanip>		// setw, right
 # include <iostream>
 # include <iterator>
 # include <limits>
@@ -86,7 +88,6 @@ struct PairType<std::deque<int> >
 	typedef std::deque<std::pair<int, int> > type;
 };
 
-template <typename Container>
 class PmergeMe
 {
 	public:
@@ -99,49 +100,49 @@ class PmergeMe
 		PmergeMe&	operator=(const PmergeMe &other);
 
 		void	parseInput(int argc, char *argv[]);
-		void	process(void);
+
+		template <typename Container>
+		void	process(Container &container, double &duration);
 		
-		const Container&	getInputSequence(void) const;
-		const Container&	getSortedSequence(void) const;
-		const double&		getSortingTime(void) const;
+		const std::list<int>	&getInputSequence(void) const;
 	
 	private:
-
-		typedef typename PairType<Container>::type PairContainer;
 	
-		Container		_inputSequence;
-		
-		PairContainer	_pairs;
-		Container		_sorted;
-		Container		_pending;
+		std::list<int>		_inputSequence;
 
-		double	_sortingTime;
-		
-		int		_comparisons;
-		void	incrementComparisons(void);
-		
-		// Ford-Johnson's algorithm
-		void	createPairs(void);
-		void	compareAndSwapPairs(void);
-		void	sortPairs(void);
-		void	generateSortedSequence(void);
-		void	insertSmallestPairedElement(void);
-		void	insertRemainingElements(void);
-		void	mergeInsertionSort(void);
+		template <typename Container, typename InputContainer>
+		void	setSequence(Container &container, InputContainer &inputSequence);
+
+		template <typename Container, typename PairContainer>
+		void	createPairs(const Container &container, PairContainer &pairs);
+
+		template <typename PairContainer>
+		void	compareAndSwapPairs(PairContainer &pairs);
+
+		template <typename PairContainer, typename Container>
+		Container	sortPairs(PairContainer &pairs, Container &pending);
+
+		template <typename Container>
+		void	insertSmallestPairedElement(Container &sorted, Container &pending);
+
+		template <typename Container>
+		void	insertRemainingElements(Container &sorted, Container &pending);
+
+		template <typename Container>
+		void	mergeInsertionSort(Container &container);
 };
 
 template <typename Container>
 void	printSequence(const Container &container, const std::string &str, bool shouldPrint = true);
 
+template <typename Container>
+void	printTime(const Container &container, const std::string &containerType, double time);
+
 template <typename PairContainer>
 void	printPairs(const PairContainer &pairs, const std::string &str, bool shouldPrint = true);
 
-template <typename Container>
-void	printTime(const Container &container, double time);
-
 void	print(const std::string &str, const std::string &color = GRAYTALIC);
 void	print(const std::string &str, int value, const std::string &color = GRAYTALIC);
-// void	printTime(const size_t &containerSize, const std::string &containerType, double time);
 
 # include "PmergeMe.tpp"
 # include "printUtils.tpp"

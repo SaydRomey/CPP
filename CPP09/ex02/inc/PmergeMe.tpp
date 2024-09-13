@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/13 03:31:12 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/13 16:09:57 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,107 @@
 
 # include "PmergeMe.hpp"
 
-/*
-Fills 'container' with values from 'inputSequence'
-*/
-template <typename Container, typename InputContainer>
-void	PmergeMe::setSequence(Container &container, InputContainer &inputSequence)
+template <typename Container>
+PmergeMe<Container>::PmergeMe(void) : _sortingTime(0.0), _comparisons(0) {}
+
+template <typename Container>
+PmergeMe<Container>::PmergeMe(int argc, char *argv[]) : _sortingTime(0.0), _comparisons(0)
 {
-	container.assign(inputSequence.begin(), inputSequence.end());
+	parseInput(argc, argv);
 }
+
+template <typename Container>
+PmergeMe<Container>::PmergeMe(const PmergeMe &other) : 
+	_inputSequence(other._inputSequence), _pairs(other._pairs), _sorted(other._sorted), _pending(other._pending), _sortingTime(other._sortingTime), _comparisons(other._comparisons) {}
+
+template <typename Container>
+PmergeMe<Container>::~PmergeMe(void) {}
+
+template <typename Container>
+PmergeMe<Container>&	PmergeMe<Container>::operator=(const PmergeMe &other)
+{
+	if (this != &other)
+	{
+		_inputSequence = other._inputSequence;
+		_sorted = other._sorted;
+		_pending = other._pending;
+		_sortingTime = other._sortingTime;
+		_comparisons = other._comparisons;
+	}
+	return (*this);
+}
+
+/* ************************************************************************** */
+
+template <typename Container>
+const Container&	PmergeMe<Container>::getInputSequence(void) const
+{
+	return (this->_inputSequence);
+}
+
+template <typename Container>
+const Container&	PmergeMe<Container>::getSortedSequence(void) const
+{
+	return (this->_sorted);
+}
+
+template <typename Container>
+const double&	PmergeMe<Container>::getSortingTime(void) const
+{
+	return (this->_sortingTime);
+}
+
+/* ************************************************************************** */
+
+template <typename Container>
+void	PmergeMe<Container>::incrementComparisons(void)
+{
+	_comparisons++;
+}
+
+/*
+Validates the number sequence (unique and positive integers)
+Stores the values in PmergeMe's private attribute '_inputSequence'
+*/
+template <typename Container>
+void	PmergeMe<Container>::parseInput(int argc, char *argv[])
+{
+	Container		inputSequence;
+	std::set<int>	uniqueNumbers;
+
+	if (argc < 2)
+	{
+		throw (std::invalid_argument("No input sequence provided"));
+	}
+	int	i = 1;
+	while (i < argc)
+	{
+		errno = 0;
+		char	*endPtr;
+		long	num = std::strtol(argv[i], &endPtr, 10);
+		if (errno == ERANGE || num > std::numeric_limits<int>::max() || num < std::numeric_limits<int>::min())
+		{
+			throw (std::overflow_error(("Integer overflow detected: ") + std::string(argv[i])));
+		}
+		if (*endPtr != '\0')
+		{
+			throw (std::invalid_argument(("Invalid integer input: ") + std::string(argv[i])));
+		}
+		if (num < 0)
+		{
+			throw (std::invalid_argument("Non-positive integers are not allowed"));
+		}
+		if (uniqueNumbers.find(num) != uniqueNumbers.end())
+		{
+			throw (std::invalid_argument("Duplicate values are not allowed"));
+		}
+		uniqueNumbers.insert(num);
+		inputSequence.push_back(num);
+		i++;
+	}
+	this->_inputSequence = inputSequence;
+}
+
 
 /* ************************************************************************** */
 /* ************** Ford-Johnson Merge-Insertion Sort Algorithm *************** */
@@ -32,21 +125,20 @@ void	PmergeMe::setSequence(Container &container, InputContainer &inputSequence)
 Group the elements of X into [n/2] pairs of elements, arbitrarily,
 leaving one element unpaired if there is an odd number of elements
 */
-template <typename Container, typename PairContainer>
-void	PmergeMe::createPairs(const Container &container, PairContainer &pairs)
+template <typename Container>
+void	PmergeMe<Container>::createPairs(void)
 {
-	typename Container::const_iterator	it;
+	typename Container::const_iterator	it = _inputSequence.begin();
 	
-	it = container.begin();
-	while (it != container.end())
+	while (it != _inputSequence.end())
 	{
 		int	first = *it;
 		++it;
 
-		if (it != container.end())
+		if (it != _inputSequence.end())
 		{
 			int	second = *it;
-			pairs.push_back(std::make_pair(first, second));
+			_pairs.push_back(std::make_pair(first, second));
 			++it;
 		}
 		else
@@ -55,7 +147,7 @@ void	PmergeMe::createPairs(const Container &container, PairContainer &pairs)
 			break ;
 		}
 	}
-	printPairs(pairs, "Created pairs:", DEBUG);
+	printPairs(_pairs, "Created pairs:", DEBUG);
 }
 
 /*
@@ -63,21 +155,20 @@ void	PmergeMe::createPairs(const Container &container, PairContainer &pairs)
 Perform [n/2] comparisons, one per pair,
 to determine the larger of the two elements in each pair
 */
-template <typename PairContainer>
-void	PmergeMe::compareAndSwapPairs(PairContainer &pairs)
+template <typename Container>
+void	PmergeMe<Container>::compareAndSwapPairs()
 {
-	typename PairContainer::iterator	it;
-
-	it = pairs.begin();
-	while (it != pairs.end())
+	typename PairContainer::iterator	it = _pairs.begin();
+	
+	while (it != _pairs.end())
 	{
-		std::pair<int, int>	&currentPair = *it;
-		
-		if (currentPair.first < currentPair.second)
-			std::swap(currentPair.first, currentPair.second);
+		if (it->first < it->second)
+		{
+			std::swap(it->first, it->second);
+		}
+		incrementComparisons();
 		++it;
 	}
-	printPairs(pairs, "Swapped pairs:", DEBUG);
 }
 
 /* ************************************************************************** */
@@ -87,8 +178,8 @@ Partition function for quicksort:
 organizes pairs based on the first value
 returns the index where pivot was placed
 */
-template <typename PairContainer>
-int	partition(PairContainer &pairs, int low, int high)
+template <typename Container>
+int	partition(Container &pairs, int low, int high)
 {
 	int	pivot = pairs[high].first; // use first element of the last pair as the pivot
 	int	i = low - 1;
@@ -110,8 +201,8 @@ int	partition(PairContainer &pairs, int low, int high)
 /*
 QuickSort for pairs: sorts pairs based on the first element of each pair
 */
-template <typename PairContainer>
-void	quicksort_pair(PairContainer &pairs, int low, int high)
+template <typename Container>
+void	quicksort_pair(Container &pairs, int low, int high)
 {
 	if (low < high)
 	{
@@ -123,31 +214,34 @@ void	quicksort_pair(PairContainer &pairs, int low, int high)
 }
 
 /*
-3.	*?(maybe split the pair sorting logic and the populating of sorted and pending in two func ?)
-
+3.
 Recursively sort the [n/2] larger elements from each pair,
 creating a sorted sequence 'S' of [n/2] of the input elements,
 in ascending order
 */
-template <typename PairContainer, typename Container>
-Container	PmergeMe::sortPairs(PairContainer &pairs, Container &pending)
+template <typename Container>
+void	PmergeMe<Container>::sortPairs(void)
 {
-	quicksort_pair(pairs, 0, pairs.size() - 1);
-	printPairs(pairs, "Sorted pairs:", DEBUG);
+	quicksort_pair(_pairs, 0, _pairs.size() - 1);
+	printPairs(_pairs, "Sorted pairs:", DEBUG);
+}
 
-	Container	sorted;
-	typename PairContainer::const_iterator	it;
+template <typename Container>
+void	PmergeMe<Container>::generateSortedSequence(void)
+{
+	_sorted.clear();
+	_pending.clear();
+
+	typename PairContainer::const_iterator	it = _pairs.begin();
 	
-	it = pairs.begin();
-	while (it != pairs.end())
+	while (it != _pairs.end())
 	{
-		sorted.push_back(it->first);
-		pending.push_back(it->second);
+		_sorted.push_back(it->first);
+		_pending.push_back(it->second);
 		++it;
 	}
-	printSequence(sorted, "Sorted sequence: ", DEBUG);
-	printSequence(pending, "Pending elements: ", DEBUG);
-	return (sorted);
+	printSequence(_sorted, "Sorted sequence: ", DEBUG);
+	printSequence(_pending, "Pending elements: ", DEBUG);
 }
 
 /* ************************************************************************** */
@@ -158,17 +252,17 @@ Insert at the start of S the element
 that was paired with the first and smallest element of S
 */
 template <typename Container>
-void	PmergeMe::insertSmallestPairedElement(Container &sorted, Container &pending)
+void	PmergeMe<Container>::insertSmallestPairedElement(void)
 {
 	print("Inserting element paired with first and smallest element of 'sorted'");
-	if (sorted.empty() || pending.empty())
+	if (_sorted.empty() || _pending.empty())
 		return ;
 
-	sorted.insert(sorted.begin(), pending.front());
-	pending.erase(pending.begin());
+	_sorted.insert(_sorted.begin(), _pending.front());
+	_pending.erase(_pending.begin());
 
-	printSequence(sorted, "Updated sorted sequence: ", DEBUG);
-	printSequence(pending, "Remaining pending elements: ", DEBUG);
+	printSequence(_sorted, "Updated sorted sequence: ", DEBUG);
+	printSequence(_pending, "Remaining pending elements: ", DEBUG);
 }
 
 /* ************************************************************************** */
@@ -256,12 +350,14 @@ inline Container	getJacobsthalOrder(int n)
 /* ************************************************************************** */
 
 template <typename Iterator>
-Iterator	binarySearchInsertionPoint(Iterator lowerBound, Iterator upperBound, int element)
+Iterator	binarySearchInsertionPoint(Iterator lowerBound, Iterator upperBound, int element, int &comparisons)
 {
 	while (lowerBound <= upperBound)
 	{
 		Iterator	mid = lowerBound + (std::distance(lowerBound, upperBound) / 2);
 		
+		comparisons++;
+
 		if (element < *mid)
 		{
 			upperBound = mid - 1;
@@ -288,9 +384,9 @@ the position at which each element should be inserted
 Only search in the range [0, 2^k - 1], where k is the Jacobsthal index // to implement *!!
 */
 template <typename Container>
-void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
+void	PmergeMe<Container>::insertRemainingElements(void)
 {
-	Container	insertOrder = getJacobsthalOrder<Container>(pending.size());
+	Container	insertOrder = getJacobsthalOrder<Container>(_pending.size());
 
 	typename Container::const_iterator	it = insertOrder.begin();
 	
@@ -298,72 +394,80 @@ void	PmergeMe::insertRemainingElements(Container &sorted, Container &pending)
 	{
 		int	elementIndex = *it;
 
-		if (elementIndex < static_cast<int>(pending.size()))
+		if (elementIndex < static_cast<int>(_pending.size()))
 		{
-			typename Container::iterator	upperBoundIt = sorted.end();
-			typename Container::iterator	insertIt = binarySearchInsertionPoint(sorted.begin(), upperBoundIt, pending[elementIndex]);
+			typename Container::iterator	upperBoundIt = _sorted.end();
+			typename Container::iterator	insertIt = binarySearchInsertionPoint(_sorted.begin(), upperBoundIt, _pending[elementIndex], _comparisons);
 			
-			sorted.insert(insertIt, pending[elementIndex]);
+			_sorted.insert(insertIt, _pending[elementIndex]);
 		}
 		++it;
 	}
-	printSequence(sorted, "\nFinal sorted sequence: ", DEBUG);
+	printSequence(_sorted, "Final sorted sequence: ", DEBUG);
 }
 
 /* ************************************************************************** */
 
+/*
+creates pairs from _inputSequence
+swaps to ensure the first element in the pair is larger
+recursively sorts the pairs (currently using quicksort, might test other ways)
+populates _sorted and _pending
+inserts at the start of _sorted the first element in _pending
+handles unpaired element if input size is odd
+inserts remaining elements based on Jacobsthal sequence
+*/
 template <typename Container>
-void	PmergeMe::mergeInsertionSort(Container &container)
+void	PmergeMe<Container>::mergeInsertionSort(void)
 {
-	typename PairType<Container>::type	pairs;
-
-	Container	pending, sorted;
-
-	createPairs(container, pairs);
+	createPairs();
+	compareAndSwapPairs();
+	sortPairs();
+	generateSortedSequence();
 	
-	compareAndSwapPairs(pairs);
+	insertSmallestPairedElement();
 
-	sorted = sortPairs(pairs, pending);
-
-	insertSmallestPairedElement(sorted, pending);
-
-	if (container.size() % 2 != 0)
+	if (_inputSequence.size() % 2 != 0)
 	{
 		print("Remaining unpaired element placed in 'pending'");
-		pending.push_back(container.back());
-		printSequence(pending, "Updated pending elements: ", DEBUG);
+		_pending.push_back(_inputSequence.back());
+		printSequence(_pending, "Updated pending elements: ", DEBUG);
 	}
-
-	insertSmallestPairedElement(sorted, pending); // test with this before adding unpaired to pending (to keep size of containers at (intput.size() / 2))
 	
-	insertRemainingElements(sorted, pending);
-
-	setSequence(container, sorted);
+	insertRemainingElements();
 }
 
 template <typename Container>
-void	PmergeMe::process(Container &container, double &duration)
+void	PmergeMe<Container>::process(void)
 {
+	if (_inputSequence.empty())
+	{
+		throw (std::logic_error("No input sequence to process"));
+	}
+	
 	std::clock_t start = std::clock();
-	setSequence(container, getInputSequence());
 
-	// Handle type-specific messages
 	if (is_vector<Container>::value)
 	{
 		print("\nProcessing std::vector\n", ORANGE);
-		mergeInsertionSort(container);
+		mergeInsertionSort();
+		print("Comparisons: ", _comparisons);
 	}
 	else if (is_deque<Container>::value)
 	{
 		print("\nProcessing std::deque\n", ORANGE);
-		mergeInsertionSort(container);
+		mergeInsertionSort();
+		print("Comparisons: ", _comparisons);
 	}
 	else
 	{
-		std::cout << "Handling other container type" << std::endl;
+		print("\nProcessing other container type\n", ORANGE);
+		mergeInsertionSort();
+		print("Comparisons: ", _comparisons);
 	}
 
 	std::clock_t end = std::clock();
-	duration = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+	_sortingTime = static_cast<double>(end - start) / CLOCKS_PER_SEC;
 }
+
 #endif // PMERGEME_TPP
