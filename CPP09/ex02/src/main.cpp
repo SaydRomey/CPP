@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 20:55:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/13 16:14:50 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/14 01:11:16 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,34 +72,51 @@ The management of errors related to duplicates is left to your discretion.
 #include "PmergeMe.hpp"
 
 template <typename Container>
-void	testFJ(PmergeMe<Container> &sorter)
+void	testConstructors(PmergeMe<Container> &sorter)
 {
+	std::cout << UNDERLINE << "\nTesting " 
+		<< sorter.getContainerType() << "'s constructors\n"
+		<< RESET << std::endl;
+	
 	sorter.process();
-	printSequence(sorter.getInputSequence(), "Before: ");
-	printSequence(sorter.getSortedSequence(), "After:  ");
-	printTime(sorter.getInputSequence(), sorter.getSortingTime());
+	
+	PmergeMe<Container>	sorterCopy(sorter);
+	printSequence(sorterCopy.getSortedSequence(), "Copied sorted sequence in unprocessed object: ");
+
+	PmergeMe<Container>	sorterEmpty;
+	PmergeMe<Container>	sorterAssign = sorter;
+	printSequence(sorterAssign.getSortedSequence(), "Assigned sorted sequence in unprocessed object: ");
+	
+	sorterAssign = sorterEmpty;
+	printSequence(sorterAssign.getSortedSequence(), "Assigned unprocessed object's empty sorted value to same object: ");
+	
+	PmergeMe<std::vector<int> >	convertV(sorter);
+	PmergeMe<std::deque<int> >	convertD(sorter);
+	printSequence(convertV.getSortedSequence(), (convertV.getContainerType() + " converted from " + sorter.getContainerType() + ": "));
+	printSequence(convertD.getSortedSequence(), (convertD.getContainerType() + " converted from " + sorter.getContainerType() + ": "));
+
+	std::cout << std::endl;
 }
 
 int	main(int argc, char *argv[])
 {	
 	try
-	{
+	{		
 		// PmergeMe<std::vector<int> >	sorterV;
 		// sorterV.parseInput(argc, argv);
 		
 		PmergeMe<std::vector<int> >	sorterV(argc, argv);
 		PmergeMe<std::deque<int> >	sorterD(argc, argv);
 
-		// testFJ(sorterV);
-		// testFJ(sorterD);
-		
 		sorterV.process();
 		sorterD.process();
 		
+		// testConstructors(sorterV);
+		
 		printSequence(sorterV.getInputSequence(), "Before: ");
 		printSequence(sorterV.getSortedSequence(), "After:  ");
-		printTime(sorterV.getInputSequence(), sorterV.getSortingTime());
-		printTime(sorterD.getInputSequence(), sorterD.getSortingTime());
+		sorterV.printTimeToSort();
+		sorterD.printTimeToSort();
 	}
 	catch (const std::exception &e)
 	{

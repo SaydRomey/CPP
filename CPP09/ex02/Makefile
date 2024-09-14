@@ -146,10 +146,12 @@ rand: all | $(TMP_DIR)
 	fi
 
 
-ARG	:= 3 5 9 7 4
+# ARG	:= 3 5 9 7 4
 
-run: all
-	./$(NAME) $(ARG)
+# run: all
+# 	./$(NAME) $(ARG)
+
+run: rand
 
 debug: C_FLAGS += -DDEBUG=true
 debug: re

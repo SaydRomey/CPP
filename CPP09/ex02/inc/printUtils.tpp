@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 07:05:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/13 15:48:03 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/13 22:02:31 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@
 
 # define OUT_FILE "out.txt" // output file to store full versions of truncated sequences
 # define SEQUENCE_TRUNCATION_THRESHOLD 10 // sequence size limit before being truncated
-// # define ENABLE_SEQUENCE_TRUNCATION true
-# define ENABLE_SEQUENCE_TRUNCATION false
+# define ENABLE_SEQUENCE_TRUNCATION true
 
 /*
 Overites pre-existing OUT_FILE's content when called for the first time,
@@ -161,22 +160,5 @@ void	printPairs(const PairContainer &pairs, const std::string &str, bool shouldP
 	}
 }
 /* ************************************************************************** */
-
-template <typename Container>
-void	printTime(const Container &container, double time)
-{
-	std::string	containerType = "";
-	
-	if (is_vector<Container>::value)
-		containerType = "std::vector";
-	else if (is_deque<Container>::value)
-		containerType = "std::deque";
-	
-	std::cout << std::fixed
-		<< "Time to process a range of " << container.size()
-		<< " elements with " << containerType << " : "
-		<< time << " seconds" << std::endl;
-}
-
 
 #endif // PRINTUTILS_TPP

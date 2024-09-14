@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/13 16:09:57 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/14 01:08:33 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@ PmergeMe<Container>::PmergeMe(const PmergeMe &other) :
 	_inputSequence(other._inputSequence), _pairs(other._pairs), _sorted(other._sorted), _pending(other._pending), _sortingTime(other._sortingTime), _comparisons(other._comparisons) {}
 
 template <typename Container>
+template <typename OtherContainer>
+PmergeMe<Container>::PmergeMe(const PmergeMe<OtherContainer> &other) : _sortingTime(other.getSortingTime()), _comparisons(other.getComparisons())
+{
+	setSequence(_inputSequence, other.getInputSequence());
+	setSequence(_sorted, other.getSortedSequence());
+	setSequence(_pending, other.getPendingSequence());
+}
+
+template <typename Container>
 PmergeMe<Container>::~PmergeMe(void) {}
 
 template <typename Container>
@@ -41,6 +50,21 @@ PmergeMe<Container>&	PmergeMe<Container>::operator=(const PmergeMe &other)
 		_pending = other._pending;
 		_sortingTime = other._sortingTime;
 		_comparisons = other._comparisons;
+	}
+	return (*this);
+}
+
+template <typename Container>
+template <typename OtherContainer>
+PmergeMe<Container>&	PmergeMe<Container>::operator=(const PmergeMe<OtherContainer> &other)
+{
+	if (reinterpret_cast<void*>(this) != reinterpret_cast<void*>(&other))
+	{
+		setSequence(_inputSequence, other.getInputSequence());
+		setSequence(_sorted, other.getSortedSequence());
+		setSequence(_pending, other.getPendingSequence());
+		_sortingTime = other.getSortingTime();
+		_comparisons = other.getComparisons();
 	}
 	return (*this);
 }
@@ -60,9 +84,33 @@ const Container&	PmergeMe<Container>::getSortedSequence(void) const
 }
 
 template <typename Container>
+const Container&	PmergeMe<Container>::getPendingSequence(void) const
+{
+	return (this->_pending);
+}
+
+template <typename Container>
 const double&	PmergeMe<Container>::getSortingTime(void) const
 {
 	return (this->_sortingTime);
+}
+
+template <typename Container>
+const int&	PmergeMe<Container>::getComparisons(void) const
+{
+	return (this->_comparisons);
+}
+
+template <typename Container>
+const std::string	PmergeMe<Container>::getContainerType(void) const
+{
+	std::string	containerType = "unknown";
+	
+	if (is_vector<Container>::value)
+		return (containerType = "std::vector");
+	else if (is_deque<Container>::value)
+		return (containerType = "std::deque");
+	return (containerType);
 }
 
 /* ************************************************************************** */
@@ -230,7 +278,7 @@ template <typename Container>
 void	PmergeMe<Container>::generateSortedSequence(void)
 {
 	_sorted.clear();
-	_pending.clear();
+	_pending.clear(); // these might not be needed anymore
 
 	typename PairContainer::const_iterator	it = _pairs.begin();
 	
@@ -403,7 +451,6 @@ void	PmergeMe<Container>::insertRemainingElements(void)
 		}
 		++it;
 	}
-	printSequence(_sorted, "Final sorted sequence: ", DEBUG);
 }
 
 /* ************************************************************************** */
@@ -433,41 +480,61 @@ void	PmergeMe<Container>::mergeInsertionSort(void)
 		_pending.push_back(_inputSequence.back());
 		printSequence(_pending, "Updated pending elements: ", DEBUG);
 	}
-	
 	insertRemainingElements();
+
+	std::string	good = (std::string(GREEN) + " (sorted) " + std::string(RESET));
+	std::string bad = (std::string(RED) + " (not sorted) " + std::string(RESET));
+	std::string	result = isSorted(_sorted) ? good : bad;	
+	printSequence(_sorted, "Final" + result + "sequence: ", DEBUG);
 }
 
 template <typename Container>
 void	PmergeMe<Container>::process(void)
 {
+	if (!_sorted.empty())
+	{
+		print((getContainerType() + " already processed"), YELLOW);
+		return ;
+	}
 	if (_inputSequence.empty())
 	{
 		throw (std::logic_error("No input sequence to process"));
 	}
 	
 	std::clock_t start = std::clock();
+	
+	print(("\nProcessing container " + getContainerType()), UNDERLINE);
 
-	if (is_vector<Container>::value)
-	{
-		print("\nProcessing std::vector\n", ORANGE);
-		mergeInsertionSort();
-		print("Comparisons: ", _comparisons);
-	}
-	else if (is_deque<Container>::value)
-	{
-		print("\nProcessing std::deque\n", ORANGE);
-		mergeInsertionSort();
-		print("Comparisons: ", _comparisons);
-	}
-	else
-	{
-		print("\nProcessing other container type\n", ORANGE);
-		mergeInsertionSort();
-		print("Comparisons: ", _comparisons);
-	}
+	mergeInsertionSort();
+	
+	print("Comparisons: ", _comparisons);
 
 	std::clock_t end = std::clock();
 	_sortingTime = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+}
+
+template <typename Container>
+void	PmergeMe<Container>::printTimeToSort(void) const
+{
+	std::string containerType(getContainerType());
+	
+	if (_inputSequence.empty())
+	{
+		print((getContainerType() + " input sequence not found"), YELLOW);
+		// std::cout << containerType << " input sequence not found" << std::endl;
+		return ;
+	}
+	// if (_sorted.empty() || !isSorted(_sorted))
+	if (!isSorted(_sorted))
+	{
+		print((getContainerType() + " is unsorted"), YELLOW);
+		// std::cout << containerType << " is unsorted" << std::endl;
+		return ;
+	}
+	std::cout << std::fixed
+		<< "Time to process a range of " << _inputSequence.size()
+		<< " elements with " << containerType << " : "
+		<< _sortingTime << " seconds" << std::endl;
 }
 
 #endif // PMERGEME_TPP
