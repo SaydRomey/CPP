@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:55:51 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/14 01:08:33 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/14 03:34:19 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ const std::string	PmergeMe<Container>::getContainerType(void) const
 	std::string	containerType = "unknown";
 	
 	if (is_vector<Container>::value)
-		return (containerType = "std::vector");
+		containerType = "std::vector";
 	else if (is_deque<Container>::value)
-		return (containerType = "std::deque");
+		containerType = "std::deque";
 	return (containerType);
 }
 
@@ -221,10 +221,10 @@ void	PmergeMe<Container>::compareAndSwapPairs()
 
 /* ************************************************************************** */
 
-/*		** (todo: add better explanation)
+/*
 Partition function for quicksort:
-organizes pairs based on the first value
-returns the index where pivot was placed
+organizes pairs based on the first value of each pair
+returns the index where pivot element was placed
 */
 template <typename Container>
 int	partition(Container &pairs, int low, int high)
@@ -250,14 +250,14 @@ int	partition(Container &pairs, int low, int high)
 QuickSort for pairs: sorts pairs based on the first element of each pair
 */
 template <typename Container>
-void	quicksort_pair(Container &pairs, int low, int high)
+void	quicksortPairs(Container &pairs, int low, int high)
 {
 	if (low < high)
 	{
 		int	pivotIndex = partition(pairs, low, high); // partition the array and get the pivot index
 
-		quicksort_pair(pairs, low, pivotIndex - 1); // recursively sort left side of pivot
-		quicksort_pair(pairs, pivotIndex + 1, high); // recursively sort right side of pivot
+		quicksortPairs(pairs, low, pivotIndex - 1); // recursively sort left side of pivot
+		quicksortPairs(pairs, pivotIndex + 1, high); // recursively sort right side of pivot
 	}
 }
 
@@ -270,7 +270,7 @@ in ascending order
 template <typename Container>
 void	PmergeMe<Container>::sortPairs(void)
 {
-	quicksort_pair(_pairs, 0, _pairs.size() - 1);
+	quicksortPairs(_pairs, 0, _pairs.size() - 1);
 	printPairs(_pairs, "Sorted pairs:", DEBUG);
 }
 
@@ -346,11 +346,10 @@ inline int	jacobsthal(int n)
 }
 
 /*
-Generates order of insertion for the pending elements
-using the Jacobsthal number sequence
+Generates the Jacobsthal sequence up to a given size 'n'
 */
 template <typename Container>
-inline Container	getJacobsthalOrder(int n)
+inline Container	generateJacobsthalSequence(int n)
 {
 	Container	jacobsthalSequence;
 
@@ -358,14 +357,24 @@ inline Container	getJacobsthalOrder(int n)
 	while (jacobsthal(j) < n)
 	{
 		jacobsthalSequence.push_back(jacobsthal(j));
-		j++;
+		++j;
 	}
-	jacobsthalSequence.push_back(n); // add the last number
+	if (jacobsthalSequence.empty() || jacobsthalSequence.back() != n)
+		jacobsthalSequence.push_back(n); // add the last number
 	// printSequence(jacobsthalSequence, "Jacobsthal numbers generated: ", DEBUG);
+	
+	return (jacobsthalSequence);
+}
 
-	// generate the insertion order based on Jacobsthal's sequence
+
+/*
+Generates order of insertion for the pending elements
+using the Jacobsthal number sequence
+*/
+template <typename Container>
+inline Container	generateInsertionOrder(const Container &jacobsthalSequence)
+{
 	Container	insertOrder;
-
 	typename Container::const_iterator	it = jacobsthalSequence.begin();
 
 	while (it != jacobsthalSequence.end() - 1)
@@ -374,21 +383,20 @@ inline Container	getJacobsthalOrder(int n)
 		while (k >= *it)
 		{
 			insertOrder.push_back(k);
-			k--;
+			--k;
 		}
 		++it;
 	}
-	
 	// size_t	i = 0;
 	// while (i < jacobsthalSequence.size() - 1)
 	// {
-	// 	int	k = jacobsthalSequence[i + 1] - 1;
-	// 	while (k >= jacobsthalSequence[i])
-	// 	{
-	// 		insertOrder.push_back(k);
-	// 		k--;
-	// 	}
-	// 	i++;
+		// int	k = jacobsthalSequence[i + 1] - 1;
+		// while (k >= jacobsthalSequence[i])
+		// {
+			// insertOrder.push_back(k);
+			// --k;
+		// }
+		// i++;
 	// }
 	
 	// printSequence(insertOrder, "Jacobsthal order generated: ", DEBUG);
@@ -397,6 +405,9 @@ inline Container	getJacobsthalOrder(int n)
 
 /* ************************************************************************** */
 
+/*
+Finds the correct insertion point for a given element in a sorted range
+*/
 template <typename Iterator>
 Iterator	binarySearchInsertionPoint(Iterator lowerBound, Iterator upperBound, int element, int &comparisons)
 {
@@ -434,7 +445,9 @@ Only search in the range [0, 2^k - 1], where k is the Jacobsthal index // to imp
 template <typename Container>
 void	PmergeMe<Container>::insertRemainingElements(void)
 {
-	Container	insertOrder = getJacobsthalOrder<Container>(_pending.size());
+	Container	jacobsthalSequence = generateJacobsthalSequence<Container>(_pending.size());
+	
+	Container	insertOrder = generateInsertionOrder<Container>(jacobsthalSequence);
 
 	typename Container::const_iterator	it = insertOrder.begin();
 	
@@ -444,8 +457,18 @@ void	PmergeMe<Container>::insertRemainingElements(void)
 
 		if (elementIndex < static_cast<int>(_pending.size()))
 		{
+			// int	jacobsthalIndex = jacobsthal(static_cast<int>(it - insertOrder.begin()));
+			// std::cout << "jacobsthal index: " << jacobsthalIndex << std::endl;
+
+			// int	upperBoundIndex = (1 << jacobsthalIndex) - 1; // 2^k - 1 adjusted for zero-indexing
+			// std::cout << "upper bound index: " << upperBoundIndex << std::endl;
+			
+			// if (upperBoundIndex >= static_cast<int>(_sorted.size()))
+			// 	upperBoundIndex = static_cast<int>(_sorted.size() - 1);
+			
+			// typename Container::iterator	upperBoundIt = _sorted.begin() + upperBoundIndex;
 			typename Container::iterator	upperBoundIt = _sorted.end();
-			typename Container::iterator	insertIt = binarySearchInsertionPoint(_sorted.begin(), upperBoundIt, _pending[elementIndex], _comparisons);
+			typename Container::iterator	insertIt = binarySearchInsertionPoint(_sorted.begin(), upperBoundIt + 1, _pending[elementIndex], _comparisons);
 			
 			_sorted.insert(insertIt, _pending[elementIndex]);
 		}

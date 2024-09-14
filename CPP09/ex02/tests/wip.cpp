@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 20:47:41 by cdumais           #+#    #+#             */
-/*   Updated: 2024/09/14 00:50:35 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/14 03:01:44 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,3 @@ optimisations:
 			else
 				sorted.insert(sorted.begin() + pos, pending[jacOrder[i]])
 */
-
