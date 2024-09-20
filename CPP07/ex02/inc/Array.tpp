@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:08:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/20 18:10:50 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/20 17:23:06 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,18 @@
 
 # include "Array.hpp"
 
+/*
+"Construction with no parameter: Creates an empty array."
+*/
 template <typename T>
-Array<T>::Array(void) : _data(NULL), _size(0) {}
+Array<T>::Array(void) : _data(new T[0]), _size(0) {}
 
+/*
+"Construction with an unsigned int n as a parameter:
+	Creates an array of n elements initialized by default.
+
+"You MUST use the operator new[] to allocate memory."
+"*/
 template <typename T>
 Array<T>::Array(unsigned int n) : _data(new T[n]), _size(n)
 {
@@ -25,15 +34,25 @@ Array<T>::Array(unsigned int n) : _data(new T[n]), _size(n)
 
 	while (i < _size)
 	{
-		_data[i] = 0;
+		_data[i] = T();
 		i++;
 	}
 }
 
+/*
+"Construction by copy and assignment operator. In both cases,
+modifying either the original array or its copy after copying
+musn’t affect the other array.
+*/
 template <typename T>
-Array<T>::Array(const Array<T> &other) : _data(NULL), _size(0)
+Array<T>::Array(const Array<T> &other) : _data(new T[other._size]), _size(other._size)
 {
-	*this = other; // using assignment operator to perform deep copy
+	unsigned int	i = 0;
+	while (i < _size)
+	{
+		_data[i] = other._data[i]; // deep copy
+		i++;
+	}
 }
 
 template <typename T>
@@ -47,14 +66,12 @@ Array<T> &Array<T>::operator=(const Array<T> &other)
 {
 	if (this != &other)
 	{
-		// delete current data
-		delete[] _data;
-
-		// allocate new memory
-		_size = other._size;
-		_data = new T[_size];
-
-		// copy elements
+		if (_size != other._size)
+		{
+			delete[] _data;
+			_data = new T[other._size];
+			_size = other._size;
+		}
 		unsigned int	i = 0;
 		while (i < _size)
 		{

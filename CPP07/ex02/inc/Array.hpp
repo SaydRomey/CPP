@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:07:32 by cdumais           #+#    #+#             */
-/*   Updated: 2024/07/20 17:44:36 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/20 17:17:55 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Array
 	public:
 		// Constructors
 		Array(void);
-		explicit Array(unsigned int n);
+		explicit Array(unsigned int n); // to avoid implicit conversion
 		Array(const Array<T> &other);
 
 		// Destructor

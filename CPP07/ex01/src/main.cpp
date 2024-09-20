@@ -6,19 +6,20 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:36:05 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/09 16:40:36 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/09/20 15:40:20 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "iter.hpp"
 
-/* returns size of array (deduced at compile time)
+/*
+Returns size of array (deduced at compile time)
 */
 template <typename T, size_t N>
 size_t	arrayLength(T (&)[N])
 {
-	std::cout << "Length = " << N << std::endl;
+	// std::cout << "Length = " << N << std::endl;
 	return (N);
 }
 
@@ -28,17 +29,17 @@ void	intArrayTest(void)
 	size_t	intArraySize = arrayLength(intArray);
 	// size_t	intArraySize = sizeof(intArray) / sizeof(intArray[0]);
 
-	std::cout << "\nPrinting [" << intArraySize << "] integers: ";
+	std::cout << "\nPrinting array of [" << intArraySize << "] integers: ";
 	iter(intArray, intArraySize, printElement<int>);
 	std::cout << std::endl;
 
 	iter(intArray, intArraySize, addFortyTwo<int>);
-	std::cout << "Printing [" << intArraySize << "] (+42) modified integers: ";
+	std::cout << "Printing array of [" << intArraySize << "] (+42) modified integers: ";
 	iter(intArray, intArraySize, printElement<int>);
 	std::cout << std::endl;
 
 	iter(intArray, intArraySize, doubleElement<int>);
-	std::cout << "Printing [" << intArraySize << "] doubled integers: ";
+	std::cout << "Printing array of [" << intArraySize << "] doubled integers: ";
 	iter(intArray, intArraySize, printElement<int>);
 	std::cout << std::endl;
 }
@@ -48,17 +49,17 @@ void	doubleArrayTest(void)
 	double	doubleArray[] = {1.1, 2.2, 3.3, 4.4, 5.5};
 	size_t	doubleArraySize = arrayLength(doubleArray);
 
-	std::cout << "\nPrinting [" << doubleArraySize << "] doubles: ";
+	std::cout << "\nPrinting array of [" << doubleArraySize << "] doubles: ";
 	iter(doubleArray, doubleArraySize, printElement<double>);
 	std::cout << std::endl;
 
 	iter(doubleArray, doubleArraySize, addFortyTwo<double>);
-	std::cout << "Printing [" << doubleArraySize << "] (+42) modified doubles: ";
+	std::cout << "Printing array of [" << doubleArraySize << "] (+42) modified doubles: ";
 	iter(doubleArray, doubleArraySize, printElement<double>);
 	std::cout << std::endl;
 
 	iter(doubleArray, doubleArraySize, doubleElement<double>);
-	std::cout << "Printing [" << doubleArraySize << "] doubled doubles: ";
+	std::cout << "Printing array of [" << doubleArraySize << "] doubled doubles: ";
 	iter(doubleArray, doubleArraySize, printElement<double>);
 	std::cout << std::endl;	
 }
@@ -68,17 +69,17 @@ void	stringArrayTest(void)
 	std::string	stringArray[] = {"one", "two", "three"};
 	size_t	stringArraySize = arrayLength(stringArray);
 
-	std::cout << "\nPrinting [" << stringArraySize << "] strings: ";
+	std::cout << "\nPrinting array of [" << stringArraySize << "] strings: ";
 	iter(stringArray, stringArraySize, printElement<std::string>);
 	std::cout << std::endl;
 
 	iter(stringArray, stringArraySize, addFortyTwo<std::string>);
-	std::cout << "Printing [" << stringArraySize << "] (+42) modified strings: ";
+	std::cout << "Printing array of [" << stringArraySize << "] (+42) modified strings: ";
 	iter(stringArray, stringArraySize, printElement<std::string>);
 	std::cout << std::endl;
 	
 	iter(stringArray, stringArraySize, doubleElement<std::string>);
-	std::cout << "Printing [" << stringArraySize << "] doubled strings: ";
+	std::cout << "Printing array of [" << stringArraySize << "] doubled strings: ";
 	iter(stringArray, stringArraySize, printElement<std::string>);
 	std::cout << std::endl;
 }

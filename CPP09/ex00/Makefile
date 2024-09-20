@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/09 18:36:41 by cdumais           #+#    #+#              #
-#    Updated: 2024/08/18 20:46:44 by cdumais          ###   ########.fr        #
+#    Updated: 2024/09/20 15:26:58 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,7 +136,14 @@ $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
 
 ffclean: fclean
-	@$(REMOVE) $(TMP_DIR)
+	@if [ -n "$(wildcard $(TMP_DIR))" ]; then \
+		$(REMOVE) $(TMP_DIR); \
+		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
+		$(GREEN)Temporary files removed$(RESET)"; \
+	else \
+		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
+		$(YELLOW)No temporary files to remove$(RESET)"; \
+	fi
 
 .PHONY: run ffclean
 # **************************************************************************** #

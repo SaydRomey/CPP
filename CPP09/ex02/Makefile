@@ -160,7 +160,14 @@ $(TMP_DIR):
 	@mkdir -p $(TMP_DIR)
 
 ffclean: fclean
-	@$(REMOVE) $(TMP_DIR)
+	@if [ -n "$(wildcard $(TMP_DIR))" ]; then \
+		$(REMOVE) $(TMP_DIR); \
+		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
+		$(GREEN)Temporary files removed$(RESET)"; \
+	else \
+		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
+		$(YELLOW)No temporary files to remove$(RESET)"; \
+	fi
 
 .PHONY: rand run debug ffclean
 # **************************************************************************** #
