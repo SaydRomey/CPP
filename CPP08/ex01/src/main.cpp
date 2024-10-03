@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:05:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/11 19:50:43 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/03 15:49:04 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,64 @@
 #include <iostream>
 #include <vector>
 
-void	printSpan(Span &sp, unsigned int numElements)
+
+
+void	printSpan(Span &span)
 {
-	std::cout << "\n(" << numElements << " numbers)" << std::endl;
-	std::cout << "Shortest span:\t" << sp.shortestSpan() << std::endl;
-	std::cout << "Longest span:\t" << sp.longestSpan() << std::endl;
+	// std::cout << "\n" << UNDERLINE \
+	// << "Span of " << span.getNumbers().size() << " numbers" \
+	// << RESET << std::endl;
+	// std::cout << "Shortest span:\t" << span.shortestSpan() << std::endl;
+	// std::cout << "Longest span:\t" << span.longestSpan() << std::endl;
+
+	std::cout << span << std::endl;
 }
 
 /*
-creates a 'Span' object with 'numElements' numbers randomized
+helper function to fill a vector with either sequential or random numbers
 */
-void	testSpan(unsigned int numElements)
+void	fillVector(std::vector<unsigned int> &vec, unsigned int numElements, bool sequential = true) // or something else to choose random sequence or sequential
 {
-	try
+	vec.clear();
+
+	if (!sequential)
 	{
-		Span	sp(numElements);
-		
-		std::srand(static_cast<unsigned int>(time(0)));
+		std::srand(static_cast<unsigned int>(std::time(0)));
+
 		unsigned int	i = 0;
 		while (i < numElements)
 		{
-			sp.addNumber(std::rand());
-			i++;
+			vec.push_back(std::rand()); // adding random numbers
+			++i;
 		}
-		printSpan(sp, numElements);
 	}
-	catch (const std::exception &e)
+	else
 	{
-		std::cout << e.what() << std::endl;
+		unsigned int	i = 0;
+		while (i < numElements)
+		{
+			vec.push_back(i + 1); // adding sequential numbers
+			++i;
+		}
 	}
 }
 
 /*
-"[...]it would be wonderful to fill your Span using a range of iterators.
-Making thousands calls to addNumber() is so annoying.
-Implement a member function to add many numbers to your Span in one call."
+creates a 'Span' object with 'numElements' values
+then prints size and shortest/longest span
 */
-void	testAddManyNumbersToSpan(unsigned int numElements)
+void	testSpan(unsigned int numElements, bool sequential = true)
 {
 	try
 	{
-		std::vector<int>	numbers;
-		unsigned int	i = 1;
-		while (i <= numElements)
-		{
-			numbers.push_back(i);
-			i++;
-		}
-				
-		Span	sp = Span(numElements);
+		Span	span(numElements);
+		std::vector<unsigned int>	numbers;
 		
-		sp.addNumbers(numbers.begin(), numbers.end());
+		fillVector(numbers, numElements, sequential);
+
+		span.addNumbers(numbers.begin(), numbers.end());
 		
-		printSpan(sp, numElements);
+		printSpan(span);
 	}
 	catch (const std::exception &e)
 	{
@@ -81,17 +86,19 @@ void	testAddManyNumbersToSpan(unsigned int numElements)
 */
 void	pdfTest(void)
 {
+	std::cout << UNDERLINE << "\nPDF test:" << RESET << std::endl;
+	
 	try
 	{
-		Span	sp = Span(5);
+		Span	span = Span(5);
 		
-		sp.addNumber(6);
-		sp.addNumber(3);
-		sp.addNumber(17);
-		sp.addNumber(9);
-		sp.addNumber(11);
-		std::cout << sp.shortestSpan() << std::endl;
-		std::cout << sp.longestSpan() << std::endl;
+		span.addNumber(6);
+		span.addNumber(3);
+		span.addNumber(17);
+		span.addNumber(9);
+		span.addNumber(11);
+		std::cout << span.shortestSpan() << std::endl;
+		std::cout << span.longestSpan() << "\n" << std::endl;
 	}
 	catch (const std::exception &e)
 	{
@@ -101,8 +108,135 @@ void	pdfTest(void)
 
 int	main(void)
 {
+	unsigned int	numElements = 10;
+
 	pdfTest();
-	testSpan(10000);
-	testAddManyNumbersToSpan(10);
+	
+	// test with sequential numbers
+	testSpan(numElements);
+	
+	// test with randomized numbers
+	testSpan(numElements, false);
+	
 	return (0);
 }
+
+//
+
+// class Span
+// {
+//     // ... other members and functions
+//     public:
+//         void setPrintNumbers(bool print);
+//     private:
+//         bool _printNumbers;
+// };
+
+// std::ostream& operator<<(std::ostream &out, const Span &param);
+
+// //
+
+// void Span::setPrintNumbers(bool print)
+// {
+//     _printNumbers = print;
+// }
+
+// //
+
+// std::ostream& operator<<(std::ostream &out, const Span &param)
+// {
+//     if (param._numbers.empty())
+//     {
+//         out << "Span is empty.\n";
+//     }
+//     else
+//     {
+//         if (param._printNumbers)
+//         {
+//             out << "Span contains " << param._numbers.size() << " numbers:\n";
+//             for (size_t i = 0; i < param._numbers.size(); ++i)
+//             {
+//                 out << param._numbers[i] << " ";
+//             }
+//             out << "\n";
+//         }
+
+//         try
+//         {
+//             out << "Shortest span: " << param.shortestSpan() << "\n";
+//             out << "Longest span: " << param.longestSpan() << "\n";
+//         }
+//         catch (const std::exception &e)
+//         {
+//             out << e.what() << "\n";
+//         }
+//     }
+//     return out;
+// }
+
+// int main(void)
+// {
+//     Span span(5);
+//     span.addNumber(6);
+//     span.addNumber(3);
+//     span.addNumber(17);
+//     span.addNumber(9);
+//     span.addNumber(11);
+
+//     // Control the behavior
+//     span.setPrintNumbers(true);
+//     std::cout << span; // Will print stored numbers
+
+//     span.setPrintNumbers(false);
+//     std::cout << span; // Will not print stored numbers
+
+//     return 0;
+// }
+
+// std::ostream& operator<<(std::ostream &out, const Span &param)
+// {
+//     try
+//     {
+//         out << "Shortest span: " << param.shortestSpan() << "\n";
+//         out << "Longest span: " << param.longestSpan() << "\n";
+//     }
+//     catch (const std::exception &e)
+//     {
+//         out << e.what() << "\n";
+//     }
+//     return out;
+// }
+
+// void printNumbers(std::ostream &out, const Span &param)
+// {
+//     if (param._numbers.empty())
+//     {
+//         out << "Span is empty.\n";
+//     }
+//     else
+//     {
+//         out << "Span contains " << param._numbers.size() << " numbers:\n";
+//         for (size_t i = 0; i < param._numbers.size(); ++i)
+//         {
+//             out << param._numbers[i] << " ";
+//         }
+//         out << "\n";
+//     }
+// }
+
+// int main(void)
+// {
+//     Span span(5);
+//     span.addNumber(6);
+//     span.addNumber(3);
+//     span.addNumber(17);
+//     span.addNumber(9);
+//     span.addNumber(11);
+
+//     std::cout << span;  // Only prints shortest and longest span
+//     printNumbers(std::cout, span);  // Prints stored numbers
+
+//     return 0;
+// }
+
+// //
