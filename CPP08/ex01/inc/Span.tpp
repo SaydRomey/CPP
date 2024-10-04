@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:19:35 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/03 15:48:54 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:21:22 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,13 @@ void	Span::addNumbers(Iterator begin, Iterator end)
 // 	}
 
 // 	std::for_each(begin, end, AddNumber(this));
-
-// 	// std::for_each(begin, end, [this](int number) {this->addNumber(number); });
 // }
 
+/*
+template function to print the values in a container
+*/
 template <typename Container>
-void	printSequence(std::ostream &out, const Container &container)
+void	printSequence(std::ostream &out, const Container &container, const std::string &color)
 {
 	if (container.empty())
 	{
@@ -79,13 +80,31 @@ void	printSequence(std::ostream &out, const Container &container)
 
 	if (container.size() == 1)
 	{
-		out << container[0] << "\n";
+		out << color << container[0] << RESET << "\n";
 		return ;
 	}
 
-	std::ostream_iterator<int>	outIt(out, ", ");
-	std::copy(container.begin(), container.end() - 1, outIt);
-	out << container.back() << "\n";
+	// out << color;
+	// std::ostream_iterator<int>	outIt(out, ", ");
+	// std::copy(container.begin(), container.end() - 1, outIt);
+	// out << container.back() << RESET << "\n";
+
+	out << color;
+	size_t	i = 0;
+	while (i < container.size())
+	{
+		// 'comma-space' token unless last value
+		out << container[i];
+		if (i < container.size() - 1)
+			out << ", ";
+		
+		// newline each 10 values
+		if (i != 0 && (i + 1) % 10 == 0)
+			out << '\n';
+		
+		++i;
+	}
+	out << RESET << '\n';
 }
 
 #endif // SPAN_TPP

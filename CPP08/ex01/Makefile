@@ -8,6 +8,7 @@ STANDARD	:=	-std=c++98
 
 INC_DIR		:=	inc
 INCS		:=	$(wildcard $(INC_DIR)/*.hpp)
+TPP_FILES	:=	$(wildcard $(INC_DIR)/*.tpp)
 HEADERS		:=	-I$(INC_DIR)
 
 SRC_DIR		:=	src
@@ -38,11 +39,11 @@ endif
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(INCS)
+$(NAME): $(OBJS) $(INCS) $(TPP_FILES)
 	@echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)]\\t$(GREEN)ready$(RESET)"
 	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(OBJS) $(HEADERS) -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(INCS) $(TPP_FILES) | $(OBJ_DIR)
 	@echo "$(CYAN)Compiling...$(ORANGE)\t$(notdir $<)$(RESET)"
 	@$(COMPILE) $(C_FLAGS) $(STANDARD) $(HEADERS) -c $< -o $@
 	@printf "$(UP)$(ERASE_LINE)"

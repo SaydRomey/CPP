@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:05:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/03 15:49:04 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:24:41 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,42 @@
 #include <iostream>
 #include <vector>
 
-
-
-void	printSpan(Span &span)
-{
-	// std::cout << "\n" << UNDERLINE \
-	// << "Span of " << span.getNumbers().size() << " numbers" \
-	// << RESET << std::endl;
-	// std::cout << "Shortest span:\t" << span.shortestSpan() << std::endl;
-	// std::cout << "Longest span:\t" << span.longestSpan() << std::endl;
-
-	std::cout << span << std::endl;
-}
-
-/*
-helper function to fill a vector with either sequential or random numbers
-*/
-void	fillVector(std::vector<unsigned int> &vec, unsigned int numElements, bool sequential = true) // or something else to choose random sequence or sequential
-{
-	vec.clear();
-
-	if (!sequential)
-	{
-		std::srand(static_cast<unsigned int>(std::time(0)));
-
-		unsigned int	i = 0;
-		while (i < numElements)
-		{
-			vec.push_back(std::rand()); // adding random numbers
-			++i;
-		}
-	}
-	else
-	{
-		unsigned int	i = 0;
-		while (i < numElements)
-		{
-			vec.push_back(i + 1); // adding sequential numbers
-			++i;
-		}
-	}
-}
-
 /*
 creates a 'Span' object with 'numElements' values
+either in sequential order or randomized
+
+optionnaly prints the number sequence,
 then prints size and shortest/longest span
 */
-void	testSpan(unsigned int numElements, bool sequential = true)
+void	testSpan(unsigned int numElements, bool sequential, bool printSequence = true)
 {
+	size_t	printLimit = 42;
+	
 	try
 	{
-		Span	span(numElements);
+		// creating a vector to generate the number sequence
 		std::vector<unsigned int>	numbers;
-		
 		fillVector(numbers, numElements, sequential);
 
+		// creating Span object and adding the numbers from the vector
+		Span	span(numElements);
 		span.addNumbers(numbers.begin(), numbers.end());
-		
-		printSpan(span);
+
+		// enabling printNumber flag to output number sequence
+		span.setPrintNumbers(printSequence);
+
+		// disabling the printNumbers flag if sequence is too big
+		if (span.getNumbers().size() > printLimit)
+			span.setPrintNumbers(false);
+
+		std::string	sequenceType(sequential? "(Sequential)" : "(Randomized)");
+		print(sequenceType);
+
+		std::string	spanSize(std::to_string(span.getNumbers().size()));
+		print(std::string("Span object with " + spanSize + " numbers"), UNDERLINE);
+				
+		// shortest and longest span printing (optionnal sequence printing handled in operator overload)
+		std::cout << span << std::endl;
 	}
 	catch (const std::exception &e)
 	{
@@ -86,8 +64,8 @@ void	testSpan(unsigned int numElements, bool sequential = true)
 */
 void	pdfTest(void)
 {
-	std::cout << UNDERLINE << "\nPDF test:" << RESET << std::endl;
-	
+	print("\nPDF test:", UNDERLINE);
+
 	try
 	{
 		Span	span = Span(5);
@@ -106,137 +84,100 @@ void	pdfTest(void)
 	}
 }
 
-int	main(void)
+/*
+optional seting of user input value to numElements
+uses default value if:
+	- input is negative
+	- input is a floating-point value
+	- any non-numeric characters were found
+	- number is in the range of unsigned int
+*/
+static void	useArg(const std::string &arg, unsigned int &numElements)
 {
-	unsigned int	numElements = 10;
+	char	*endPtr = nullptr;
 
-	pdfTest();
+	print("Using user input for number of elements");
+	print("(Runs much slower with value over 1000000...)");
 	
-	// test with sequential numbers
-	testSpan(numElements);
+	try
+	{
+		if (arg[0] == '-')
+			throw (std::invalid_argument("Positive integer required"));
 	
-	// test with randomized numbers
-	testSpan(numElements, false);
-	
-	return (0);
+		unsigned long	tmp = strtoul(arg.c_str(), &endPtr, 10);
+
+		if (*endPtr == '.')
+			throw (std::invalid_argument("Floating-point values not allowed, integer required"));
+
+		if (*endPtr != '\0')
+		{
+			// get string from start of invalid section
+			std::string	invalidSection(endPtr);
+			// get starting index of problematic part
+			size_t		problemIndex = arg.find(invalidSection);
+			// get substring until problematic part
+			std::string	validPart(std::string(GRAYTALIC + (arg.substr(0, problemIndex) + RESET)));
+			
+			std::string	problemStr("Non-numeric character found: " + validPart + RED + invalidSection + RESET);
+			throw (std::invalid_argument(problemStr));
+		}
+
+		if (tmp > std::numeric_limits<unsigned int>::max())
+			throw (std::out_of_range("Value exceeds unsigned int limits"));
+
+		numElements = static_cast<unsigned int>(tmp);
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << RED << "Invalid argument: " <<  RESET << e.what() << std::endl;
+		print(std::string("Using default value (" + std::to_string(numElements) + ") instead\n"));
+	}
 }
 
-//
+/*	tmp function to check limits for user input
+*/
+static void	printDataTypeRange(void)
+{
+	std::cout << PURPLE << "Data type limits" << RESET << std::endl;
+	
+	long		intminLimit = std::numeric_limits<int>::min();
+	long		intmaxLimit = std::numeric_limits<int>::max();
+	std::string	intMinStr(std::to_string(intminLimit));
+	std::string	intmaxStr(std::to_string(intmaxLimit));
+	std::cout << UNDERLINE << RESET << "int min:\t" << intMinStr << "\nint max:\t" << intmaxStr << std::endl;
 
-// class Span
-// {
-//     // ... other members and functions
-//     public:
-//         void setPrintNumbers(bool print);
-//     private:
-//         bool _printNumbers;
-// };
+	long		uintminLimit = std::numeric_limits<unsigned int>::min();
+	long		uintmaxLimit = std::numeric_limits<unsigned int>::max();
+	std::string	uintMinStr(std::to_string(uintminLimit));
+	std::string	uintmaxStr(std::to_string(uintmaxLimit));
+	std::cout << UNDERLINE << RESET << "uint min:\t" << uintMinStr << "\nuint max:\t" << uintmaxStr << std::endl;
 
-// std::ostream& operator<<(std::ostream &out, const Span &param);
+	std::cout << std::endl;
+}
 
-// //
 
-// void Span::setPrintNumbers(bool print)
-// {
-//     _printNumbers = print;
-// }
+int	main(int argc, char *argv[])
+{
+	pdfTest();
 
-// //
+	unsigned int	numElements = 10; // default value
+	
+	// conditionaly using user's choice for size of sequence to test
+	if (argc >= 2)
+		useArg(argv[1], numElements);
 
-// std::ostream& operator<<(std::ostream &out, const Span &param)
-// {
-//     if (param._numbers.empty())
-//     {
-//         out << "Span is empty.\n";
-//     }
-//     else
-//     {
-//         if (param._printNumbers)
-//         {
-//             out << "Span contains " << param._numbers.size() << " numbers:\n";
-//             for (size_t i = 0; i < param._numbers.size(); ++i)
-//             {
-//                 out << param._numbers[i] << " ";
-//             }
-//             out << "\n";
-//         }
+	// flags for sequence type
+	bool	sequential = 1;
+	bool	randomized = 0;
 
-//         try
-//         {
-//             out << "Shortest span: " << param.shortestSpan() << "\n";
-//             out << "Longest span: " << param.longestSpan() << "\n";
-//         }
-//         catch (const std::exception &e)
-//         {
-//             out << e.what() << "\n";
-//         }
-//     }
-//     return out;
-// }
+	testSpan(numElements, sequential);
+	testSpan(numElements, randomized);
 
-// int main(void)
-// {
-//     Span span(5);
-//     span.addNumber(6);
-//     span.addNumber(3);
-//     span.addNumber(17);
-//     span.addNumber(9);
-//     span.addNumber(11);
+	// test with large sequence
+	testSpan(420000, randomized, false);
 
-//     // Control the behavior
-//     span.setPrintNumbers(true);
-//     std::cout << span; // Will print stored numbers
 
-//     span.setPrintNumbers(false);
-//     std::cout << span; // Will not print stored numbers
+	printDataTypeRange(); // tmp
 
-//     return 0;
-// }
-
-// std::ostream& operator<<(std::ostream &out, const Span &param)
-// {
-//     try
-//     {
-//         out << "Shortest span: " << param.shortestSpan() << "\n";
-//         out << "Longest span: " << param.longestSpan() << "\n";
-//     }
-//     catch (const std::exception &e)
-//     {
-//         out << e.what() << "\n";
-//     }
-//     return out;
-// }
-
-// void printNumbers(std::ostream &out, const Span &param)
-// {
-//     if (param._numbers.empty())
-//     {
-//         out << "Span is empty.\n";
-//     }
-//     else
-//     {
-//         out << "Span contains " << param._numbers.size() << " numbers:\n";
-//         for (size_t i = 0; i < param._numbers.size(); ++i)
-//         {
-//             out << param._numbers[i] << " ";
-//         }
-//         out << "\n";
-//     }
-// }
-
-// int main(void)
-// {
-//     Span span(5);
-//     span.addNumber(6);
-//     span.addNumber(3);
-//     span.addNumber(17);
-//     span.addNumber(9);
-//     span.addNumber(11);
-
-//     std::cout << span;  // Only prints shortest and longest span
-//     printNumbers(std::cout, span);  // Prints stored numbers
-
-//     return 0;
-// }
-
-// //
+	return (0);
+}

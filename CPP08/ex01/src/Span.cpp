@@ -6,11 +6,13 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:26:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/03 15:51:21 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:21:52 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
+
+/* ************************************************************************** */ // Constructors / Destructors
 
 Span::Span(void) : _maxSize(0) {}
 
@@ -33,6 +35,25 @@ Span&	Span::operator=(const Span &other)
 	}
 	return (*this);
 }
+
+/* ************************************************************************** */ // Getters / Setters
+
+const std::vector<int>&	Span::getNumbers(void) const
+{
+	return (this->_numbers);
+}
+
+const	bool&	Span::getPrintNumbers(void) const
+{
+	return (this->_printNumbers);
+}
+
+void	Span::setPrintNumbers(bool print)
+{
+	_printNumbers = print;
+}
+
+/* ************************************************************************** */ // Functions / Methods
 
 /*
 "This class will have a member function called addNumber()
@@ -119,10 +140,7 @@ int	Span::longestSpan(void) const
 	return (max - min);
 }
 
-const std::vector<int>&	Span::getNumbers(void) const
-{
-	return (this->_numbers);
-}
+/* ************************************************************************** */ // Operators
 
 std::ostream&	operator<<(std::ostream &out, const Span &param)
 {
@@ -130,45 +148,66 @@ std::ostream&	operator<<(std::ostream &out, const Span &param)
 	
 	if (numbers.empty())
 	{
-		out << "Span is empty.\n";
+		out << "Span object is empty.\n";
 	}
 	else
 	{
-		size_t	size = numbers.size();
-
-		std::cout << UNDERLINE << "Span of " << size << " numbers" << RESET << "\n";
-		
-		// print the numbers
-		// std::ostream_iterator<int>	outIt(out, ", ");
-		// std::copy(numbers.begin(), numbers.end() - 1, outIt);
-		// out << numbers.back();
-		// out << "\n";
-
-		printSequence(std::cout, numbers);
-
-		// size_t	i = 0;
-		// while (i < numbers.size())
-		// {
-		// 	out << numbers[i];
-		// 	if (i < numbers.size() - 1)
-		// 	{
-		// 		out << ", ";
-		// 	}
-		// 	++i;
-		// }
-		// out << "\n";
-
-		// print the shortest and longest spans
+		if (param.getPrintNumbers())
+		{
+			printSequence(std::cout, numbers);
+		}
 		try
 		{
-			out << "Shortest span: " << param.shortestSpan() << "\n";
-			out << "Longest span:  " << param.longestSpan() << "\n";
+			int	shortest = param.shortestSpan();
+			int	longest = param.longestSpan();
+			
+			out << "Shortest span: " << shortest << "\n";
+			out << "Longest span:  " << longest << "\n";
 		}
 		catch (const std::exception &e)
 		{
-			out << "Error: " << e.what() << "\n";
+			out << e.what() << "\n";
 		}
 	}
-	
 	return (out);
 }
+
+/* ************************************************************************** */ // Utils
+
+/*
+helper function to fill a vector with either sequential or random numbers
+*/
+void	fillVector(std::vector<unsigned int> &vec, unsigned int numElements, bool sequential)
+{
+	vec.clear();
+
+	if (!sequential)
+	{
+		std::srand(static_cast<unsigned int>(std::time(0)));
+
+		unsigned int	i = 0;
+		while (i < numElements)
+		{
+			vec.push_back(std::rand()); // adding random numbers
+			++i;
+		}
+	}
+	else
+	{
+		unsigned int	i = 0;
+		while (i < numElements)
+		{
+			vec.push_back(i + 1); // adding sequential numbers
+			++i;
+		}
+	}
+}
+
+/*
+wrapper function to output with ANSI escape sequences (defined in Span.hpp)
+*/
+void	print(const std::string &str, const std::string &color)
+{
+	std::cout << color << str << RESET << std::endl;
+}
+
