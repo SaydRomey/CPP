@@ -6,30 +6,33 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 11:36:20 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 15:39:53 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 18:40:19 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "DiamondTrap.hpp"
 
-DiamondTrap::DiamondTrap(void) : ClapTrap(), FragTrap(), ScavTrap()
+DiamondTrap::DiamondTrap(void)
 {
 	_name = DIAMNAME;
-	ClapTrap::_name = this->_name + "_clap_name";
-	std::cout << "Default DiamondTrap " << _name << " constructed" << std::endl;
+	ClapTrap::_name.append("_clap_name");
+	_hitPoints = FragTrap::_fragHP;
+	_energyPoints = ScavTrap::_scavEP;
+	_attackDamage = FragTrap::_fragAD;
 }
 
-DiamondTrap::DiamondTrap(const std::string name) : \
-ClapTrap(name + "_clap_name"), FragTrap(name), ScavTrap(name)
+DiamondTrap::DiamondTrap(const std::string name) : ClapTrap(name), ScavTrap(name), FragTrap(name)
 {
-	_name = name;
-	ClapTrap::_name = name + "_clap_name";
-	std::cout << "DiamondTrap " << name << " constructed" << std::endl;
+	_name = DIAMNAME;
+	ClapTrap::_name.append("_clap_name");
+	_hitPoints = FragTrap::_fragHP;
+	_energyPoints = ScavTrap::_scavEP;
+	_attackDamage = FragTrap::_fragAD;
 }
 
-DiamondTrap::DiamondTrap(const DiamondTrap &src) : \
-ClapTrap(src), FragTrap(src), ScavTrap(src)
+DiamondTrap::DiamondTrap(const DiamondTrap &src)
 {
+	ClapTrap::_name.append("_clap_name");
 	*this = src;
 	this->_name.append("'s clone");
 	std::cout << "DiamondTrap " << _name << " has been copy-constructed" << std::endl;
@@ -58,10 +61,10 @@ DiamondTrap&	DiamondTrap::operator=(const DiamondTrap &rhs)
 	return (*this);
 }
 
-void	DiamondTrap::attack(const std::string &target)
-{
-	ScavTrap::attack(target);
-}
+// void	DiamondTrap::attack(const std::string &target)
+// {
+// 	ScavTrap::attack(target);
+// }
 
 void	DiamondTrap::whoAmI(void)
 {

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 20:09:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 15:09:59 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:56:06 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ class ScavTrap : virtual public ClapTrap
 	
 		void	attack(const std::string &target);
 		void	guardGate(void);
+
+	protected:
+
+		static int	_scavEP;
 };
 
 #endif // SCAVTRAP_HPP

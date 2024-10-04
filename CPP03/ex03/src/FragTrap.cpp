@@ -6,11 +6,14 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:30:52 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 15:26:19 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 18:11:13 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "FragTrap.hpp"
+
+int	FragTrap::_fragHP = FRAG_HP;
+int	FragTrap::_fragAD = FRAG_AD;
 
 /* ************************************************************************** */
 /* *********************************************** Constructors / Destructors */
@@ -21,7 +24,7 @@ FragTrap::FragTrap(void) : ClapTrap()
 	this->_hitPoints = FRAG_HP;
 	this->_energyPoints = FRAG_EP;
 	this->_attackDamage = FRAG_AD;
-	std::cout << "Default FragTrap " << _name << " constructed" << std::endl;
+	// std::cout << "Default FragTrap " << _name << " constructed" << std::endl;
 }
 
 FragTrap::FragTrap(const std::string name) : ClapTrap(name)
@@ -29,7 +32,7 @@ FragTrap::FragTrap(const std::string name) : ClapTrap(name)
 	this->_hitPoints = FRAG_HP;
 	this->_energyPoints = FRAG_EP;
 	this->_attackDamage = FRAG_AD;
-	std::cout << "FragTrap " << _name << " has been constructed" << std::endl;
+	// std::cout << "FragTrap " << _name << " has been constructed" << std::endl;
 }
 
 FragTrap::FragTrap(const FragTrap &src) : ClapTrap()

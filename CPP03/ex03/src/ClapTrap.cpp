@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:51:14 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 15:32:01 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:28:21 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ _hitPoints(CLAP_HP), \
 _energyPoints(CLAP_EP), \
 _attackDamage(CLAP_AD)
 {
-	std::cout << "Default ClapTrap " << _name << " constructed" << std::endl;
+	// std::cout << "Default ClapTrap " << _name << " constructed" << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string name) : \
@@ -31,7 +31,7 @@ _hitPoints(CLAP_HP), \
 _energyPoints(CLAP_EP), \
 _attackDamage(CLAP_AD)
 {
-	std::cout << "ClapTrap " << _name << " has been constructed" << std::endl;
+	// std::cout << "ClapTrap " << _name << " has been constructed" << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &src)

@@ -6,11 +6,13 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 20:10:04 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 15:28:41 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:57:05 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScavTrap.hpp"
+
+int ScavTrap::_scavEP = SCAV_EP;
 
 /* ************************************************************************** */
 /* *********************************************** Constructors / Destructors */
@@ -21,7 +23,7 @@ ScavTrap::ScavTrap(void) : ClapTrap()
 	this->_hitPoints = SCAV_HP;
 	this->_energyPoints = SCAV_EP;
 	this->_attackDamage = SCAV_AD;
-	std::cout << "Default ScavTrap " << _name << " constructed" << std::endl;
+	// std::cout << "Default ScavTrap " << _name << " constructed" << std::endl;
 }
 
 ScavTrap::ScavTrap(const std::string name) : ClapTrap(name)
@@ -29,7 +31,7 @@ ScavTrap::ScavTrap(const std::string name) : ClapTrap(name)
 	this->_hitPoints = SCAV_HP;
 	this->_energyPoints = SCAV_EP;
 	this->_attackDamage = SCAV_AD;
-	std::cout << "ScavTrap " << _name << " has been constructed" << std::endl;
+	// std::cout << "ScavTrap " << _name << " has been constructed" << std::endl;
 }
 
 ScavTrap::ScavTrap(const ScavTrap &rhs) : ClapTrap()

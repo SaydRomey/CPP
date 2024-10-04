@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 11:33:08 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 15:13:32 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 18:40:26 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define DIAMNAME	"D14M0ND-TP"
 
 
-class DiamondTrap : public FragTrap, public ScavTrap
+class DiamondTrap : public ScavTrap, public FragTrap
 {
 	public:
 
@@ -30,8 +30,9 @@ class DiamondTrap : public FragTrap, public ScavTrap
 
 		DiamondTrap&	operator=(const DiamondTrap &rhs);
 
-		void	attack(const std::string &target);
 		void	whoAmI(void);
+		// void	attack(const std::string &target);
+		using ScavTrap::attack;
 
 	private:
 

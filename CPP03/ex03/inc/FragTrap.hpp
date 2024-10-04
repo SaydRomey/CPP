@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:22:32 by cdumais           #+#    #+#             */
-/*   Updated: 2024/01/23 15:09:57 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:55:15 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ class FragTrap : virtual public ClapTrap
 
 		void	attack(const std::string &target);
 		void	highFivesGuys(void);
+
+	protected:
+
+		static int	_fragHP;
+		static int	_fragAD;
 };
 
 #endif // FRAGTRAP_HPP
