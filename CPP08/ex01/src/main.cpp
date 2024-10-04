@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:05:06 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/04 16:24:41 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:00:51 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ static void	useArg(const std::string &arg, unsigned int &numElements)
 		std::cout << RED << "Invalid argument: " <<  RESET << e.what() << std::endl;
 		print(std::string("Using default value (" + std::to_string(numElements) + ") instead\n"));
 	}
+	std::cout << std::endl;
 }
 
 /*	tmp function to check limits for user input

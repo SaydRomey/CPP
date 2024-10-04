@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:14:52 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/04 15:21:48 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:44:08 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ class Span
 	private:
 		std::vector<int>	_numbers;
 		unsigned int		_maxSize;
-		bool	_printNumbers;
+		bool				_printNumbers;
 };
 
 std::ostream&	operator<<(std::ostream &out, const Span &param);

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 14:26:56 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/04 16:21:52 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 16:44:04 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 /* ************************************************************************** */ // Constructors / Destructors
 
-Span::Span(void) : _maxSize(0) {}
+Span::Span(void) : _maxSize(0), _printNumbers(false) {}
 
-Span::Span(unsigned int N) : _maxSize(N) {}
+Span::Span(unsigned int N) : _maxSize(N), _printNumbers(false) {}
 
-Span::Span(const Span &other) : _maxSize(other._maxSize)
+Span::Span(const Span &other) : _maxSize(other._maxSize), _printNumbers(other._printNumbers)
 {
 	*this = other;
 }
@@ -32,9 +32,11 @@ Span&	Span::operator=(const Span &other)
 		_numbers.clear();
 		_maxSize = other._maxSize;
 		_numbers = other._numbers;
+		_printNumbers = other._printNumbers;
 	}
 	return (*this);
 }
+
 
 /* ************************************************************************** */ // Getters / Setters
 

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:21:45 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/02 13:52:09 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:04:33 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,13 @@
 # include "MutantStack.hpp"
 
 template <typename T>
-MutantStack<T>::MutantStack(void) : std::stack<T>()
-{
-	// 
-}
+MutantStack<T>::MutantStack(void) : std::stack<T>() {}
 
 template <typename T>
-MutantStack<T>::MutantStack(const MutantStack<T> &src) : std::stack<T>(src)
-{
-	// 
-}
+MutantStack<T>::MutantStack(const MutantStack<T> &src) : std::stack<T>(src) {}
 
 template <typename T>
-MutantStack<T>::~MutantStack(void)
-{
-	// 
-}
+MutantStack<T>::~MutantStack(void) {}
 
 template <typename T>
 MutantStack<T>& MutantStack<T>::operator=(const MutantStack<T> &other)
