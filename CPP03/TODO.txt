@@ -1,0 +1,7 @@
+
+change usage of static int for member attributes to a member function
+::_init_hp()
+..etc.
+
+then in DiamonTrap constructor, call specific one !!
+
