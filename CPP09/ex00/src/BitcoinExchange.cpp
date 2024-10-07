@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 18:53:53 by cdumais           #+#    #+#             */
-/*   Updated: 2024/08/18 18:40:58 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/10/07 10:30:06 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	BitcoinExchange::loadDatabase(const std::string &filename)
 	std::ifstream	databaseFile(filename.c_str());
 	if (!databaseFile.is_open())
 	{
-		std::string	errorMsg = "Error: could not open database file: " + filename + " - " + std::strerror(errno);
+		std::string	errorMsg = "Could not open database file: " + filename + " - " + std::strerror(errno);
 		throw (std::runtime_error(errorMsg));
 	}
 	std::string	line;
@@ -71,13 +71,13 @@ void	BitcoinExchange::processInputFile(const std::string &filename)
 	
 	if (!inputFile.is_open())
 	{
-		std::string	errorMsg = "Error: could not open input file: " + filename + " - " + std::strerror(errno);
+		std::string	errorMsg = "Could not open input file: " + filename + " - " + std::strerror(errno);
 		throw (std::runtime_error(errorMsg));
 	}
 	std::string	line;
 	if (!std::getline(inputFile, line))
 	{
-		std::string	errorMsg = "Error: input file is empty: " + filename;
+		std::string	errorMsg = "Input file is empty: " + filename;
 		throw (std::runtime_error(errorMsg));
 	}
 	if (!_isHeaderLine(line))
@@ -150,17 +150,17 @@ bool	BitcoinExchange::_isValidValue(const std::string &value, float &outputValue
 
 	if (ss.fail() || !ss.eof())
 	{
-		errorMsg = "Error: bad input";
+		errorMsg = "Bad input";
 		return (false);
 	}
 	if (outputValue < 0)
 	{
-		errorMsg = "Error: not a positive number.";
+		errorMsg = "Not a positive number.";
 		return (false);
 	}
 	if (outputValue > 1000)
 	{
-		errorMsg = "Error: too large a number.";
+		errorMsg = "Too large a number.";
 		return (false);
 	}
 	return (true);
@@ -195,8 +195,8 @@ if 'date' is present in the map, 'it' will point directly to that element
 if 'date' is not present, 'it' will point to the next higher date, or to the end of the map if no such element exists
 
 If 'it' points to an element past the last element or to an element with a higher date than the given date,
-it is decremented (--it) to point to the closest earlier date in the map
-(only decremented if it does not already point to the first element to avoid going out of bounds)
+'it' is decremented (--it) to point to the closest earlier date in the map
+(only decremented if 'it' does not already point to the first element to avoid going out of bounds)
 */
 float	BitcoinExchange::_getPriceForDate(const std::string &date) const
 {
@@ -214,18 +214,18 @@ float	BitcoinExchange::_getPriceForDate(const std::string &date) const
 
 /*
 Centralized error message printing
-If error is "Error: bad input", prints the line that triggered an error
+If error is "Bad input", prints the line that triggered an error
 Otherwise prints a specific error message
 */
 void	BitcoinExchange::_printError(const std::string &errorMsg, const std::string &line) const
 {
-	if (errorMsg == "Error: bad input")
+	if (errorMsg == "Bad input")
 	{
-		std::cout << errorMsg << " => " << line << std::endl;
+		std::cout << "Error: " << errorMsg << " => " << line << std::endl;
 	}
 	else
 	{
-		std::cout << errorMsg << std::endl;
+		std::cout << "Error: " << errorMsg << std::endl;
 	}
 }
 
@@ -311,7 +311,7 @@ void	BitcoinExchange::_processLine(const std::string &line)
 	std::string	valueStr;
 	if (!(_parseLine(trimmedLine, date, valueStr)))
 	{
-		return (_printError("Error: bad input", trimmedLine));
+		return (_printError("Bad input", trimmedLine));
 	}
 	
 	float		value;
