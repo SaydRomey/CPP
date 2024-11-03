@@ -309,7 +309,3 @@ UP			:= $(ESC)[A
 
 # Erasing
 ERASE_LINE	:= $(ESC)[2K
-
-# Hyperlinks
-# HYPERLINK			:= \033]8;;
-# usage: $(HYPERLINK)file://$(FILEPATH)\a$(FILEPATH)$(HYPERLINK)\a
