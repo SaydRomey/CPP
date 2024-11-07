@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 18:37:54 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/07 10:25:51 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/11/07 14:57:12 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,15 @@ int	main(int argc, char *argv[])
 	}
 	try
 	{
+		// BitcoinExchange	btc(argv[1]);
 		BitcoinExchange	btc;
 		
 		btc.loadDatabase(DATABASE_PATH);
-		btc.processInputFile(argv[1]);		
+		btc.processInputFile(argv[1]);
 	}
 	catch (const std::exception &e)
 	{
-		std::cout << RED << "Error: " << RESET << e.what() << std::endl;
+		std::cout << "Error: " << e.what() << std::endl;
 		return (1);
 	}
 	return (0);

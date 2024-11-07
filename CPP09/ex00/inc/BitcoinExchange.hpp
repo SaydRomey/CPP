@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:13:09 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/07 10:30:10 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/11/07 14:38:54 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ class BitcoinExchange
 {
 	public:
 		BitcoinExchange(void);
+		BitcoinExchange(const std::string &filename);
 		BitcoinExchange(const BitcoinExchange &other);
 		~BitcoinExchange(void);
 		BitcoinExchange&	operator=(const BitcoinExchange &other);

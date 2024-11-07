@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/09 18:36:41 by cdumais           #+#    #+#              #
-#    Updated: 2024/09/20 15:26:58 by cdumais          ###   ########.fr        #
+#    Updated: 2024/11/07 13:27:12 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,14 @@ OBJ_DIR		:=	obj
 OBJS		:=	$(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 TMP_DIR		:=	tmp
+TMP_FILES	:=	# If files are created outside of TMP_DIR folder
 
 REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
 NPD			:=	--no-print-directory
 
 # Detect OS and define OPEN command
-ifeq ($(shell uname), Darwin)
+ifeq ($(OS), Darwin)
 	OPEN := open
 else
 	OPEN := xdg-open
@@ -48,7 +49,7 @@ endif
 
 # **************************************************************************** #
 
-all: $(NAME)
+all: $(NAME) ## Compile the Project and create the executable
 
 $(NAME): $(OBJS) $(INCS)
 	@echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)]\\t$(GREEN)ready$(RESET)"
@@ -62,7 +63,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
-clean:
+clean: ## Remove folder containing object files
 	@if [ -n "$(wildcard $(OBJ_DIR))" ]; then \
 		$(REMOVE) $(OBJ_DIR); \
 		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
@@ -72,7 +73,7 @@ clean:
 		$(YELLOW)No object files to remove$(RESET)"; \
 	fi
 
-fclean: clean
+fclean: clean ## 'clean' + Remove executable
 	@if [ -n "$(wildcard $(NAME))" ]; then \
 		$(REMOVE) $(NAME); \
 		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
@@ -82,15 +83,53 @@ fclean: clean
 		$(YELLOW)No executable to remove$(RESET)"; \
 	fi
 
-re: fclean all
+re: fclean all ## 'fclean' + 'all' (Recompile the project)
 
 .PHONY: all clean fclean re
+# **************************************************************************** #
+# ---------------------------------- UTILS ----------------------------------- #
+# **************************************************************************** #
+.DEFAULT_GOAL	:= all
+
+.DEFAULT: ## Handle invalid targets
+# @echo "make: *** No rule to make target \`$@'.  Stop."
+	$(info make: *** No rule to make target '$(MAKECMDGOALS)'.  Stop.)
+	@$(MAKE) help $(NPD)
+
+help: ## Display available targets
+	@echo "\nAvailable targets:"
+	@awk 'BEGIN {FS = ":.*##";} \
+		/^[a-zA-Z_0-9-]+:.*?##/ { \
+			printf "  $(CYAN)%-15s$(RESET) %s\n", $$1, $$2 \
+		} \
+		/^##@/ { \
+			printf "\n$(BOLD)%s$(RESET)\n", substr($$0, 5) \
+		}' $(MAKEFILE_LIST)
+
+run: all ## Compile and run the executable
+	@echo "$(GRAYTALIC) ./$(NAME) $(INPUT_FILE) $(RESET)"
+	@./$(NAME) $(INPUT_FILE)
+
+$(TMP_DIR):
+	@mkdir -p $(TMP_DIR)
+
+ffclean: fclean ## 'fclean' + Remove temporary files and folders
+	@if [ -n "$(wildcard $(TMP_DIR))" ]; then \
+		$(REMOVE) $(TMP_DIR); \
+		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
+		$(GREEN)Temporary files removed$(RESET)"; \
+	else \
+		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
+		$(YELLOW)No temporary files to remove$(RESET)"; \
+	fi
+
+.PHONY: help run ffclean
 # **************************************************************************** #
 # ---------------------------------- PDF ------------------------------------- #
 # **************************************************************************** #
 GIT_URL		:= https://github.com/SaydRomey/42_ressources
 
-pdf:
+pdf: ## Obtain the PDF instructions for this project and open it
 	@echo "Obtaining pdf..."
 	@$(MAKE) get_pdf MODULE=cpp09 $(NPD)
 
@@ -107,11 +146,11 @@ get_pdf: | $(TMP_DIR)
 CPP_REF_URL		:=	https://cplusplus.com/reference/
 CPP_TUTO_URL	:=	https://cplusplus.com/doc/oldtutorial/
 
-ref:
+ref: ## Open documentation (https://cplusplus.com/reference/)
 	@echo "Opening cplusplus reference's url..."
 	@$(OPEN) $(CPP_REF_URL)
 
-tuto:
+tuto: ## Open tutorial (https://cplusplus.com/doc/oldtutorial/)
 	@echo "Opening cplusplus oldtutorial's url..."
 	@$(OPEN) $(CPP_TUTO_URL)
 
@@ -121,35 +160,19 @@ tuto:
 # **************************************************************************** #
 REPO_LINK	:= https://github.com/SaydRomey/CPP
 
-repo:
+repo: ## Open author's CPP repo on github
 	@echo "Opening $(AUTHOR)'s github repo..."
 	@$(OPEN) $(REPO_LINK);
 
-.PHONY: repo
-# **************************************************************************** #
-# ---------------------------------- UTILS ----------------------------------- #
-# **************************************************************************** #
-run: all
-	./$(NAME) $(INPUT_FILE)
+gitignore: ## Create the .gitignore file with multi-line variable in 'TEMPLATES' section
+	@echo "Creating gitignore file..."
+	@echo "$$GITIGNORE_CONTENT" > .gitignore
 
-$(TMP_DIR):
-	@mkdir -p $(TMP_DIR)
-
-ffclean: fclean
-	@if [ -n "$(wildcard $(TMP_DIR))" ]; then \
-		$(REMOVE) $(TMP_DIR); \
-		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
-		$(GREEN)Temporary files removed$(RESET)"; \
-	else \
-		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
-		$(YELLOW)No temporary files to remove$(RESET)"; \
-	fi
-
-.PHONY: run ffclean
+.PHONY: repo gitignore
 # **************************************************************************** #
 # --------------------------------- CLASS ------------------------------------ #
 # **************************************************************************** #
-class:
+class: ## Script to automate class creation
 	@echo "Enter the class name: "; \
 	read classname; \
 	classname_upper=`echo $$classname | tr a-z A-Z`; \
@@ -178,6 +201,41 @@ class:
 .PHONY: class
 # **************************************************************************** #
 # ------------------------------- TEMPLATES ---------------------------------- #
+# **************************************************************************** #
+define GITIGNORE_CONTENT
+# object files and archives in all directories
+*.o
+*.a
+
+# PDFs
+*.pdf
+
+# macOS specific files
+*.dSYM
+.DS_Store
+
+# Visual Studio Code settings
+.vscode
+
+# tmp, and obj directories in all directories
+**/tmp/
+**/obj/
+
+# output files
+out.txt
+
+# # Executables
+
+# Default executable
+a.out
+
+# $(MODULE) specific executables
+$(NAME)
+
+endef
+
+export GITIGNORE_CONTENT
+# **************************************************************************** #
 # **************************************************************************** #
 define CLASS_HEADER
 #ifndef CLASSNAME_UPPER_HPP
@@ -220,6 +278,7 @@ class CLASSNAME
 endef
 
 export CLASS_HEADER
+# **************************************************************************** #
 # **************************************************************************** #
 define CLASS_CPP
 #include "CLASSNAME.hpp"
@@ -271,6 +330,8 @@ ESC			:= \033
 # Text
 RESET		:= $(ESC)[0m
 BOLD		:= $(ESC)[1m
+ITALIC		:= $(ESC)[3m
+UNDERLINE	:= $(ESC)[4m
 
 RED			:= $(ESC)[91m
 GREEN		:= $(ESC)[32m
@@ -279,9 +340,11 @@ ORANGE		:= $(ESC)[38;5;208m
 BLUE		:= $(ESC)[94m
 PURPLE		:= $(ESC)[95m
 CYAN		:= $(ESC)[96m
+GRAYTALIC	:= $(ESC)[3;90m
 
 # Cursor movement
 UP			:= $(ESC)[A
 
 # Erasing
 ERASE_LINE	:= $(ESC)[2K
+

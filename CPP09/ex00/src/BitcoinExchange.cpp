@@ -6,13 +6,29 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 18:53:53 by cdumais           #+#    #+#             */
-/*   Updated: 2024/10/07 10:30:06 by cdumais          ###   ########.fr       */
+/*   Updated: 2024/11/07 14:56:10 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 
+/* ************************************************************************** */ // Constructors / Destructors
+
+/*
+Default constructor
+need to explicitly call 'loadDatabase()' and 'processInputFile()'
+*/
 BitcoinExchange::BitcoinExchange(void) {}
+
+/*
+Parametrized constructor
+Loads the database, then handles 'processInputFile()'
+*/
+BitcoinExchange::BitcoinExchange(const std::string &filename)
+{
+	loadDatabase(DATABASE_PATH);
+	processInputFile(filename);
+}
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) : _exchangeRates(other._exchangeRates) {}
 
@@ -34,6 +50,7 @@ Loads into the '_exchangeRates' map, the Bitcoin exchange rates from given CSV f
 (defined as 'DATABASE_PATH' in 'BitcoinExchange.hpp')
 CSV file is expected to have lines formatted as "date,rate"
 Throws 'std::runtime_error' with detailed information if the file cannot be opened
+Checks for empty CVS file (does not check for invalid CVS file)
 */
 void	BitcoinExchange::loadDatabase(const std::string &filename)
 {
@@ -43,6 +60,10 @@ void	BitcoinExchange::loadDatabase(const std::string &filename)
 		std::string	errorMsg = "Could not open database file: " + filename + " - " + std::strerror(errno);
 		throw (std::runtime_error(errorMsg));
 	}
+	else if (databaseFile.peek() == std::ifstream::traits_type::eof())
+	{
+		throw (std::runtime_error("Database file is empty"));
+	}	
 	std::string	line;
 	while (std::getline(databaseFile, line))
 	{
