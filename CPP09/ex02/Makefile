@@ -24,6 +24,11 @@ REMOVE		:=	rm -rf
 OS			:=	$(shell uname)
 NPD			:=	--no-print-directory
 
+# Redirection variables
+STDOUT_NULL		:= >/dev/null
+STDERR_STDOUT	:= 2>&1
+IN_BACKGROUND	:= &
+
 # Detect OS and define OPEN command
 ifeq ($(OS), Darwin)
 	OPEN := open
@@ -147,6 +152,7 @@ ffclean: fclean ## 'fclean' + Remove temporary files and folders
 		echo "[$(BOLD)$(PURPLE)$(NAME)$(RESET)] \
 		$(YELLOW)No temporary files to remove$(RESET)"; \
 	fi
+	@$(REMOVE) out.txt
 
 .PHONY: help rand run debug ffclean
 # **************************************************************************** #
@@ -173,11 +179,11 @@ CPP_TUTO_URL	:=	https://cplusplus.com/doc/oldtutorial/
 
 ref: ## Open documentation (https://cplusplus.com/reference/)
 	@echo "Opening cplusplus reference's url..."
-	@$(OPEN) $(CPP_REF_URL);
+	@$(OPEN) $(CPP_REF_URL) $(STDOUT_NULL) $(STDERR_STDOUT) $(IN_BACKGROUND)
 
 tuto: ## Open tutorial (https://cplusplus.com/doc/oldtutorial/)
 	@echo "Opening cplusplus oldtutorial's url..."
-	@$(OPEN) $(CPP_TUTO_URL);
+	@$(OPEN) $(CPP_TUTO_URL) $(STDOUT_NULL) $(STDERR_STDOUT) $(IN_BACKGROUND)
 
 .PHONY: ref tuto
 # **************************************************************************** #
@@ -187,7 +193,7 @@ REPO_LINK	:= https://github.com/SaydRomey/CPP
 
 repo: ## Open author's CPP repo on github
 	@echo "Opening $(AUTHOR)'s github repo..."
-	@$(OPEN) $(REPO_LINK);
+	@$(OPEN) $(REPO_LINK) $(STDOUT_NULL) $(STDERR_STDOUT) $(IN_BACKGROUND)
 
 gitignore: ## Create the .gitignore file with multi-line variable in 'TEMPLATES' section
 	@echo "Creating gitignore file..."
