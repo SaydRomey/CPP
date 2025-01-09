@@ -16,6 +16,7 @@
 # tmp, and obj directories in all directories
 **/tmp/
 **/obj/
+tmp*
 
 # output files
 out.txt
